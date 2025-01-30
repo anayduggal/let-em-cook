@@ -1,0 +1,23 @@
+<html>
+
+    <head>
+
+        <link rel='stylesheet' href='/Frontend/Pages/style.css'>
+
+    </head>
+
+    <body>
+        <div>
+            <form id='ingredients-form' onsubmit="submitForm(); return false;">
+                <label for='ingredients'>Enter ingredients:</label>
+                <input type='text' id='ingredients' name='ingredients' required>
+                <button type='submit'>Search</button>
+            </form> 
+        </div>
+
+        <div id="recipes-container"></div>
+
+        <script src='/Frontend/Pages/script.js'></script>
+    </body>
+
+</html>
