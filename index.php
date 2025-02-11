@@ -44,9 +44,27 @@ if (strtoupper($req_method) == 'POST') {
                     }
                 }
 
+            case "login":
+
+                require PROJECT_ROOT_PATH . "/Controller/Api/UserController.php";
+
+                $user_controller = new UserController();
+
+                if (isset($request_data["action_type"])) {
+
+                    switch ($request_data["action_type"]) {
+                        case "login":
+                            $user_controller->login($request_data["username"], $request_data["password"]);
+                            break;
+                    }
+                }
+
+
             default:
                 //handle homepage posts
                 exit();
+
+            
 
         }
 
