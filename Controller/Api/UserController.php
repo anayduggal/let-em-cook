@@ -3,7 +3,7 @@ class UserController extends BaseController
 
 {
 
-    public function login($username, $password) 
+    public function login($email, $password) 
 
     {
 
@@ -12,7 +12,7 @@ class UserController extends BaseController
         try {
 
             $userModel = new UserModel();
-            $user = $userModel->getUserFromUsername($username);
+            $user = $userModel->getUserFromEmail($email);
 
             if ($user) {
                 if (password_verify($password, $user['password'])) {
@@ -45,7 +45,7 @@ class UserController extends BaseController
 
     }
 
-    public function createUser($username, $password) 
+    public function createUser($email, $username, $password) 
     {
 
         $error_str = '';
@@ -55,12 +55,12 @@ class UserController extends BaseController
             $userModel = new UserModel();
             $pw_hash = password_hash($password, PASSWORD_DEFAULT);
 
-            $userModel->addUser($username, $pw_hash);
+            $userModel->addUser($email, $username, $pw_hash);
 
 
         } catch (Error $e) {
 
-            $error_str = $e->getMessage().'Something went wrong';
+            $error_str = $e->getMessage().' Something went wrong';
             $error_header = 'HTTP/1.1 500 Internal Server Error';
 
         }

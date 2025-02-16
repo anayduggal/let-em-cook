@@ -16,22 +16,22 @@ class UserModel extends Database
 
     }
 
-    public function getUserFromUsername($username) 
+    public function getUserFromEmail($email) 
     
     {
 
         return $this->select(
-            "SELECT * FROM users WHERE username = ?", ["i", $username]
+            "SELECT * FROM users WHERE email = ?", ["i", $email]
         );
 
     }
 
-    public function addUser($username, $pw_hash) 
+    public function addUser($email, $username, $pw_hash) 
     
     {
 
         $this->insertInto(
-            "INSERT INTO users (username, password_hash) VALUES(?, ?)", [$username, $pw_hash]
+            "INSERT INTO users (email, username, password_hash) VALUES(?, ?, ?)", [$email, $username, $pw_hash]
         );
 
     }

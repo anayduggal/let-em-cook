@@ -54,7 +54,7 @@ if (strtoupper($req_method) == 'POST') {
 
                     switch ($request_data["action_type"]) {
                         case "login":
-                            $user_controller->login($request_data["username"], $request_data["password"]);
+                            $user_controller->login($request_data["email"], $request_data["password"]);
                             break;
                     }
                 }
