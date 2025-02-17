@@ -1,1 +1,12 @@
-//HELLO IF ANYONE WANTS TO DO THIS PAGE USE THE LOGINFORM IN COMPONENTS AND ADD THE LOGIC TO It BY SETTING THE TYPE/STATE TO signup
+import React from "react";
+import LoginForm from "../components/LoginForm"; // Adjust the path if needed
+
+const Signup: React.FC = () => {
+  return (
+    <div className="signup-page">
+      <LoginForm type="signup" />
+    </div>
+  );
+};
+
+export default Signup;
