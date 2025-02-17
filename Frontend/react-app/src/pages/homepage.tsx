@@ -1,5 +1,6 @@
 import React from "react";
 import "./HomePage.css";
+import { useNavigate } from "react-router-dom";
 
 interface HomePageProps {
   onMealPlanClick?: () => void;
@@ -12,6 +13,24 @@ const HomePage: React.FC<HomePageProps> = ({
   onQuickMealClick = () => {},
   onLoginClick = () => {},
 }) => {
+  const navigate = useNavigate();
+
+  // Add route navigation inside the button click handlers
+  const handleMealPlanClick = () => {
+    onMealPlanClick();
+    navigate("/meal-plan"); // Navigate to meal plan route
+  };
+
+  const handleQuickMealClick = () => {
+    onQuickMealClick();
+    navigate("/quick-meal"); // Navigate to quick meal route
+  };
+
+  const handleLoginClick = () => {
+    onLoginClick();
+    navigate("/login"); // Navigate to login route
+  };
+
   return (
     <div className="homepage">
       <nav className="navbar">
@@ -28,7 +47,7 @@ const HomePage: React.FC<HomePageProps> = ({
             <a href="#dashboard">Dashboard</a>
           </div>
         </div>
-        <button className="login-button" onClick={onLoginClick}>
+        <button className="login-button" onClick={handleLoginClick}>
           Login / Sign up
         </button>
       </nav>

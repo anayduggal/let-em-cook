@@ -1,5 +1,6 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import "./LoginForm.css";
+import { Link } from "react-router-dom";
 
 type LoginFormProps = {
   type: "login" | "signup";
@@ -105,7 +106,9 @@ const LoginForm: React.FC<LoginFormProps> = ({ type }) => {
           {type === "signup"
             ? "Already have an account? "
             : "Don't have an account? "}
-          <a href="#">{type === "signup" ? "Login" : "Sign Up"}</a>
+          <Link to={type === "signup" ? "/login" : "/signup"}>
+            {type === "signup" ? "Login" : "Sign Up"}
+          </Link>
         </p>
       </form>
     </div>
