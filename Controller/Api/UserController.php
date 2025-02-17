@@ -1,4 +1,6 @@
 <?php
+
+require_once PROJECT_ROOT_PATH . "/Model/UserModel.php";
 class UserController extends BaseController
 
 {
@@ -8,23 +10,26 @@ class UserController extends BaseController
     {
 
         $error_str = '';
+        $error_header = '';
 
         try {
 
             $userModel = new UserModel();
-            $user = $userModel->getUserFromEmail($email);
+            $user = $userModel->getUserFromEmail($email)[0];
+            
+            error_log(print_r($user), true);
 
             if ($user) {
-                if (password_verify($password, $user['password'])) {
+                if (password_verify($password, $user['password_hash'])) {
                     // store info in session
-                    $_SESSION['user_id'] = $user['id'];
+                    $_SESSION['user_id'] = $user['user_id'];
                     $_SESSION['username'] = $user['username'];
 
                     // go to dashboard
                     header("Location: index.php/dashboard");
                     exit();
                 } else {
-                    $error_str = 'Invalid Password';
+                    $error_str = 'Incorrect Password';
                 }
             } else {
                 $error_str = 'User DNE';
@@ -32,7 +37,7 @@ class UserController extends BaseController
 
         } catch (Error $e) {
 
-            $error_str = $e->getMessage().'Something went wrong';
+            $error_str = $e->getMessage().' Something went wrong';
             $error_header = 'HTTP/1.1 500 Internal Server Error';
 
         }

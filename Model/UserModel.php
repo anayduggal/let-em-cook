@@ -21,7 +21,7 @@ class UserModel extends Database
     {
 
         return $this->select(
-            "SELECT * FROM users WHERE email = ?", ["i", $email]
+            "SELECT * FROM users WHERE email = ?", ["s", $email]
         );
 
     }
@@ -31,7 +31,7 @@ class UserModel extends Database
     {
 
         $this->insertInto(
-            "INSERT INTO users (email, username, password_hash) VALUES(?, ?, ?)", [$email, $username, $pw_hash]
+            "INSERT INTO users (email, username, password_hash) VALUES (?, ?, ?)", ["sss", $email, $username, $pw_hash]
         );
 
     }

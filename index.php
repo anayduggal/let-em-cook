@@ -59,6 +59,21 @@ if (strtoupper($req_method) == 'POST') {
                     }
                 }
 
+            case "signup":
+
+                require PROJECT_ROOT_PATH . "/Controller/Api/UserController.php";
+
+                $user_controller = new UserController();
+
+                if (isset($request_data["action_type"])) {
+
+                    switch ($request_data["action_type"]) {
+                        case "signup":
+                            $user_controller->createUser($request_data["email"], $request_data["username"], $request_data["password"]);
+                            break;
+                    }
+                }
+
 
             default:
                 //handle homepage posts
