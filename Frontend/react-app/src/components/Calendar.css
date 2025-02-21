@@ -1,0 +1,61 @@
+.calendar-container {
+  min-width: 800px;
+  padding: 20px;
+  background-color: #f7e1e1;
+  border-radius: 20px;
+  border: 1px solid #000000;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.calendar-title {
+  font-family: "Montserrat", sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  text-align: center;
+  margin: 0;
+}
+
+.calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+  text-align: center;
+}
+
+.weekday {
+  font-family: "Montserrat", sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  padding: 5px;
+}
+
+.calendar-dates {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+  flex: 1;
+}
+
+.empty-date {
+  aspect-ratio: 1;
+  border: 1px solid #00000020;
+}
+
+.calendar-date {
+  aspect-ratio: 1;
+  border: 1px solid #00000020;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Montserrat", sans-serif;
+  font-size: 22px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.calendar-date:hover {
+  background-color: #e0cfcf;
+}

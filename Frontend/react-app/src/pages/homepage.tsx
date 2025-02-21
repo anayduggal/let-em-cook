@@ -1,75 +1,70 @@
 import React from "react";
-import "./HomePage.css";
 import { useNavigate } from "react-router-dom";
+import TopBar from "../components/TopBar";
+import "./HomePage.css";
 
-interface HomePageProps {
-  onMealPlanClick?: () => void;
-  onQuickMealClick?: () => void;
-  onLoginClick?: () => void;
-}
-
-const HomePage: React.FC<HomePageProps> = ({
-  onMealPlanClick = () => {},
-  onQuickMealClick = () => {},
-  onLoginClick = () => {},
-}) => {
+const HomePage: React.FC = () => {
   const navigate = useNavigate();
-
-  // Add route navigation inside the button click handlers
-  const handleMealPlanClick = () => {
-    onMealPlanClick();
-    navigate("/meal-plan"); // Navigate to meal plan route
-  };
-
-  const handleQuickMealClick = () => {
-    onQuickMealClick();
-    navigate("/quick-meal"); // Navigate to quick meal route
-  };
-
-  const handleLoginClick = () => {
-    onLoginClick();
-    navigate("/login"); // Navigate to login route
-  };
 
   return (
     <div className="homepage">
-      <nav className="navbar">
-        <div className="nav-left">
-          <div className="logo-container">
-            <img
-              src="https://dashboard.codeparrot.ai/api/image/Z6sqofrycnbNR_pY/heading.png"
-              alt="Logo"
-              className="logo"
-            />
-          </div>
-          <div className="nav-links">
-            <a href="#recipes">Recipes</a>
-            <a href="#dashboard">Dashboard</a>
-          </div>
-        </div>
-        <button className="login-button" onClick={handleLoginClick}>
-          Login / Sign up
-        </button>
-      </nav>
-
+      <TopBar onLoginClick={() => navigate("/login")} />
       <main className="main-content">
-        <div className="hero-section">
-          <h1 className="hero-title">LET 'EM COOK</h1>
+        {/* Hero Section */}
+        <section className="hero-section">
+          <h1 className="hero-title">
+            <span className="left">LET 'EM</span>
+            <span className="right">COOK</span>
+          </h1>
           <p className="hero-subtitle">
-            Food. Fast. <span className="highlight">NOT</span> fast food
+            Food. Fast. <span className="not-highlight">NOT</span> fast food
           </p>
           <div className="cta-buttons">
-            <button className="cta-button meal-plan" onClick={onMealPlanClick}>
+            <button
+              className="cta-button meal-plan"
+              onClick={() => navigate("/dashboard")}
+            >
               Meal Plan
             </button>
             <button
               className="cta-button quick-meal"
-              onClick={onQuickMealClick}
+              onClick={() => navigate("/recipes")}
             >
               Find a quick meal
             </button>
           </div>
-        </div>
+        </section>
+
+        {/* Who We Are Section */}
+        <section className="who-we-are">
+          <h2>Who We Are</h2>
+          <p>
+            We’re all about making your meal prep fun and easy! Join us on this
+            culinary adventure to create delicious, healthy meals. Let’s cook up
+            some magic together!
+          </p>
+        </section>
+
+        {/* Features Section */}
+        <section className="features">
+          <h2>Our Features</h2>
+          <div className="feature-item">
+            <h3>Healthy Meals</h3>
+            <p>Fuel your body with delicious, wholesome meals.</p>
+          </div>
+          <div className="feature-item">
+            <h3>Quick & Easy</h3>
+            <p>Meals that are fast and fun to make!</p>
+          </div>
+        </section>
+
+        {/* Call to Action Section */}
+        <section className="cta-section">
+          <h2>Ready to Cook?</h2>
+          <button onClick={() => navigate("/recipes")} className="cta-button">
+            Get Started
+          </button>
+        </section>
       </main>
     </div>
   );

@@ -1,11 +1,12 @@
 import HomePage from "./pages/homepage";
-import LoginForm from "./components/LoginForm";
-import SignupForm from "./components/SignupForm";
-import LoginSignupForm from "./components/LoginSignupForm/LoginSignupForm";
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import Dashboard from "./pages/dashboard";
+import Pantry from "./components/Pantry";
+import RecipePage from "./pages/Recipe";
+import ProfilePage from "./pages/ProfilePage";
 
 const App: React.FC = () => {
   return (
@@ -14,6 +15,10 @@ const App: React.FC = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/recipes" element={<RecipePage />} />
+        {/* <Route path="/profile" element={<ProfilePage />} /> */}
+        <Route path="/pantry" element={<Pantry />} />
       </Routes>
     </Router>
   );
