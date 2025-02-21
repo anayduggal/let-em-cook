@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/dashboard";
 import Pantry from "./components/Pantry";
+import RecipePage from "./pages/Recipe";
 import ProfilePage from "./pages/ProfilePage";
 
 const App: React.FC = () => {
@@ -15,6 +16,7 @@ const App: React.FC = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/recipes" element={<RecipePage />} />
         {/* <Route path="/profile" element={<ProfilePage />} /> */}
         <Route path="/pantry" element={<Pantry />} />
       </Routes>

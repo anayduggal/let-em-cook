@@ -1,0 +1,16 @@
+.recipe {
+  background-color: white;
+  padding: 15px;
+  border-radius: 8px;
+  width: 200px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.recipe h3 {
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.recipe p {
+  font-size: 14px;
+}

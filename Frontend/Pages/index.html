@@ -1,23 +1,57 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
-    <head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Dashboard</title>
+    <link rel="stylesheet" href="/Frontend/Pages/style.css">
+</head>
 
-        <link rel='stylesheet' href='/Frontend/Pages/style.css'>
+<body>
+    <header>
+        <div class="logo">
+            <img src="your-logo.png" alt="Logo">
+        </div>
+        <nav>
+            <button class="login-btn">Login / Sign up</button>
+        </nav>
+    </header>
 
-    </head>
+    <main>
+        <div class="sidebar">
+            <form id="ingredients-form" onsubmit="submitForm(); return false;">
+                <h3>Dietary Requirements</h3>
+                <button type="button" class="expand-btn">+</button>
 
-    <body>
-        <div>
-            <form id='ingredients-form' onsubmit="submitForm(); return false;">
-                <label for='ingredients'>Enter ingredients:</label>
-                <input type='text' id='ingredients' name='ingredients' required>
-                <button type='submit'>Search</button>
-            </form> 
+                <h3>Allergens</h3>
+                <button type="button" class="expand-btn">+</button>
+
+                <label for="ingredients">Ingredients</label>
+                <input type="text" id="ingredients" name="ingredients" required>
+
+                <label for="cuisine">Filter by Cuisine</label>
+                <input type="text" id="cuisine" name="cuisine">
+
+                <label for="budget">Budget (£)</label>
+                <input type="text" id="budget" name="budget">
+
+                <button type="submit" class="generate-btn">Generate</button>
+            </form>
         </div>
 
-        <div id="recipes-container"></div>
+        <div class="recipes-section">
+            <div class="recipes-container">
+                <div class="recipe">Random recipe 1</div>
+                <div class="recipe">Random recipe 2</div>
+                <div class="recipe">Random recipe 3</div>
+                <div class="recipe">Random recipe 4</div>
+            </div>
+            <button class="regenerate-btn">Regenerate</button>
+        </div>
+    </main>
 
-        <script src='/Frontend/Pages/script.js'></script>
-    </body>
+    <script src="/Frontend/Pages/script.js"></script>
+</body>
 
 </html>

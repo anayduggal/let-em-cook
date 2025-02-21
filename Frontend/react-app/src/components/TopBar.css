@@ -1,81 +1,83 @@
 .topbar-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #70a747;
-    height: 80px;
-    width: 100%;
-    min-width: 600px;
-    padding: 0 20px;
-    box-sizing: border-box;
-  }
-  
-  .topbar-left {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-  }
-  
-  .topbar-logo {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background-color: #d9d9d9;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .topbar-logo img {
-    width: 40px;
-    height: 40px;
-  }
-  
-  .topbar-nav {
-    display: flex;
-    gap: 20px;
-  }
-  
-  .topbar-button {
-    background: none;
-    border: none;
-    color: #ffffff;
-    font-family: "Montserrat";
-    font-size: 24px;
-    cursor: pointer;
-    padding: 10px;
-    transition: opacity 0.2s;
-  }
-  
-  .topbar-button:hover {
-    opacity: 0.8;
-  }
-  
-  .topbar-right {
-    margin-left: auto;
-  }
-  
-  .topbar-user-button {
-    background-color: #be1515;
-    border: none;
-    border-radius: 4px;
-    color: #ffffff;
-    font-family: "Montserrat";
-    font-size: 24px;
-    padding: 10px 20px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-    display: flex;
-    align-items: center;
-  }
-  
-  .topbar-user-button:hover {
-    background-color: #a61212;
-  }
-  
-  .topbar-user-icon {
-    width: 20px;
-    height: 20px;
-    margin-right: 10px;
-  }
-  
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #70a747;
+  height: 80px;
+  width: 100%;
+  min-width: 600px;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.topbar-logo {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #d9d9d9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.topbar-logo img {
+  width: 40px;
+  height: 40px;
+}
+
+.topbar-nav {
+  display: flex;
+  gap: 20px;
+}
+
+.topbar-button {
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-family: "Montserrat";
+  font-size: 24px;
+  cursor: pointer;
+  padding: 10px;
+  transition: opacity 0.2s;
+}
+
+.topbar-button:hover {
+  opacity: 0.8;
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* Adds space between the buttons */
+  margin-left: auto;
+}
+
+.topbar-user-button,
+.login-button {
+  background-color: #be1515;
+  border: none;
+  border-radius: 4px;
+  color: #ffffff;
+  font-family: "Montserrat";
+  font-size: 18px; /* Adjust font size for balance */
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.topbar-user-button:hover,
+.login-button:hover {
+  background-color: #a61212;
+}
+
+.topbar-user-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+}

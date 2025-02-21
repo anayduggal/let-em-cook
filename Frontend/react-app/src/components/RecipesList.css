@@ -1,0 +1,19 @@
+.recipes-section {
+  margin-top: 20px;
+}
+
+.recipes-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.regenerate-btn {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #ffa500;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}

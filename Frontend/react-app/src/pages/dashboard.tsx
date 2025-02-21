@@ -7,13 +7,19 @@ import "../pages/dashboard.css";
 
 const Dashboard: React.FC = () => {
   return (
-    <div className="dashboard-container">
-      <TopBar className="top-bar" />
-      <div className="dashboard-content">
-        <Calendar className="dashboard-calendar" />
-        <ShoppingList className="dashboard-shopping-list" />
+    <div>
+      <TopBar
+        onLoginClick={() => {
+          /* handle login click */
+        }}
+      />
+      <div className="dashboard-container">
+        <div className="dashboard-content">
+          <Calendar />
+          <ShoppingList />
+        </div>
+        <MealPlan />
       </div>
-      <MealPlan className="dashboard-meal-plan" />
     </div>
   );
 };

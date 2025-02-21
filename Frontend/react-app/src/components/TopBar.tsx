@@ -1,4 +1,5 @@
 import React from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "../components/TopBar.css";
 
 interface TopBarProps {
@@ -6,6 +7,8 @@ interface TopBarProps {
 }
 
 const TopBar: React.FC<TopBarProps> = ({ style }) => {
+  const navigate = useNavigate();
+
   return (
     <div className="topbar-container" style={style}>
       <div className="topbar-left">
@@ -16,8 +19,12 @@ const TopBar: React.FC<TopBarProps> = ({ style }) => {
           />
         </div>
         <nav className="topbar-nav">
-          <button className="topbar-button">Recipes</button>
-          <button className="topbar-button">Dashboard</button>
+          <Link to="/recipes" className="topbar-button">
+            Recipes
+          </Link>
+          <Link to="/dashboard" className="topbar-button">
+            Dashboard
+          </Link>
         </nav>
       </div>
       <div className="topbar-right">
@@ -28,6 +35,9 @@ const TopBar: React.FC<TopBarProps> = ({ style }) => {
             className="topbar-user-icon"
           />
           User
+        </button>
+        <button className="login-button" onClick={() => navigate("/login")}>
+          Login / Sign up
         </button>
       </div>
     </div>
