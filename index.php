@@ -1,6 +1,8 @@
 <?php
 require __DIR__ . "/inc/bootstrap.php";
 
+session_start();
+
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $uri = explode('/', trim($uri, '/'));
 
@@ -102,6 +104,11 @@ if (strtoupper($req_method) == 'POST') {
 
                 include __DIR__ . "/Frontend/Pages/index.html";
                 break;
+
+            case "login":
+
+                
+
 
             default:
                 // handle homepage
