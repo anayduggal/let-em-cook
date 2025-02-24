@@ -19,12 +19,12 @@ if (strtoupper($req_method) == 'POST') {
 
                 require PROJECT_ROOT_PATH . "/Controller/Api/RecipeController.php";
 
-                $recipeController = new RecipeController();
+                $recipe_controller = new RecipeController();
 
                 if (isset($request_data["action_type"])) {
 
                     switch ($request_data["action_type"]) {
-                        case "searchRecipes":
+                        case "searchrecipes":
 
                             /*
                             search recipes:
@@ -36,13 +36,14 @@ if (strtoupper($req_method) == 'POST') {
                             return the recipes where the value is 0
                             */
 
-                            $return_data_json = $recipeController->searchRecipes($request_data["ingredients"]);
+                            $return_data_json = $recipe_controller->searchRecipes($request_data["ingredients"]);
 
                             header('Content-Type: application/json');
                             echo $return_data_json;
                             break;
                     }
                 }
+                break;
 
             case "login":
 
@@ -58,6 +59,7 @@ if (strtoupper($req_method) == 'POST') {
                             break;
                     }
                 }
+                break;
 
             case "signup":
 
@@ -73,6 +75,7 @@ if (strtoupper($req_method) == 'POST') {
                             break;
                     }
                 }
+                break;
 
 
             default:

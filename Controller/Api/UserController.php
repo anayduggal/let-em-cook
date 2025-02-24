@@ -1,6 +1,7 @@
 <?php
 
-require_once PROJECT_ROOT_PATH . "/Model/UserModel.php";
+require_once PROJECT_ROOT_PATH . "/Controller/Api/BaseController.php";
+
 class UserController extends BaseController
 
 {
@@ -14,10 +15,8 @@ class UserController extends BaseController
 
         try {
 
-            $userModel = new UserModel();
-            $user = $userModel->getUserFromEmail($email)[0];
-            
-            error_log(print_r($user), true);
+            $user_model = new UserModel();
+            $user = $user_model->getUserFromEmail($email)[0];
 
             if ($user) {
                 if (password_verify($password, $user['password_hash'])) {
@@ -27,6 +26,7 @@ class UserController extends BaseController
 
                     // go to dashboard
                     header("Location: index.php/dashboard");
+                    echo "login success\n";
                     exit();
                 } else {
                     $error_str = 'Incorrect Password';
@@ -57,11 +57,10 @@ class UserController extends BaseController
 
         try {
 
-            $userModel = new UserModel();
+            $user_model = new UserModel();
             $pw_hash = password_hash($password, PASSWORD_DEFAULT);
 
-            $userModel->addUser($email, $username, $pw_hash);
-
+            $user_model->addUser($email, $username, $pw_hash);
 
         } catch (Error $e) {
 
@@ -77,7 +76,5 @@ class UserController extends BaseController
         }
 
     }
-
-
 
 }
