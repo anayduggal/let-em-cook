@@ -6,7 +6,7 @@ import Signup from "./pages/Signup";
 import Dashboard from "./pages/dashboard";
 import Pantry from "./components/Pantry";
 import RecipePage from "./pages/Recipe";
-import ProfilePage from "./pages/ProfilePage";
+import Profile from "./pages/Profile";
 
 const App: React.FC = () => {
   return (
@@ -17,7 +17,7 @@ const App: React.FC = () => {
         <Route path="/signup" element={<Signup />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/recipes" element={<RecipePage />} />
-        {/* <Route path="/profile" element={<ProfilePage />} /> */}
+        <Route path="/profile" element={<Profile />} />
         <Route path="/pantry" element={<Pantry />} />
       </Routes>
     </Router>
