@@ -1,4 +1,9 @@
 import "./Profile.css";
+import TopBar from "../components/TopBar";
+
+
+
+
 
 const ProfileCard = () => {
 
@@ -18,6 +23,8 @@ const ProfileCard = () => {
 
 
   return (
+    <>
+    <TopBar />
     <div className="profile-container">
       <div className="profile-card">
 
@@ -54,6 +61,7 @@ const ProfileCard = () => {
         </div>
       </div>
     </div>
+    </>
   );
 }
 

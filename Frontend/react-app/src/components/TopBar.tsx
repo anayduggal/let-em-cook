@@ -37,7 +37,7 @@ const TopBar: React.FC<TopBarProps> = ({ style }) => {
           User
         </button>
         <button className="login-button" onClick={() => navigate("/login")}>
-          Login / Sign up
+          Login / Signup
         </button>
       </div>
     </div>

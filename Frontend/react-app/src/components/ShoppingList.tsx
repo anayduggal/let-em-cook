@@ -16,8 +16,8 @@ const ShoppingList: React.FC<ShoppingListProps> = ({ style }) => {
   const defaultItems: Item[] = [
     {
       ingredient: "Lorem ipsum",
-      quantity: "1 pack",
-      unit: "",
+      quantity: "1",
+      unit: "pack",
       price: "£ 2.00",
     },
     { ingredient: "Dolor", quantity: "2", unit: "bunches", price: "£ 1.20" },
