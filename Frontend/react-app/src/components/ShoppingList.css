@@ -1,17 +1,20 @@
 .shopping-list-container {
   width: 100%;
   max-width: 377px;
-  height: 664px;
+  height: 410px;
   background-color: #f2c3c3;
   border-radius: 20px;
   border: 1px solid #000000;
   display: flex;
   flex-direction: column;
+  position: absolute;
+  left: 1028px;
+  top: 520px;
 }
 
 .shopping-list-header {
   width: 100%;
-  height: 82px;
+  height: 50px;
   background-color: #be1515;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
@@ -23,7 +26,7 @@
 .shopping-list-header h1 {
   color: #ffffff;
   font-family: "Judson";
-  font-size: 30px;
+  font-size: 20px;
   margin: 0;
 }
 
@@ -33,7 +36,7 @@
   border-bottom: 1px solid #000000;
   font-family: "Montserrat";
   font-weight: 600;
-  font-size: 20px;
+  font-size: 12px;
 }
 
 .column-ingredient {
@@ -61,8 +64,8 @@
   display: flex;
   margin-bottom: 10px;
   font-family: "Montserrat";
-  font-size: 16px;
-  line-height: 25px;
+  font-size: 12px;
+  line-height: 20px;
 }
 
 .shopping-list-footer {

@@ -53,13 +53,13 @@
 
 .topbar-right {
   display: flex;
-  align-items: center;
+  justify-items: center;
   gap: 20px; /* Adds space between the buttons */
   margin-left: auto;
 }
 
-.topbar-user-button,
-.login-button {
+.topbar-user-button {
+  width: 120px;
   background-color: #be1515;
   border: none;
   border-radius: 4px;
@@ -69,6 +69,21 @@
   padding: 10px 20px;
   cursor: pointer;
   transition: background-color 0.2s;
+}
+
+
+.login-button {
+  width: 180px;
+  background-color: #be1515;
+  border: none;
+  border-radius: 4px;
+  color: #ffffff;
+  font-family: "Montserrat";
+  font-size: 18px; /* Adjust font size for balance */
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  
 }
 
 .topbar-user-button:hover,

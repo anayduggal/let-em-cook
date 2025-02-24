@@ -3,6 +3,7 @@ import TopBar from "../components/TopBar";
 import Calendar from "../components/Calendar";
 import ShoppingList from "../components/ShoppingList";
 import MealPlan from "../components/MealPlan";
+import Pantry from "../components/Pantry"
 import "../pages/dashboard.css";
 
 const Dashboard: React.FC = () => {
@@ -16,6 +17,7 @@ const Dashboard: React.FC = () => {
       <div className="dashboard-container">
         <div className="dashboard-content">
           <Calendar />
+          <Pantry />
           <ShoppingList />
         </div>
         <MealPlan />
