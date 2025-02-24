@@ -52,6 +52,17 @@ class Database
 
     }
 
+    public function insertInto($query = "", $params = [])
+
+    {
+        try {
+            $this->executeStatement($query, $params);
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
+
+    }
+
     private function executeStatement($query = "" , $params = [])
 
     {
@@ -61,25 +72,20 @@ class Database
             $stmt = $this->connection->prepare( $query );
 
             if($stmt === false) {
-
                 throw New Exception("Unable to do prepared statement: " . $query);
-
             }
 
-            if( $params ) {
-
-                $stmt->bind_param($params[0], $params[1]);
-
+            if($params) {
+                $types = $params[0];
+                $vars = array_slice($params, 1);
+                $stmt->bind_param($types, ...$vars);
             }
 
             $stmt->execute();
-
             return $stmt;
 
         } catch(Exception $e) {
-
             throw New Exception( $e->getMessage() );
-
         }	
 
     }
