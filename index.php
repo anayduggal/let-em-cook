@@ -1,6 +1,8 @@
 <?php
 require __DIR__ . "/inc/bootstrap.php";
 
+session_start();
+
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $uri = explode('/', trim($uri, '/'));
 
@@ -19,12 +21,12 @@ if (strtoupper($req_method) == 'POST') {
 
                 require PROJECT_ROOT_PATH . "/Controller/Api/RecipeController.php";
 
-                $recipeController = new RecipeController();
+                $recipe_controller = new RecipeController();
 
                 if (isset($request_data["action_type"])) {
 
                     switch ($request_data["action_type"]) {
-                        case "searchRecipes":
+                        case "searchrecipes":
 
                             /*
                             search recipes:
@@ -36,17 +38,53 @@ if (strtoupper($req_method) == 'POST') {
                             return the recipes where the value is 0
                             */
 
-                            $return_data_json = $recipeController->searchRecipes($request_data["ingredients"]);
+                            $return_data_json = $recipe_controller->searchRecipes($request_data["ingredients"]);
 
                             header('Content-Type: application/json');
                             echo $return_data_json;
                             break;
                     }
                 }
+                break;
+
+            case "login":
+
+                require PROJECT_ROOT_PATH . "/Controller/Api/UserController.php";
+
+                $user_controller = new UserController();
+
+                if (isset($request_data["action_type"])) {
+
+                    switch ($request_data["action_type"]) {
+                        case "login":
+                            $user_controller->login($request_data["email"], $request_data["password"]);
+                            break;
+                    }
+                }
+                break;
+
+            case "signup":
+
+                require PROJECT_ROOT_PATH . "/Controller/Api/UserController.php";
+
+                $user_controller = new UserController();
+
+                if (isset($request_data["action_type"])) {
+
+                    switch ($request_data["action_type"]) {
+                        case "signup":
+                            $user_controller->createUser($request_data["email"], $request_data["username"], $request_data["password"]);
+                            break;
+                    }
+                }
+                break;
+
 
             default:
                 //handle homepage posts
                 exit();
+
+            
 
         }
 
@@ -66,6 +104,11 @@ if (strtoupper($req_method) == 'POST') {
 
                 include __DIR__ . "/Frontend/Pages/index.html";
                 break;
+
+            case "login":
+
+                
+
 
             default:
                 // handle homepage

@@ -28,7 +28,7 @@ const TopBar: React.FC<TopBarProps> = ({ style }) => {
         </nav>
       </div>
       <div className="topbar-right">
-        <button className="topbar-user-button">
+        <button className="topbar-user-button" onClick={() => navigate("/profile")}>
           <img
             src="https://dashboard.codeparrot.ai/api/image/Z7cpv_3atcswnoug/profile.png"
             alt="User"
@@ -37,7 +37,7 @@ const TopBar: React.FC<TopBarProps> = ({ style }) => {
           User
         </button>
         <button className="login-button" onClick={() => navigate("/login")}>
-          Login / Sign up
+          Login / Signup
         </button>
       </div>
     </div>

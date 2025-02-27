@@ -1,4 +1,7 @@
 <?php
+
+require_once PROJECT_ROOT_PATH . "/Controller/Api/BaseController.php";
+
 class RecipeController extends BaseController
 
 {
@@ -6,7 +9,7 @@ class RecipeController extends BaseController
 
     {
  
-        $strErrorDesc = '';
+        $error_str = '';
 
         try {
 
@@ -50,26 +53,26 @@ class RecipeController extends BaseController
                 
             } else {
 
-                $strErrorDesc = 'Empty query';
+                $error_str = 'Empty query';
                 $strErrorHeader = 'HTTP/1.1 400 Bad Request';
 
             }
 
         } catch (Error $e) {
 
-            $strErrorDesc = $e->getMessage().'Something went wrong';
+            $error_str = $e->getMessage().'Something went wrong';
             $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
 
         }
 
 
-        if (!$strErrorDesc) {
+        if (!$error_str) {
 
             return json_encode($recipes);
 
         } else {
 
-            $this->sendOutput(json_encode(array('error' => $strErrorDesc)), 
+            $this->sendOutput(json_encode(array('error' => $error_str)), 
 
                 array('Content-Type: application/json', $strErrorHeader)
 
@@ -84,7 +87,7 @@ class RecipeController extends BaseController
 
     {
 
-        $strErrorDesc = '';
+        $error_str = '';
 
         $requestMethod = $_SERVER["REQUEST_METHOD"];
 
@@ -110,7 +113,7 @@ class RecipeController extends BaseController
 
             } catch (Error $e) {
 
-                $strErrorDesc = $e->getMessage().'Something went wrong';
+                $error_str = $e->getMessage().'Something went wrong';
 
                 $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
 
@@ -118,7 +121,7 @@ class RecipeController extends BaseController
 
         } else {
 
-            $strErrorDesc = 'Method not supported';
+            $error_str = 'Method not supported';
 
             $strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity';
 
@@ -126,7 +129,7 @@ class RecipeController extends BaseController
 
         // send output
 
-        if (!$strErrorDesc) {
+        if (!$error_str) {
 
             $this->sendOutput(
 
@@ -138,7 +141,7 @@ class RecipeController extends BaseController
 
         } else {
 
-            $this->sendOutput(json_encode(array('error' => $strErrorDesc)), 
+            $this->sendOutput(json_encode(array('error' => $error_str)), 
 
                 array('Content-Type: application/json', $strErrorHeader)
 
