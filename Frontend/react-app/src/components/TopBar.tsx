@@ -20,10 +20,10 @@ const TopBar: React.FC<TopBarProps> = ({ style }) => {
         </div>
         <nav className="topbar-nav">
           <Link to="/recipes" className="topbar-button">
-            Recipes
+            RECIPES
           </Link>
           <Link to="/dashboard" className="topbar-button">
-            Dashboard
+            DASHBOARD
           </Link>
         </nav>
       </div>
@@ -37,10 +37,10 @@ const TopBar: React.FC<TopBarProps> = ({ style }) => {
             alt="User"
             className="topbar-user-icon"
           />
-          User
+          USER
         </button>
         <button className="login-button" onClick={() => navigate("/login")}>
-          Login / Signup
+          LOGIN
         </button>
       </div>
     </div>

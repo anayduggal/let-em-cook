@@ -13,7 +13,7 @@ body {
 
 .homepage {
   position: relative;
-  background: linear-gradient(135deg, #fbc1cc, #a6e3a1); /* Gradient for a cute, pastel theme */
+  background: linear-gradient(135deg, #8E8750, #F2EADF); /* Gradient for a cute, pastel theme */
   background-size: 400% 400%;
   animation: gradientBG 10s ease infinite;
 }
@@ -21,9 +21,9 @@ body {
 /* Hero Section */
 .hero-section {
   background: url('https://www.pngrepo.com/png/321356/180/fruits-background.png') no-repeat center center;
-  background-size: 50%;
-  color: white;
-  padding: 100px 20px;
+  background-size: 60%;
+  color: #ffffff;
+  padding: 200px 20px;
   text-align: center;
   position: relative;
   z-index: 2;
@@ -34,7 +34,7 @@ body {
 /* Hero Section Title */
 /* Hero Section Title */
 .hero-title {
-  font-family: 'Antonio', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 5rem;
   font-weight: bold;
   letter-spacing: 5px;
@@ -70,28 +70,6 @@ body {
 
 .not-highlight {
   color: #e74c3c; /* Red color for the word NOT */
-}
-
-.cta-buttons {
-  margin-top: 30px;
-}
-
-.cta-button {
-  background-color: #ff90a8;
-  border: none;
-  border-radius: 10px;
-  color: white;
-  font-size: 20px;
-  padding: 15px 30px;
-  cursor: pointer;
-  margin: 10px;
-  transition: transform 0.3s, background-color 0.3s;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.cta-button:hover {
-  background-color: #ff6b8e;
-  transform: scale(1.1);
 }
 
 /* Who We Are Section */
@@ -160,15 +138,15 @@ body {
 }
 
 .cta-button {
-  background-color: #8be0f3;
+  background-color: #8C854E;
   font-size: 22px;
-  padding: 20px 40px;
+  padding: 20px 5px;
   margin-top: 20px;
   transition: background-color 0.3s;
 }
 
 .cta-button:hover {
-  background-color: #6fd7ee;
+  background-color: #FFD95C;
 }
 
 /* Animations */
