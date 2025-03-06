@@ -1,6 +1,6 @@
 .sidebar {
     padding: 20px;
-    background-color: white;
+    background-color: #7D7B63;
     border-radius: 10px;
     width: 300px;
   }
@@ -8,6 +8,8 @@
   .sidebar form {
     display: flex;
     flex-direction: column;
+    background-color: #7D7B63;
+    color:white;
   }
   
   .sidebar label {
@@ -19,12 +21,14 @@
     padding: 8px;
     margin-top: 5px;
     border-radius: 5px;
-    border: 1px solid #ccc;
+    border: 1px solid #716E53;
+    background-color: #716E53;
+    color: white;
   }
   
   .generate-btn {
-    background-color: #4caf50;
-    color: white;
+    background-color: #FFD95C;
+    color: #576238;
     padding: 10px;
     margin-top: 15px;
     border: none;

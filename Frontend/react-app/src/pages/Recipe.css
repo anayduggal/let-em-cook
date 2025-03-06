@@ -9,12 +9,13 @@
   display: flex;
   flex-grow: 1;
   overflow: hidden;
+  background-color: #576238;
 }
 
 .sidebar {
   width: 250px;  /* Adjust width */
   min-width: 200px;
-  background-color: #f8f8f8;
+  background-color: #7D7B63;
   padding: 10px;
   height: 100%;
   overflow-y: auto; /* Scroll if too long */
@@ -37,6 +38,6 @@
   width: 300px; /* Set a fixed width */
   border: 1px solid #ddd;
   padding: 10px;
-  background-color: white;
+  background-color: #D9D9D9;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
 }
