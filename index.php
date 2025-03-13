@@ -26,6 +26,7 @@ if (strtoupper($req_method) == 'POST') {
                 if (isset($request_data["action_type"])) {
 
                     switch ($request_data["action_type"]) {
+
                         case "searchrecipes":
 
                             /*
@@ -56,7 +57,12 @@ if (strtoupper($req_method) == 'POST') {
                 if (isset($request_data["action_type"])) {
 
                     switch ($request_data["action_type"]) {
+
                         case "login":
+
+                            // login user
+                            // send request to server with email and password
+
                             $user_controller->login($request_data["email"], $request_data["password"]);
                             break;
                     }
@@ -72,19 +78,60 @@ if (strtoupper($req_method) == 'POST') {
                 if (isset($request_data["action_type"])) {
 
                     switch ($request_data["action_type"]) {
+
                         case "signup":
+
+                            // create user
+                            // send request to server with email, username, and password
+
                             $user_controller->createUser($request_data["email"], $request_data["username"], $request_data["password"]);
                             break;
                     }
                 }
                 break;
 
+            case "dashboard":
+
+                require PROJECT_ROOT_PATH . "/Controller/Api/DashboardController.php";
+
+                $dashboard_controller = new DashboardController();
+
+                if (isset($request_data["action_type"])) {
+
+                    switch ($request_data["action_type"]) {
+
+                        case "autocomplete":
+
+                            // autocomplete function for typing in ingredient names
+                            // send request to server with typed string and server returns an array of 5 ingredient names that match the typed string
+
+                            $return_data_json = $dashboard_controller->autocomplete($request_data["typed_string"]);
+                            echo $return_data_json;
+                            break;
+
+                        case "adduseringredient":
+
+                            // add user ingredient
+                            // send request to server with ingredient name, quantity, and use by date
+
+                            $dashboard_controller->addIngredient($request_data["ingredient_string"], $request_data["quantity_string"], $request_data["useby_string"]);
+                            break;
+
+                        case "getpantry":
+                            
+                            // get pantry
+                            // send request to server and server returns an array of all the ingredients the user has added to their pantry
+
+                            $return_data_json = $dashboard_controller->getPantry();
+                            echo $return_data_json;
+                            break;
+                    }
+                }
+                break;
 
             default:
                 //handle homepage posts
                 exit();
-
-            
 
         }
 
