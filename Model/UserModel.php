@@ -26,12 +26,12 @@ class UserModel extends Database
 
     }
 
-    public function addUser($email, $username, $pw_hash) 
+    public function addUser($email, $pw_hash, $first_name, $last_name) 
     
     {
 
         $this->insertInto(
-            "INSERT INTO users (email, username, password_hash) VALUES (?, ?, ?)", ["sss", $email, $username, $pw_hash]
+            "INSERT INTO users (email, password_hash, first_name, last_name) VALUES (?, ?, ?, ?)", ["ssss", $email, $pw_hash, $first_name, $last_name]
         );
 
     }

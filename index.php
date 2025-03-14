@@ -64,6 +64,7 @@ if (strtoupper($req_method) == 'POST') {
                             // send request to server with email and password
 
                             $user_controller->login($request_data["email"], $request_data["password"]);
+
                             break;
                     }
                 }
@@ -82,9 +83,12 @@ if (strtoupper($req_method) == 'POST') {
                         case "signup":
 
                             // create user
-                            // send request to server with email, username, and password
+                            // send request to sql server with email, password, first name and last name
 
-                            $user_controller->createUser($request_data["email"], $request_data["username"], $request_data["password"]);
+                            error_log("Signup request: ".$request_data["email"].$request_data["password"].$request_data["first_name"].$request_data["last_name"]);
+
+                            $user_controller->createUser($request_data["email"], $request_data["password"], $request_data["first_name"], $request_data["last_name"]);
+
                             break;
                     }
                 }

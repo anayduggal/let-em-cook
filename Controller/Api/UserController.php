@@ -50,7 +50,7 @@ class UserController extends BaseController
 
     }
 
-    public function createUser($email, $username, $password) 
+    public function createUser($email, $password, $first_name, $last_name) 
     {
 
         $error_str = '';
@@ -60,7 +60,7 @@ class UserController extends BaseController
             $user_model = new UserModel();
             $pw_hash = password_hash($password, PASSWORD_DEFAULT);
 
-            $user_model->addUser($email, $username, $pw_hash);
+            $user_model->addUser($email, $pw_hash, $first_name, $last_name);
 
         } catch (Error $e) {
 
@@ -73,6 +73,8 @@ class UserController extends BaseController
             $this->sendOutput(json_encode(array('error' => $error_str)), 
                 array('Content-Type: application/json', $error_header)
             );
+
+            error_log("Error when creating user: ".$error_str);
         }
 
     }
