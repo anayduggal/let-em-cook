@@ -50,6 +50,16 @@ class UserController extends BaseController
 
     }
 
+    public function checkLogin() 
+    {
+        
+        if (isset($_SESSION['user_id'])) {
+            return json_encode(array('loggedIn' => true));
+        } else {
+            return json_encode(array('loggedIn' => false));
+        }
+    }
+
     public function createUser($email, $username, $password) 
     {
 

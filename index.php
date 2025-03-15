@@ -65,6 +65,15 @@ if (strtoupper($req_method) == 'POST') {
 
                             $user_controller->login($request_data["email"], $request_data["password"]);
                             break;
+
+                        case "checklogin":
+
+                            // check if user is logged in
+                            // send request to server and server returns true if user is logged in, false otherwise
+
+                            $return_data_json = $user_controller->checkLogin();
+                            echo $return_data_json;
+                            break;
                     }
                 }
                 break;
@@ -91,6 +100,13 @@ if (strtoupper($req_method) == 'POST') {
                 break;
 
             case "dashboard":
+
+                // Check if user is logged in
+                if (!isset($_SESSION['user_id'])) {
+                    header('Content-Type: application/json');
+                    echo json_encode(array('error' => 'User not logged in'));
+                    exit();
+                }
 
                 require PROJECT_ROOT_PATH . "/Controller/Api/DashboardController.php";
 
