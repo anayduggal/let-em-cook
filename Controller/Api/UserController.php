@@ -20,12 +20,15 @@ class UserController extends BaseController
 
             if ($user) {
                 if (password_verify($password, $user['password_hash'])) {
+                    // clear existing session if there is one
+                    session_unset();
+
                     // store info in session
                     $_SESSION['user_id'] = $user['user_id'];
-                    $_SESSION['username'] = $user['username'];
+                    $_SESSION['userfname'] = $user['first_name'];
+                    $_SESSION['userlname'] = $user['last_name'];
+                    $_SESSION['useremail'] = $user['email'];
 
-                    // go to dashboard
-                    header("Location: index.php/dashboard");
                     echo "login success\n";
                     exit();
                 } else {
@@ -50,7 +53,17 @@ class UserController extends BaseController
 
     }
 
-    public function createUser($email, $username, $password) 
+    public function checkLogin() 
+    {
+        
+        if (isset($_SESSION['user_id'])) {
+            return json_encode(array('loggedIn' => true));
+        } else {
+            return json_encode(array('loggedIn' => false));
+        }
+    }
+
+    public function createUser($email, $userfname, $userlname, $password) 
     {
 
         $error_str = '';
@@ -60,7 +73,7 @@ class UserController extends BaseController
             $user_model = new UserModel();
             $pw_hash = password_hash($password, PASSWORD_DEFAULT);
 
-            $user_model->addUser($email, $username, $pw_hash);
+            $user_model->addUser($email, $userfname, $userlname, $pw_hash);
 
         } catch (Error $e) {
 
