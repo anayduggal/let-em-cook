@@ -6,6 +6,7 @@ class DashboardController extends BaseController
 
 {
     public function autocomplete($typed_string)
+
     {
         $error_str = '';
 
@@ -42,7 +43,8 @@ class DashboardController extends BaseController
         }
     }
 
-    public function addIngredient($ingredient_string, $quantity_string, $useby_string)
+    public function addPantryIngredient($ingredient_string, $quantity_string, $useby_string)
+
     {
         $error_str = '';
 
@@ -52,7 +54,7 @@ class DashboardController extends BaseController
 
             if (!empty($ingredient_string) && !empty($quantity_string) && !empty($useby_string)) {
 
-                $dashboardModel->addUserIngredient($ingredient_string, $quantity_string, $useby_string);
+                $dashboardModel->addUserIngredientPantry($ingredient_string, $quantity_string, $useby_string);
 
             } else {
 
@@ -73,7 +75,8 @@ class DashboardController extends BaseController
         }
     }
 
-    public function getPantry()  
+    public function addShoppingListIngredient($ingredient_string)
+
     {
         $error_str = '';
 
@@ -81,7 +84,89 @@ class DashboardController extends BaseController
 
             $dashboardModel = new DashboardModel();
 
-            $shopping_list = $dashboardModel->getUserIngredients();
+            if (!empty($ingredient_string)) {
+
+                $dashboardModel->addUserIngredientShoppingList($ingredient_string);
+
+            } else {
+
+                $error_str = 'Empty query';
+                $strErrorHeader = 'HTTP/1.1 400 Bad Request';
+
+            }
+        } catch (Exception $e) {
+
+            $error_str = $e->getMessage();
+            $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
+
+        }
+
+        if (!empty($error_str)) {
+            header($strErrorHeader);
+            return $error_str;
+        }
+    }
+
+    public function moveIngredientShoppingListPantry($ingredient_string, $quantity_string, $useby_string)
+    
+    {
+        $error_str = '';
+
+        try {
+
+            $dashboardModel = new DashboardModel();
+
+            $dashboardModel->boughtIngredient($ingredient_string, $quantity_string, $useby_string);
+
+        } catch (Exception $e) {
+
+            $error_str = $e->getMessage();
+            $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
+
+        }
+
+        if (!empty($error_str)) {
+            header($strErrorHeader);
+            return $error_str;
+        }
+    }
+
+    public function getPantry()  
+
+    {
+        $error_str = '';
+
+        try {
+
+            $dashboardModel = new DashboardModel();
+
+            $pantry = $dashboardModel->getUserPantry();
+
+            return json_encode($pantry);
+
+        } catch (Exception $e) {
+
+            $error_str = $e->getMessage();
+            $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
+
+        }
+
+        if (!empty($error_str)) {
+            header($strErrorHeader);
+            return $error_str;
+        }
+    }
+
+    public function getShoppingList()
+    
+    {
+        $error_str = '';
+
+        try {
+
+            $dashboardModel = new DashboardModel();
+
+            $shopping_list = $dashboardModel->getUserShoppingList();
 
             return json_encode($shopping_list);
 

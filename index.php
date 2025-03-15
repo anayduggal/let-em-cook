@@ -126,12 +126,28 @@ if (strtoupper($req_method) == 'POST') {
                             echo $return_data_json;
                             break;
 
-                        case "adduseringredient":
-
-                            // add user ingredient
+                        case "addpantryingredient":
+                            
+                            // add to pantry
                             // send request to server with ingredient name, quantity, and use by date
 
-                            $dashboard_controller->addIngredient($request_data["ingredient_string"], $request_data["quantity_string"], $request_data["useby_string"]);
+                            $dashboard_controller->addPantryIngredient($request_data["ingredient_string"], $request_data["quantity_string"], $request_data["useby_string"]);
+                            break;
+
+                        case "addshoppinglistingredient":
+                            
+                            // add to shopping list
+                            // send request to server with ingredient name
+
+                            $dashboard_controller->addShoppingListIngredient($request_data["ingredient_string"]);
+                            break;
+
+                        case "moveingredienttopantry":
+
+                            // move to pantry
+                            // send request to server with ingredient name, quantity, and use by date
+
+                            $dashboard_controller->moveIngredientShoppingListPantry($request_data["ingredient_string"], $request_data["quantity_string"], $request_data["useby_string"]);
                             break;
 
                         case "getpantry":
@@ -140,6 +156,15 @@ if (strtoupper($req_method) == 'POST') {
                             // send request to server and server returns an array of all the ingredients the user has added to their pantry
 
                             $return_data_json = $dashboard_controller->getPantry();
+                            echo $return_data_json;
+                            break;
+
+                        case "getshoppinglist":
+                            
+                            // get shopping list
+                            // send request to server and server returns an array of all the ingredients the user has added to their shopping list
+
+                            $return_data_json = $dashboard_controller->getShoppingList();
                             echo $return_data_json;
                             break;
                     }
