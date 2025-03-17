@@ -60,7 +60,6 @@ const loginRequest = async (request_data: FormData): Promise<any> => {
 
   // Send POST request to server
   const response = await fetch("http://localhost:8000/index.php/login", {
-      mode: "no-cors",
       method: "POST",
       headers: {
           "Content-Type": "application/json"
