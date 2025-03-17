@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TopBar from "../components/TopBar";
 import SideBar from "../components/SideBar";
 import RecipesList from "../components/RecipesList";
@@ -9,10 +9,19 @@ const RecipeSearch: React.FC = () => {
     { recipe_name: string; servings: number }[]
   >([]);
 
+  // Hardcoded test data
+  useEffect(() => {
+    setRecipes([
+      { recipe_name: "Chicken Curry", servings: 4 },
+      { recipe_name: "Pasta Carbonara", servings: 2 },
+      { recipe_name: "Mango Sticky Rice", servings: 3 },
+    ]);
+  }, []);
+
   return (
     <div className="recipe-dashboard">
+      <TopBar />
       <main>
-        <TopBar className="top-bar" />
         <SideBar setRecipes={setRecipes} />
         <RecipesList recipes={recipes} />
       </main>

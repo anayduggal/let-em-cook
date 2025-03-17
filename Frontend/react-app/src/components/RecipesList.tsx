@@ -9,6 +9,7 @@ interface RecipesListProps {
 const RecipesList: React.FC<RecipesListProps> = ({ recipes }) => {
   return (
     <section className="recipes-section">
+      <h1>RECIPES</h1>
       <div className="recipes-container">
         {recipes.length > 0 ? (
           recipes.map((recipe, index) => (

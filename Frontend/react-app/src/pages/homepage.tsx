@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import TopBar from "../components/TopBar";
-import "./HomePage.css";
+import "./homepage.css";
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
