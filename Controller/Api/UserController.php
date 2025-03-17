@@ -22,17 +22,17 @@ class UserController extends BaseController
                 if (password_verify($password, $user['password_hash'])) {
                     // store info in session
                     $_SESSION['user_id'] = $user['user_id'];
-                    $_SESSION['username'] = $user['username'];
 
-                    // go to dashboard
-                    header("Location: index.php/dashboard");
-                    echo "login success\n";
-                    exit();
+                    $this->sendOutput(data: json_encode(value: array('status' => 'ok')),
+                        httpHeaders: array('Content-Type: application/json', 'HTTP/1.1 200 OK')
+                    );
                 } else {
                     $error_str = 'Incorrect Password';
+                    $error_header = 'HTTP/1.1 500 Internal Server Error';
                 }
             } else {
                 $error_str = 'User DNE';
+                $error_header = 'HTTP/1.1 500 Internal Server Error';
             }
 
         } catch (Error $e) {

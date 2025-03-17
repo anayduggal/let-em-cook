@@ -55,6 +55,9 @@ const extractSignupData = (data: FormData): SignupData => {
 };
 
 const loginRequest = async (request_data: FormData): Promise<any> => {  
+  // print response
+  console.log(JSON.stringify(extractLoginData(request_data)));
+
   // Send POST request to server
   const response = await fetch("http://localhost:8000/index.php/login", {
       mode: "no-cors",
@@ -66,8 +69,16 @@ const loginRequest = async (request_data: FormData): Promise<any> => {
     }
   );
 
-  // Check response is OK
-  if (!response.ok) throw new Error("Failed to fetch");
+  // Log all headers
+  console.log("Response Headers:");
+  response.headers.forEach((value, name) => {
+    console.log(`${name}: ${value}`);
+  });
+
+  // Log status
+  console.log(`Status: ${response.status}`)
+
+  if (!response.ok) throw new Error(`Response failed`);
 
   return response.json();
 };
@@ -87,7 +98,7 @@ const signupRequest = async (request_data: FormData): Promise<any> => {
   // Check response is OK
   if (!response.ok) throw new Error("Failed to fetch");
 
-  return response.json();
+  return response;
 };
 
 const LoginForm: React.FC<LoginFormProps> = ({ type }) => {

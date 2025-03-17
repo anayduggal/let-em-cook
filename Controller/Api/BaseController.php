@@ -61,6 +61,8 @@ class BaseController
 
         }
 
+        error_log("Sending output: ".$httpHeader.$data);
+
         echo $data;
 
         exit;
