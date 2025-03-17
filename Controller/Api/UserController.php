@@ -29,13 +29,17 @@ class UserController extends BaseController
                     $_SESSION['userlname'] = $user['last_name'];
                     $_SESSION['useremail'] = $user['email'];
 
-                    echo "login success\n";
-                    exit();
+                    $this->sendOutput(json_encode(array('status' => 'ok')), 
+                        array('Content-Type: application/json', 'HTTP/1.1 200 OK')
+                    );
+
                 } else {
                     $error_str = 'Incorrect Password';
+                    $error_header = 'HTTP/1.1 400 Bad Request';
                 }
             } else {
                 $error_str = 'User DNE';
+                $error_header = 'HTTP/1.1 400 Bad Request';
             }
 
         } catch (Error $e) {
@@ -74,6 +78,10 @@ class UserController extends BaseController
             $pw_hash = password_hash($password, PASSWORD_DEFAULT);
 
             $user_model->addUser($email, $userfname, $userlname, $pw_hash);
+
+            $this->sendOutput(json_encode(array('status' => 'ok')), 
+                array('Content-Type: application/json', 'HTTP/1.1 200 OK')
+            );
 
         } catch (Error $e) {
 
