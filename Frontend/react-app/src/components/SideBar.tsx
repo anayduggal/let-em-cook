@@ -19,16 +19,11 @@ const SideBar: React.FC<SidebarProps> = ({ setRecipes }) => {
     };
 
     try {
-      const response = await fetch(
-        "https://dbhost.cs.man.ac.uk/YOUR_FOLDER/index.php",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(requestData),
-        }
-      );
+      const response = await fetch("http://localhost:3000/index.php/recipe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(requestData),
+      });
 
       const data = await response.json();
       setRecipes(data);
