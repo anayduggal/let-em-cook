@@ -6,6 +6,11 @@ require __DIR__ . "/inc/bootstrap.php";
 
 session_start();
 
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type");
+header("Content-Type: application/json");
+
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $uri = explode('/', trim($uri, '/'));
 
@@ -66,7 +71,9 @@ if (strtoupper($req_method) == 'POST') {
                             // login user
                             // send request to server with email and password
 
-                            $user_controller->login($request_data["email"], $request_data["password"]);
+                            $return_data_json = $user_controller->login($request_data["email"], $request_data["password"]);
+                            echo $return_data_json;
+
                             break;
 
                         case "checklogin":
@@ -96,7 +103,7 @@ if (strtoupper($req_method) == 'POST') {
                             // create user
                             // send request to server with email, first name, last name, and password
 
-                            $user_controller->createUser($request_data["email"], $request_data["userfname"], $request_data["userlname"] , $request_data["password"]);
+                            $user_controller->createUser($request_data["email"], $request_data["first_name"], $request_data["last_name"] , $request_data["password"]);
                             break;
                     }
                 }

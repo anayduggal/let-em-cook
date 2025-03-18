@@ -45,9 +45,7 @@ class BaseController
 
     }
 
-    protected function sendOutput($data, $httpHeaders=array())
-
-    {
+    protected function setHeaders($httpHeaders) {
 
         header_remove('Set-Cookie');
 
@@ -60,6 +58,14 @@ class BaseController
             }
 
         }
+
+    }
+
+    protected function sendOutput($data, $httpHeaders=array())
+
+    {
+
+        $this->setHeaders($httpHeaders);
 
         echo $data;
 
