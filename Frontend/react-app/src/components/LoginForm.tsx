@@ -64,6 +64,7 @@ const sendLoginRequest = async (form_data: FormData): Promise<LoginResult> => {
   // Send POST request to server
   const response = await fetch("http://localhost:8000/index.php/login", {
       method: "POST",
+      credentials: "include",
       headers: {
           "Content-Type": "application/json"
       },
@@ -85,6 +86,7 @@ const sendSignupRequest = async (form_data: FormData): Promise<SignupResult> => 
   // Send POST request to server
   const response = await fetch("http://localhost:8000/index.php/signup", {
       method: "POST",
+      credentials: "include",
       headers: {
           "Content-Type": "application/json"
       },

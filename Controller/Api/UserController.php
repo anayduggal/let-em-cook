@@ -49,6 +49,9 @@ class UserController extends BaseController
             // clear existing session if there is one
             session_unset();
 
+            $session_id = session_id();
+            error_log("session id after login: $session_id");
+
             // store info in session
             $_SESSION['user_id'] = $user['user_id'];
             $_SESSION['userfname'] = $user['first_name'];
@@ -61,12 +64,7 @@ class UserController extends BaseController
 
         } catch (Error $e) {
 
-            $error_str = $e->getMessage().' Something went wrong';
-
-            $this->sendOutput(
-                json_encode(array('error' => $error_str)), 
-                array('Content-Type: application/json', 'HTTP/1.1 500 Internal Server Error')
-            );
+            $this->sendErrorOutput($e);
 
         }
 
@@ -108,12 +106,38 @@ class UserController extends BaseController
                 return;
             }
 
-            $error_str = $e->getMessage().' Something went wrong';
+            $this->sendErrorOutput($e);
 
-            $this->sendOutput(json_encode(
-                array('error' => $error_str)), 
-                array('Content-Type: application/json', 'HTTP/1.1 500 Internal Server Error')
-            );
+        }
+
+    }
+
+    public function getProfileInfo()
+    {
+        
+        $session_id = session_id();
+        error_log("session id getting profile: $session_id");
+
+        try {
+
+            $user_model = new UserModel();
+
+            if (isset($_SESSION['user_id'])) {
+
+                // Get user info with logged in user's id
+                $response_json = $user_model->getUserFromUserID($_SESSION['user_id']);
+
+                $this->sendOutput($response_json);
+
+            } else {
+
+                throw new Error("User not logged in");
+
+            }
+
+        } catch (Error $e) {
+
+            $this->sendErrorOutput($e);
 
         }
 

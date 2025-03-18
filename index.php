@@ -1,15 +1,13 @@
 <?php
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type");
-require __DIR__ . "/inc/bootstrap.php";
-
-session_start();
-
-header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Origin: http://localhost:5173");  // Change to frontend URL
+header("Access-Control-Allow-Credentials: true");
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 header("Content-Type: application/json");
+
+require __DIR__ . "/inc/bootstrap.php";
+
+session_start();
 
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $uri = explode('/', trim($uri, '/'));
@@ -107,6 +105,26 @@ if (strtoupper($req_method) == 'POST') {
                             break;
                     }
                 }
+                break;
+            
+            case "profile":
+
+                require PROJECT_ROOT_PATH . "/Controller/Api/UserController.php";
+
+                $user_controller = new UserController();
+
+                if (isset($request_data["action_type"])) {
+
+                    switch ($request_data["action_type"]) {
+
+                        case "getprofileinfo":
+
+                            $user_controller->getProfileInfo();
+                            break;
+
+                    };
+
+                };
                 break;
 
             case "dashboard":
