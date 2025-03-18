@@ -1,11 +1,7 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import "./LoginForm.css";
 import { Link } from "react-router-dom";
-<<<<<<< HEAD
-import { useQuery } from "@tanstack/react-query";
-=======
 import imageSrc from "../assets/image.png";
->>>>>>> origin/main
 
 interface LoginFormProps {
   type: "login" | "signup";
@@ -34,7 +30,13 @@ type SignupData = {
   password: string,
   first_name: string,
   last_name: string
-}
+};
+
+// The result recieved after a login request
+type LoginResult = "user does not exist" | "password incorrect" | "success";
+
+// The result recieved after a signup request
+type SignupResult = "";
 
 const extractLoginData = (data: FormData): LoginData => {
   // Convert FormData to LoginData
@@ -58,43 +60,33 @@ const extractSignupData = (data: FormData): SignupData => {
   };
 };
 
-const loginRequest = async (request_data: FormData): Promise<any> => {  
-  // print response
-  console.log(JSON.stringify(extractLoginData(request_data)));
-
+const sendLoginRequest = async (form_data: FormData): Promise<LoginResult> => {  
   // Send POST request to server
   const response = await fetch("http://localhost:8000/index.php/login", {
       method: "POST",
       headers: {
           "Content-Type": "application/json"
       },
-      body: JSON.stringify(extractLoginData(request_data))  // Extract login data from form
+      body: JSON.stringify(extractLoginData(form_data))  // Extract login data from form
     }
   );
 
-  // Log all headers
-  console.log("Response Headers:");
-  response.headers.forEach((value, name) => {
-    console.log(`${name}: ${value}`);
-  });
-
-  // Log status
-  console.log(`Status: ${response.status}`)
-
+  // Check for bad response status
   if (!response.ok) throw new Error(`Response failed`);
 
-  return response.json();
+  let response_json = await response.json();
+
+  return response_json["result"];
 };
 
-const signupRequest = async (request_data: FormData): Promise<any> => {
+const sendSignupRequest = async (form_data: FormData): Promise<any> => {
   // Send POST request to server
   const response = await fetch("http://localhost:8000/index.php/signup", {
-      mode: "no-cors",
       method: "POST",
       headers: {
           "Content-Type": "application/json"
       },
-      body: JSON.stringify(extractSignupData(request_data))  // Extract signup data from form
+      body: JSON.stringify(extractSignupData(form_data))  // Extract signup data from form
     }
   );
 
@@ -128,18 +120,26 @@ const LoginForm: React.FC<LoginFormProps> = ({ type }) => {
     if (type == "login") {
       // Send login request to server
 
-      let request_data = await loginRequest(formData);
+      let result = await sendLoginRequest(formData);
 
-      if (request_data["error"]) {
-        console.log(`Could not log in: ${request_data["error"]}`)
-      } else {
-        console.log("Successfully logged in")
+      switch (result) {
+        case "success":
+          console.log("Successfully logged in");
+          break;
+        
+        case "password incorrect":
+          console.log("Password incorrect")
+          break;
+        
+        case "user does not exist":
+          console.log("Email not associated with user")
+          break;
       }
 
     } else if (type == "signup") {
       // Send signup request to server
 
-      let request_data = await signupRequest(formData);
+      let request_data = await sendSignupRequest(formData);
 
       if (request_data["error"]) {
         console.log(`Could not create user: ${request_data["error"]}`)
@@ -156,7 +156,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ type }) => {
 
     }
 
-    console.log(`${type} form submitted:`, formData);
+    // console.log(`${type} form successfully submitted:`, formData);
   };
 
   return (
