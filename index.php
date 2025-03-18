@@ -1,4 +1,7 @@
 <?php
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type");
 require __DIR__ . "/inc/bootstrap.php";
 
 session_start();
@@ -71,6 +74,15 @@ if (strtoupper($req_method) == 'POST') {
                             $user_controller->login($request_data["email"], $request_data["password"]);
 
                             break;
+
+                        case "checklogin":
+
+                            // check if user is logged ini
+                            // send request to server and server returns true if user is logged in, false otherwise
+
+                            $return_data_json = $user_controller->checkLogin();
+                            echo $return_data_json;
+                            break;
                     }
                 }
                 break;
@@ -88,18 +100,23 @@ if (strtoupper($req_method) == 'POST') {
                         case "signup":
 
                             // create user
-                            // send request to sql server with email, password, first name and last name
+                            // send request to server with email, first name, last name, and password
 
-                            error_log("Signup request: ".$request_data["email"].$request_data["password"].$request_data["first_name"].$request_data["last_name"]);
-
-                            $user_controller->createUser($request_data["email"], $request_data["password"], $request_data["first_name"], $request_data["last_name"]);
-
+                            $user_controller->createUser($request_data["email"], $request_data["userfname"], $request_data["userlname"] , $request_data["password"]);
                             break;
                     }
                 }
                 break;
 
             case "dashboard":
+
+                // Check if user is logged in
+                
+                if (!isset($_SESSION['user_id'])) {
+                    header('Content-Type: application/json');
+                    echo json_encode(array('error' => 'User not logged in'));
+                    exit();
+                }
 
                 require PROJECT_ROOT_PATH . "/Controller/Api/DashboardController.php";
 
@@ -118,12 +135,28 @@ if (strtoupper($req_method) == 'POST') {
                             echo $return_data_json;
                             break;
 
-                        case "adduseringredient":
-
-                            // add user ingredient
+                        case "addpantryingredient":
+                            
+                            // add to pantry
                             // send request to server with ingredient name, quantity, and use by date
 
-                            $dashboard_controller->addIngredient($request_data["ingredient_string"], $request_data["quantity_string"], $request_data["useby_string"]);
+                            $dashboard_controller->addPantryIngredient($request_data["ingredient_string"], $request_data["quantity_string"], $request_data["useby_string"]);
+                            break;
+
+                        case "addshoppinglistingredient":
+                            
+                            // add to shopping list
+                            // send request to server with ingredient name
+
+                            $dashboard_controller->addShoppingListIngredient($request_data["ingredient_string"]);
+                            break;
+
+                        case "moveingredienttopantry":
+
+                            // move to pantry
+                            // send request to server with ingredient name, quantity, and use by date
+
+                            $dashboard_controller->moveIngredientShoppingListPantry($request_data["ingredient_string"], $request_data["quantity_string"], $request_data["useby_string"]);
                             break;
 
                         case "getpantry":
@@ -132,6 +165,15 @@ if (strtoupper($req_method) == 'POST') {
                             // send request to server and server returns an array of all the ingredients the user has added to their pantry
 
                             $return_data_json = $dashboard_controller->getPantry();
+                            echo $return_data_json;
+                            break;
+
+                        case "getshoppinglist":
+                            
+                            // get shopping list
+                            // send request to server and server returns an array of all the ingredients the user has added to their shopping list
+
+                            $return_data_json = $dashboard_controller->getShoppingList();
                             echo $return_data_json;
                             break;
                     }

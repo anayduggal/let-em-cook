@@ -52,6 +52,22 @@ class Database
 
     }
 
+    public function update($query = "", $params = [])
+
+    {
+
+        try {
+
+            $this->executeStatement($query, $params);
+
+        } catch (Exception $e) {
+
+            throw new Exception($e->getMessage());
+
+        }
+
+    }
+
     public function insertInto($query = "", $params = [])
 
     {

@@ -4,9 +4,12 @@
   align-items: center;
   justify-content: space-between;
   padding: 10px 20px;
-  min-width: 900px;
+  width: 100%; /* Use full width of the container */
+  max-width: 1200px; /* Set max-width for larger screens */
   height: 60px;
   background-color: #f8ea84;
+  box-sizing: border-box; /* Include padding in the total width/height calculation */
+  margin: 0 auto; /* Center the container */
 }
 
 .mealplan-main {
@@ -19,6 +22,7 @@
   justify-content: space-between;
   flex: 1;
   margin-right: 20px;
+  padding: 0 15px; /* Add some padding for inner space */
 }
 
 .meal-section {
@@ -35,6 +39,7 @@
   background-color: #d9d9d9;
   border: 1px solid #000000;
   cursor: pointer;
+  border-radius: 3px; /* Slightly round the corners */
 }
 
 .checkbox.checked {
@@ -42,8 +47,8 @@
 }
 
 .meal-section span {
-  font-family: "Montserrat";
-  font-size: 20px;
+  font-family: "Montserrat", sans-serif; /* Fallback font */
+  font-size: 16px; /* Adjust the font size for better legibility */
   font-weight: 400;
   color: #000000;
 }
@@ -61,16 +66,39 @@
   border-radius: 20px;
   border: none;
   color: #ffffff;
-  font-family: "Montserrat";
-  font-size: 20px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px; /* Slightly smaller font size for better balance */
   font-weight: 600;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: background-color 0.2s;
+  padding: 0 20px; /* Adjust padding for better button size */
 }
 
 .plan-button:hover {
   background-color: #d41717;
+}
+
+@media (max-width: 768px) {
+  .mealplan-container {
+    flex-direction: column; /* Stack elements vertically on smaller screens */
+    align-items: flex-start;
+  }
+
+  .mealplan-main {
+    margin-right: 0;
+    margin-bottom: 20px;
+    padding: 0 10px;
+  }
+
+  .plan-button {
+    width: 100%; /* Full width on smaller screens */
+    margin-top: 10px; /* Add space between button and other elements */
+  }
+
+  .meal-section span {
+    font-size: 14px; /* Smaller font size on mobile */
+  }
 }
