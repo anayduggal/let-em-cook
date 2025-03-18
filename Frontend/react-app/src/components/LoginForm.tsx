@@ -33,10 +33,10 @@ type SignupData = {
 };
 
 // The result recieved after a login request
-type LoginResult = "user does not exist" | "password incorrect" | "success";
+type LoginResult = "success" | "user does not exist" | "password incorrect";
 
 // The result recieved after a signup request
-type SignupResult = "";
+type SignupResult = "success" | "duplicate email";
 
 const extractLoginData = (data: FormData): LoginData => {
   // Convert FormData to LoginData
@@ -79,7 +79,9 @@ const sendLoginRequest = async (form_data: FormData): Promise<LoginResult> => {
   return response_json["result"];
 };
 
-const sendSignupRequest = async (form_data: FormData): Promise<any> => {
+const sendSignupRequest = async (form_data: FormData): Promise<SignupResult> => {
+  console.log(`Sending POST request: ${JSON.stringify(extractSignupData(form_data))}`);
+
   // Send POST request to server
   const response = await fetch("http://localhost:8000/index.php/signup", {
       method: "POST",
@@ -90,10 +92,12 @@ const sendSignupRequest = async (form_data: FormData): Promise<any> => {
     }
   );
 
-  // Check response is OK
-  if (!response.ok) throw new Error("Failed to fetch");
+  // Check for bad response status
+  if (!response.ok) throw new Error(`Response failed`);
 
-  return response;
+  let response_json = await response.json();
+
+  return response_json["result"];
 };
 
 const LoginForm: React.FC<LoginFormProps> = ({ type }) => {
@@ -119,44 +123,43 @@ const LoginForm: React.FC<LoginFormProps> = ({ type }) => {
 
     if (type == "login") {
       // Send login request to server
-
       let result = await sendLoginRequest(formData);
 
+      // TODO: Handle result
       switch (result) {
         case "success":
           console.log("Successfully logged in");
           break;
         
         case "password incorrect":
-          console.log("Password incorrect")
+          console.log("Password incorrect");
           break;
         
         case "user does not exist":
-          console.log("Email not associated with user")
+          console.log("Email not associated with user");
           break;
       }
 
     } else if (type == "signup") {
+      // Check passwords match
+      if (formData.psw != formData.psw2) {
+        // TODO: tell user to make passwords match
+      };
+
       // Send signup request to server
+      let result = await sendSignupRequest(formData);
 
-      let request_data = await sendSignupRequest(formData);
-
-      if (request_data["error"]) {
-        console.log(`Could not create user: ${request_data["error"]}`)
-      } else {
-        console.log("Successfully created user")
+      // TODO: Handle result
+      switch (result) {
+        case "success":
+          console.log("Successfully signed up");
+          break;
+        case "duplicate email":
+          console.log("User with that email already exists");
       }
-
-    } else {
-      // Invalid form type
-
-      console.log(`Could not submit form, bad LoginForm type: ${type}`);
-
-      let request_data = null;
 
     }
 
-    // console.log(`${type} form successfully submitted:`, formData);
   };
 
   return (

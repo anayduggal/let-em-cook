@@ -7,8 +7,8 @@ class UserController extends BaseController
 {
 
     public function login($email, $password) 
-
     {
+
         try {
 
             // Query database
@@ -69,6 +69,7 @@ class UserController extends BaseController
             );
 
         }
+
     }
 
     public function checkLogin() 
@@ -79,33 +80,41 @@ class UserController extends BaseController
         } else {
             return json_encode(array('loggedIn' => false));
         }
+
     }
 
-    public function createUser($email, $userfname, $userlname, $password) 
+    public function createUser($email, $first_name, $last_name, $password) 
     {
-
-        $error_str = '';
 
         try {
 
             $user_model = new UserModel();
             $pw_hash = password_hash($password, PASSWORD_DEFAULT);
 
-            $user_model->addUser($email, $userfname, $userlname, $pw_hash);
+            $user_model->addUser($email, $pw_hash, $first_name, $last_name);
 
-        } catch (Error $e) {
-
-            $error_str = $e->getMessage().' Something went wrong';
-            $error_header = 'HTTP/1.1 500 Internal Server Error';
-
-        }
-
-        if ($error_str) {
-            $this->sendOutput(json_encode(array('error' => $error_str)), 
-                array('Content-Type: application/json', $error_header)
+            $this->sendOutput(
+                json_encode(array('result' => 'success'))
             );
 
-            error_log("Error when creating user: ".$error_str);
+        } catch (Throwable $e) {
+            // Duplicate entry
+            // should really do this with mysqli_errno()
+            if (str_contains($e->getMessage(), "Duplicate entry")) {
+                $this->sendOutput(
+                    json_encode(array('result' => 'duplicate email'))
+                );
+
+                return;
+            }
+
+            $error_str = $e->getMessage().' Something went wrong';
+
+            $this->sendOutput(json_encode(
+                array('error' => $error_str)), 
+                array('Content-Type: application/json', 'HTTP/1.1 500 Internal Server Error')
+            );
+
         }
 
     }

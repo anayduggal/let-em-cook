@@ -103,7 +103,7 @@ if (strtoupper($req_method) == 'POST') {
                             // create user
                             // send request to server with email, first name, last name, and password
 
-                            $user_controller->createUser($request_data["email"], $request_data["userfname"], $request_data["userlname"] , $request_data["password"]);
+                            $user_controller->createUser($request_data["email"], $request_data["first_name"], $request_data["last_name"] , $request_data["password"]);
                             break;
                     }
                 }
