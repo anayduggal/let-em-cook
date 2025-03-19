@@ -114,9 +114,6 @@ class UserController extends BaseController
 
     public function getProfileInfo()
     {
-        
-        $session_id = session_id();
-        error_log("session id getting profile: $session_id");
 
         try {
 
@@ -125,9 +122,9 @@ class UserController extends BaseController
             if (isset($_SESSION['user_id'])) {
 
                 // Get user info with logged in user's id
-                $response_json = $user_model->getUserFromUserID($_SESSION['user_id']);
+                $response = $user_model->getUserFromUserID($_SESSION['user_id']);
 
-                $this->sendOutput($response_json);
+                $this->sendOutput(json_encode($response));
 
             } else {
 

@@ -10,9 +10,19 @@ class UserModel extends Database
     
     {
 
-        return $this->select(
-            "SELECT * FROM users WHERE user_id = ?", ["i", $user_id]
-        );
+        try {
+
+            $users = $this->select(
+                "SELECT * FROM users WHERE user_id = ?", ["i", $user_id]
+            );
+
+            return $users[0];
+
+        } catch (Throwable $e) {
+
+            throw new Error("User does not exist");
+
+        }
 
     }
 
