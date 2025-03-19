@@ -62,22 +62,11 @@ class UserController extends BaseController
                 json_encode(array('result' => 'success'))
             );
 
-        } catch (Error $e) {
+        } catch (Exception $e) {
 
             $this->sendErrorOutput($e);
 
-        }
-
-    }
-
-    public function checkLogin() 
-    {
-        
-        if (isset($_SESSION['user_id'])) {
-            return json_encode(array('loggedIn' => true));
-        } else {
-            return json_encode(array('loggedIn' => false));
-        }
+        };
 
     }
 
@@ -95,7 +84,7 @@ class UserController extends BaseController
                 json_encode(array('result' => 'success'))
             );
 
-        } catch (Throwable $e) {
+        } catch (Exception $e) {
             // Duplicate entry
             // should really do this with mysqli_errno()
             if (str_contains($e->getMessage(), "Duplicate entry")) {
@@ -108,7 +97,7 @@ class UserController extends BaseController
 
             $this->sendErrorOutput($e);
 
-        }
+        };
 
     }
 
@@ -117,26 +106,101 @@ class UserController extends BaseController
 
         try {
 
-            $user_model = new UserModel();
+            if (!isset($_SESSION['user_id'])) {
 
-            if (isset($_SESSION['user_id'])) {
-
-                // Get user info with logged in user's id
-                $response = $user_model->getUserFromUserID($_SESSION['user_id']);
-
-                $this->sendOutput(json_encode($response));
-
-            } else {
-
-                throw new Error("User not logged in");
-
+                throw new Exception("User not logged in");
+            
             }
 
-        } catch (Error $e) {
+            $user_model = new UserModel();
+
+            // Get user info with logged in user's id
+            $response = $user_model->getUserFromUserID($_SESSION['user_id']);
+
+            $this->sendOutput(json_encode($response));
+
+        } catch (Exception $e) {
 
             $this->sendErrorOutput($e);
 
-        }
+        };
+
+    }
+
+    public function checkLogin() 
+    {
+        
+        if (isset($_SESSION['user_id'])) {
+            return json_encode(array('loggedIn' => true));
+        } else {
+            return json_encode(array('loggedIn' => false));
+        };
+
+    }
+
+    public function addDietaryPreferences($preferences) {
+
+        try {
+
+            if (!isset($_SESSION['user_id'])) {
+
+                throw new Exception("User not logged in");
+            
+            };
+
+            $user_model = new UserModel();
+
+            foreach ($preferences as $preference_name) {
+
+                $preference_id = $user_model->getPreferenceIDFromName($preference_name);
+
+                // Add preference to link table
+                $user_model->addPreference($_SESSION['user_id'], $preference_id);
+
+            };
+
+            $this->sendOutput(
+                json_encode(array('result' => 'success'))
+            );
+
+        } catch (Exception $e) {
+
+            $this->sendErrorOutput($e);
+
+        };
+
+    }
+
+    public function deleteDietaryPreferences($preferences) {
+
+        try {
+
+            if (!isset($_SESSION['user_id'])) {
+
+                throw new Exception("User not logged in");
+            
+            }
+
+            $user_model = new UserModel();
+
+            foreach ($preferences as $preference_name) {
+
+                $preference_id = $user_model->getPreferenceIDFromName($preference_name);
+
+                // Remove preference to link table
+                $user_model->deletePreference($_SESSION['user_id'], $preference_id);
+
+            };
+
+            $this->sendOutput(
+                json_encode(array('result' => 'success'))
+            );
+
+        } catch (Exception $e) {
+
+            $this->sendErrorOutput($e);
+
+        };
 
     }
 
