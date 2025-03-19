@@ -150,5 +150,53 @@ class RecipeController extends BaseController
         }
 
     }
+    public function searchRecipesWithoutAccount($allergens, $budget)
+    {
+        $error_str = '';
+        try {
+            $recipeModel = new RecipeModel();
+            $recipes = $recipeModel->getRecipesByAllergensAndBudget($allergens, $budget);
+        } catch (Error $e) {
+            $error_str = $e->getMessage() . ' Something went wrong';
+            $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
+        }
+        if (!$error_str) {
+            return json_encode($recipes);
+        } else {
+            $this->sendOutput(json_encode(array('error' => $error_str)),
+                array('Content-Type: application/json', $strErrorHeader)
+            );
+        }
+    }
+
+    public function searchRecipesWithAccount($userId, $budget, $allergens, $ingredients)
+    {
+        $error_str = '';
+        try {
+            $recipeModel = new RecipeModel();
+            
+            // Fetch previously suggested recipes to avoid repetition
+            $seenRecipeIds = $recipeModel->getUserSeenRecipes($userId);
+            
+            // Fetch new recipes based on criteria
+            $recipes = $recipeModel->getNewRecipesByCriteria($budget, $allergens, $ingredients, $seenRecipeIds);
+            
+            // Select up to 4 recipes
+            $recipes = array_slice($recipes, 0, 4);
+            
+            // Update user's seen recipes
+            $recipeModel->updateUserSeenRecipes($userId, array_column($recipes, 'recipe_id'));
+        } catch (Error $e) {
+            $error_str = $e->getMessage() . ' Something went wrong';
+            $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
+        }
+        if (!$error_str) {
+            return json_encode($recipes);
+        } else {
+            $this->sendOutput(json_encode(array('error' => $error_str)),
+                array('Content-Type: application/json', $strErrorHeader)
+            );
+        }
+    }
 
 }
