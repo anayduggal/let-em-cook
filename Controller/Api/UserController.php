@@ -70,6 +70,17 @@ class UserController extends BaseController
 
     }
 
+    public function checkLogin() 
+    {
+        
+        if (isset($_SESSION['user_id'])) {
+            return json_encode(array('loggedIn' => true));
+        } else {
+            return json_encode(array('loggedIn' => false));
+        };
+
+    }
+
     public function createUser($email, $first_name, $last_name, $password) 
     {
 
@@ -121,6 +132,10 @@ class UserController extends BaseController
             $dietary_preferences = $user_model->getPreferencesFromUserID($_SESSION['user_id']);
             $response["preferences"] = $dietary_preferences;
 
+            // Get user allergens
+            $allergens = $user_model->getAllergensFromUserID($_SESSION['user_id']);
+            $response["allergens"] = $allergens;
+
             $this->sendOutput(json_encode($response));
 
         } catch (Exception $e) {
@@ -131,16 +146,7 @@ class UserController extends BaseController
 
     }
 
-    public function checkLogin() 
-    {
-        
-        if (isset($_SESSION['user_id'])) {
-            return json_encode(array('loggedIn' => true));
-        } else {
-            return json_encode(array('loggedIn' => false));
-        };
-
-    }
+    #region Dietary Preferences
 
     public function addDietaryPreferences($preferences) {
 
@@ -207,5 +213,77 @@ class UserController extends BaseController
         };
 
     }
+
+    #endregion
+
+    #region Allergens
+
+    public function addAllergens($allergens) {
+
+        try {
+
+            if (!isset($_SESSION['user_id'])) {
+
+                throw new Exception("User not logged in");
+            
+            };
+
+            $user_model = new UserModel();
+
+            foreach ($allergens as $allergen_name) {
+
+                $allergen_id = $user_model->getAllergenIDFromName($allergen_name);
+
+                // Add preference to link table
+                $user_model->addAllergen($_SESSION['user_id'], $allergen_id);
+
+            };
+
+            $this->sendOutput(
+                json_encode(array('result' => 'success'))
+            );
+
+        } catch (Exception $e) {
+
+            $this->sendErrorOutput($e);
+
+        };
+
+    }
+
+    public function deleteAllergens($allergens) {
+
+        try {
+
+            if (!isset($_SESSION['user_id'])) {
+
+                throw new Exception("User not logged in");
+            
+            }
+
+            $user_model = new UserModel();
+
+            foreach ($allergens as $allergen_name) {
+
+                $allergen_id = $user_model->getAllergenIDFromName($allergen_name);
+
+                // Remove preference to link table
+                $user_model->deleteAllergen($_SESSION['user_id'], $allergen_id);
+
+            };
+
+            $this->sendOutput(
+                json_encode(array('result' => 'success'))
+            );
+
+        } catch (Exception $e) {
+
+            $this->sendErrorOutput($e);
+
+        };
+
+    }
+
+    #endregion
 
 }

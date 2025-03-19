@@ -150,6 +150,20 @@ if (strtoupper($req_method) == 'POST') {
 
                             $user_controller->deleteDietaryPreferences($request_data["preferences"]);
                             break;
+                        
+                        case "addallergens":
+
+                            // TODO: Adds a list of allergens to the logged in user's account
+
+                            $user_controller->addAllergens($request_data["allergens"]);
+                            break;
+                        
+                        case "deleteallergens":
+
+                            // TODO: Deletes a list of allergens from the logged in user's account
+
+                            $user_controller->deleteAllergens($request_data["allergens"]);
+                            break;
 
                     };
 
