@@ -49,6 +49,9 @@ class UserController extends BaseController
             // clear existing session if there is one
             session_unset();
 
+            $session_id = session_id();
+            error_log("session id after login: $session_id");
+
             // store info in session
             $_SESSION['user_id'] = $user['user_id'];
             $_SESSION['userfname'] = $user['first_name'];
@@ -59,16 +62,11 @@ class UserController extends BaseController
                 json_encode(array('result' => 'success'))
             );
 
-        } catch (Error $e) {
+        } catch (Exception $e) {
 
-            $error_str = $e->getMessage().' Something went wrong';
+            $this->sendErrorOutput($e);
 
-            $this->sendOutput(
-                json_encode(array('error' => $error_str)), 
-                array('Content-Type: application/json', 'HTTP/1.1 500 Internal Server Error')
-            );
-
-        }
+        };
 
     }
 
@@ -79,7 +77,7 @@ class UserController extends BaseController
             return json_encode(array('loggedIn' => true));
         } else {
             return json_encode(array('loggedIn' => false));
-        }
+        };
 
     }
 
@@ -97,7 +95,7 @@ class UserController extends BaseController
                 json_encode(array('result' => 'success'))
             );
 
-        } catch (Throwable $e) {
+        } catch (Exception $e) {
             // Duplicate entry
             // should really do this with mysqli_errno()
             if (str_contains($e->getMessage(), "Duplicate entry")) {
@@ -108,15 +106,184 @@ class UserController extends BaseController
                 return;
             }
 
-            $error_str = $e->getMessage().' Something went wrong';
+            $this->sendErrorOutput($e);
 
-            $this->sendOutput(json_encode(
-                array('error' => $error_str)), 
-                array('Content-Type: application/json', 'HTTP/1.1 500 Internal Server Error')
-            );
-
-        }
+        };
 
     }
+
+    public function getProfileInfo()
+    {
+
+        try {
+
+            if (!isset($_SESSION['user_id'])) {
+
+                throw new Exception("User not logged in");
+            
+            }
+
+            $user_model = new UserModel();
+
+            // Get user info with logged in user's id
+            $response = $user_model->getUserFromUserID($_SESSION['user_id']);
+
+            // Get user dietary preferences
+            $dietary_preferences = $user_model->getPreferencesFromUserID($_SESSION['user_id']);
+            $response["preferences"] = $dietary_preferences;
+
+            // Get user allergens
+            $allergens = $user_model->getAllergensFromUserID($_SESSION['user_id']);
+            $response["allergens"] = $allergens;
+
+            $this->sendOutput(json_encode($response));
+
+        } catch (Exception $e) {
+
+            $this->sendErrorOutput($e);
+
+        };
+
+    }
+
+    #region Dietary Preferences
+
+    public function addDietaryPreferences($preferences) {
+
+        try {
+
+            if (!isset($_SESSION['user_id'])) {
+
+                throw new Exception("User not logged in");
+            
+            };
+
+            $user_model = new UserModel();
+
+            foreach ($preferences as $preference_name) {
+
+                $preference_id = $user_model->getPreferenceIDFromName($preference_name);
+
+                // Add preference to link table
+                $user_model->addPreference($_SESSION['user_id'], $preference_id);
+
+            };
+
+            $this->sendOutput(
+                json_encode(array('result' => 'success'))
+            );
+
+        } catch (Exception $e) {
+
+            $this->sendErrorOutput($e);
+
+        };
+
+    }
+
+    public function deleteDietaryPreferences($preferences) {
+
+        try {
+
+            if (!isset($_SESSION['user_id'])) {
+
+                throw new Exception("User not logged in");
+            
+            }
+
+            $user_model = new UserModel();
+
+            foreach ($preferences as $preference_name) {
+
+                $preference_id = $user_model->getPreferenceIDFromName($preference_name);
+
+                // Remove preference to link table
+                $user_model->deletePreference($_SESSION['user_id'], $preference_id);
+
+            };
+
+            $this->sendOutput(
+                json_encode(array('result' => 'success'))
+            );
+
+        } catch (Exception $e) {
+
+            $this->sendErrorOutput($e);
+
+        };
+
+    }
+
+    #endregion
+
+    #region Allergens
+
+    public function addAllergens($allergens) {
+
+        try {
+
+            if (!isset($_SESSION['user_id'])) {
+
+                throw new Exception("User not logged in");
+            
+            };
+
+            $user_model = new UserModel();
+
+            foreach ($allergens as $allergen_name) {
+
+                $allergen_id = $user_model->getAllergenIDFromName($allergen_name);
+
+                // Add preference to link table
+                $user_model->addAllergen($_SESSION['user_id'], $allergen_id);
+
+            };
+
+            $this->sendOutput(
+                json_encode(array('result' => 'success'))
+            );
+
+        } catch (Exception $e) {
+
+            $this->sendErrorOutput($e);
+
+        };
+
+    }
+
+    public function deleteAllergens($allergens) {
+
+        try {
+
+            if (!isset($_SESSION['user_id'])) {
+
+                throw new Exception("User not logged in");
+            
+            }
+
+            $user_model = new UserModel();
+
+            foreach ($allergens as $allergen_name) {
+
+                $allergen_id = $user_model->getAllergenIDFromName($allergen_name);
+
+                // Remove preference to link table
+                $user_model->deleteAllergen($_SESSION['user_id'], $allergen_id);
+
+            };
+
+            $this->sendOutput(
+                json_encode(array('result' => 'success'))
+            );
+
+        } catch (Exception $e) {
+
+            $this->sendErrorOutput($e);
+
+        };
+
+    }
+
+    #endregion
 
 }

@@ -1,15 +1,13 @@
 <?php
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type");
-require __DIR__ . "/inc/bootstrap.php";
-
-session_start();
-
-header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Origin: http://localhost:5173");  // Change to frontend URL
+header("Access-Control-Allow-Credentials: true");
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 header("Content-Type: application/json");
+
+require __DIR__ . "/inc/bootstrap.php";
+
+session_start();
 
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $uri = explode('/', trim($uri, '/'));
@@ -100,13 +98,76 @@ if (strtoupper($req_method) == 'POST') {
 
                         case "signup":
 
-                            // create user
-                            // send request to server with email, first name, last name, and password
+                            // Create new user
 
-                            $user_controller->createUser($request_data["email"], $request_data["first_name"], $request_data["last_name"] , $request_data["password"]);
+                            $user_controller->createUser(
+                                $request_data["email"],
+                                $request_data["first_name"],
+                                $request_data["last_name"],
+                                $request_data["password"]
+                            );
+
                             break;
                     }
                 }
+                break;
+            
+            case "profile":
+
+                // Check if user is logged in
+                
+                if (!isset($_SESSION['user_id'])) {
+                    header('Content-Type: application/json');
+                    echo json_encode(array('error' => 'User not logged in'));
+                    exit();
+                }
+
+                require PROJECT_ROOT_PATH . "/Controller/Api/UserController.php";
+
+                $user_controller = new UserController();
+
+                if (isset($request_data["action_type"])) {
+
+                    switch ($request_data["action_type"]) {
+
+                        case "getprofileinfo":
+
+                            // Gets all the information associated with the currently logged in user
+
+                            $user_controller->getProfileInfo();
+                            break;
+                        
+                        case "addpreferences":
+
+                            // Adds a list of dietary preferences to the logged in user's account
+                            
+                            $user_controller->addDietaryPreferences($request_data["preferences"]);
+                            break;
+
+                        case "deletepreferences":
+
+                            // Deletes a list of dietary preferences to the logged in user's account
+
+                            $user_controller->deleteDietaryPreferences($request_data["preferences"]);
+                            break;
+                        
+                        case "addallergens":
+
+                            // TODO: Adds a list of allergens to the logged in user's account
+
+                            $user_controller->addAllergens($request_data["allergens"]);
+                            break;
+                        
+                        case "deleteallergens":
+
+                            // TODO: Deletes a list of allergens from the logged in user's account
+
+                            $user_controller->deleteAllergens($request_data["allergens"]);
+                            break;
+
+                    };
+
+                };
                 break;
 
             case "dashboard":

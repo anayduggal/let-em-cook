@@ -73,4 +73,15 @@ class BaseController
 
     }
 
+    protected function sendErrorOutput($error)
+
+    {
+
+        $this->sendOutput(
+            json_encode(array('error' => $error->getMessage())), 
+            array('Content-Type: application/json', 'HTTP/1.1 500 Internal Server Error')
+        );
+
+    }
+
 }
