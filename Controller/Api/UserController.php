@@ -117,6 +117,10 @@ class UserController extends BaseController
             // Get user info with logged in user's id
             $response = $user_model->getUserFromUserID($_SESSION['user_id']);
 
+            // Get user dietary preferences
+            $dietary_preferences = $user_model->getPreferencesFromUserID($_SESSION['user_id']);
+            $response["preferences"] = $dietary_preferences;
+
             $this->sendOutput(json_encode($response));
 
         } catch (Exception $e) {

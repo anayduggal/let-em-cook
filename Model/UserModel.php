@@ -18,9 +18,9 @@ class UserModel extends Database
 
             return $users[0];
 
-        } catch (Throwable $e) {
+        } catch (Exception $e) {
 
-            throw new Error("User does not exist");
+            throw new Exception("User does not exist");
 
         }
 
@@ -56,9 +56,35 @@ class UserModel extends Database
 
             return $preference_ids[0]["preference_id"];
 
-        } catch (Throwable $e) {
+        } catch (Exception $e) {
 
-            throw new Error("Preference does not exist");
+            throw new Exception("Preference does not exist");
+
+        }
+
+    }
+
+    public function getPreferencesFromUserID($user_id) {
+
+        try {
+
+            $preference_names = $this->select(
+                "SELECT preference_name FROM preferences, user_preferences
+                WHERE preferences.preference_id = user_preferences.preference_id
+                AND user_id = ?", ["s", $user_id]
+            );
+
+            // Convert array of directed arrays into a 1D undirected array
+            $preference_names_array = array();
+            foreach ($preference_names as $preference_name) {
+                array_push($preference_names_array, $preference_name["preference_name"]);
+            }
+
+            return $preference_names_array;
+
+        } catch (Exception $e) {
+
+            throw $e;
 
         }
 

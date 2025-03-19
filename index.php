@@ -142,12 +142,14 @@ if (strtoupper($req_method) == 'POST') {
                             // Adds a list of dietary preferences to the logged in user's account
                             
                             $user_controller->addDietaryPreferences($request_data["preferences"]);
+                            break;
 
                         case "deletepreferences":
 
                             // Deletes a list of dietary preferences to the logged in user's account
 
                             $user_controller->deleteDietaryPreferences($request_data["preferences"]);
+                            break;
 
                     };
 
