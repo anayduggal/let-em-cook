@@ -16,12 +16,12 @@ const App: React.FC = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route element={<ProtectedRoute />}>
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/recipes" element={<RecipePage />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/pantry" element={<Pantry />} />
-        </Route>
+        {/* <Route element={<ProtectedRoute />}> */}
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/recipes" element={<RecipePage />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/pantry" element={<Pantry />} />
+        {/* </Route> */}
       </Routes>
     </Router>
   );
