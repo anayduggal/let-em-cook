@@ -218,4 +218,12 @@ class UserModel extends Database
 
     #endregion
 
+    public function changePassword($user_id, $new_pw_hash) {
+
+        $this->update(
+            "UPDATE users SET password_hash = ? WHERE user_id = ?", ["si", $new_pw_hash, $user_id]
+        );
+
+    }
+
 }

@@ -165,6 +165,16 @@ if (strtoupper($req_method) == 'POST') {
                             $user_controller->deleteAllergens($request_data["allergens"]);
                             break;
 
+                        case "changepassword":
+                            
+                            // Changes the password of the logged in user
+
+                            $user_controller->changeUserPassword(
+                                $request_data["old_password"],
+                                $request_data["new_password"]
+                            );
+                            break;
+
                     };
 
                 };
