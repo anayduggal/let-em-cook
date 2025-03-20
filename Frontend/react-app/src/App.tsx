@@ -7,6 +7,7 @@ import Dashboard from "./pages/dashboard";
 import Pantry from "./components/Pantry";
 import RecipePage from "./pages/Recipe";
 import Profile from "./pages/Profile";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const App: React.FC = () => {
   return (
@@ -15,10 +16,12 @@ const App: React.FC = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/recipes" element={<RecipePage />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/pantry" element={<Pantry />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/recipes" element={<RecipePage />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/pantry" element={<Pantry />} />
+        </Route>
       </Routes>
     </Router>
   );
