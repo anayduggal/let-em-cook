@@ -238,6 +238,16 @@ if (strtoupper($req_method) == 'POST') {
                             $return_data_json = $dashboard_controller->getShoppingList();
                             echo $return_data_json;
                             break;
+
+                        case "getcalendarinfo":
+                            
+                            // get calendar info
+                            // send request to server and server returns an array of all the recipes the user has added to their calendar
+                            // array contains cook_date
+
+                            $return_data_json = $dashboard_controller->getCalendarRecipes();
+                            echo $return_data_json;
+                            break;
                     }
                 }
                 break;
