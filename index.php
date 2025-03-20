@@ -202,7 +202,11 @@ if (strtoupper($req_method) == 'POST') {
                             // add to pantry
                             // send request to server with ingredient name, quantity, and use by date
 
-                            $dashboard_controller->addPantryIngredient($request_data["ingredient_string"], $request_data["quantity_string"], $request_data["useby_string"]);
+                            $dashboard_controller->addPantryIngredient(
+                                $request_data["ingredient_string"],
+                                $request_data["quantity_string"],
+                                $request_data["useby_string"]
+                            );
                             break;
 
                         case "addshoppinglistingredient":
@@ -218,7 +222,11 @@ if (strtoupper($req_method) == 'POST') {
                             // move to pantry
                             // send request to server with ingredient name, quantity, and use by date
 
-                            $dashboard_controller->moveIngredientShoppingListPantry($request_data["ingredient_string"], $request_data["quantity_string"], $request_data["useby_string"]);
+                            $dashboard_controller->moveIngredientShoppingListPantry(
+                                $request_data["ingredient_string"],
+                                $request_data["quantity_string"],
+                                $request_data["useby_string"]
+                            );
                             break;
 
                         case "getpantry":
