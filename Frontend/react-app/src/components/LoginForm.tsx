@@ -1,6 +1,7 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import "./LoginForm.css";
 import { Link } from "react-router-dom";
+import imageSrc from "../assets/image.png";
 
 type LoginFormProps = {
   type: "login" | "signup";
@@ -33,10 +34,11 @@ const LoginForm: React.FC<LoginFormProps> = ({ type }) => {
   };
 
   return (
-    <div className="form-wrapper">
-      <form onSubmit={handleSubmit} className="login-form">
-        <h1>{type === "signup" ? "Sign Up" : "Login"}</h1>
-        <div className="input-group">
+    <div className="container">
+      <div className="left">
+        <form onSubmit={handleSubmit} className="form-box">
+          <h1>{type === "signup" ? "Get Cooking Now" : "Welcome back!"}</h1>
+
           {type === "signup" && (
             <>
               <input

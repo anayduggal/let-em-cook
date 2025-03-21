@@ -1,11 +1,13 @@
 .topbar-container {
+  position: sticky;
+  top: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
   background-color: #8D844D;
   height: 80px;
   width: 100%;
-  min-width: 600px;
+  min-width: 40px;
   padding: 0 20px;
   box-sizing: border-box;
 }
@@ -40,7 +42,7 @@
   background: none;
   border: none;
   color: #ffffff;
-  font-family: "Montserrat";
+  font-family: "ARIAL";
   font-size: 24px;
   cursor: pointer;
   padding: 10px;
@@ -62,9 +64,9 @@
   width: 120px;
   background-color: #F2EADF;
   border: none;
-  border-radius: 4px;
-  color: #ffffff;
-  font-family: "Montserrat";
+  border-radius: 50px;
+  color: #000000;
+  font-family: "Arial";
   font-size: 18px; /* Adjust font size for balance */
   padding: 10px 20px;
   cursor: pointer;
@@ -74,11 +76,11 @@
 
 .login-button {
   width: 180px;
-  background-color: #be1515;
+  background-color: #F2EADF;
   border: none;
-  border-radius: 4px;
-  color: #ffffff;
-  font-family: "Montserrat";
+  border-radius: 50px;
+  color: #000000;
+  font-family: "Arial";
   font-size: 18px; /* Adjust font size for balance */
   padding: 10px 20px;
   cursor: pointer;
@@ -88,7 +90,7 @@
 
 .topbar-user-button:hover,
 .login-button:hover {
-  background-color: #a61212;
+  background-color: #FFD95C;
 }
 
 .topbar-user-icon {

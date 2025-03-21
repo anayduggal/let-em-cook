@@ -1,7 +1,22 @@
 # let-em-cook
+
 # hello
 
-### If anyone wants to see how the current thing looks like, get react vite yada2 installed in your laptops then go to terminal go into 
-#### frontend/react-app 
-#### "npm run dev"
-it should give you the domain link afterwards
+## Description
+
+- This React application is built using [Vite]
+- It uses [css] and [php]
+
+## Pre-requisites
+
+- [git]
+- [NodeJS]
+- [npm]
+
+## Running in dev environment
+
+1. `cd Frontend/react-app`
+2. `npm install`
+3. `npm run dev`
+
+## Folder Structure
