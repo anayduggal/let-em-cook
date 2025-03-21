@@ -1,12 +1,17 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import "./LoginForm.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import imageSrc from "../assets/image.png";
-import { sendLoginRequest, sendSignupRequest, LoginData, SignupData } from "../api/userService";
+import {
+  sendLoginRequest,
+  sendSignupRequest,
+  LoginData,
+  SignupData,
+} from "../api/userService";
 
 interface LoginFormProps {
   type: "login" | "signup";
-};
+}
 
 // Holds the data currently in the login/signup form
 type FormData = {
@@ -17,13 +22,35 @@ type FormData = {
   psw2?: string; // Only for signup
 };
 
+// Includes the data needed for a login request
+type LoginData = {
+  action_type: "login";
+  email: string;
+  password: string;
+};
+
+// Includes the data needed for signup request
+type SignupData = {
+  action_type: "signup";
+  email: string;
+  password: string;
+  first_name: string;
+  last_name: string;
+};
+
+// The result recieved after a login request
+type LoginResult = "success" | "user does not exist" | "password incorrect";
+
+// The result recieved after a signup request
+type SignupResult = "success" | "duplicate email";
+
 const extractLoginData = (data: FormData): LoginData => {
   // Convert FormData to LoginData
 
   return {
     action_type: "login",
     email: data.email,
-    password: data.psw
+    password: data.psw,
   };
 };
 
@@ -35,8 +62,52 @@ const extractSignupData = (data: FormData): SignupData => {
     email: data.email,
     password: data.psw,
     first_name: data.fname,
-    last_name: data.lname
+    last_name: data.lname,
   };
+};
+
+const sendLoginRequest = async (form_data: FormData): Promise<LoginResult> => {
+  // Send POST request to server
+  const response = await fetch("http://localhost:8000/index.php/login", {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(extractLoginData(form_data)), // Extract login data from form
+  });
+
+  // Check for bad response status
+  if (!response.ok) throw new Error(`Response failed`);
+
+  let response_json = await response.json();
+
+  return response_json["result"];
+};
+
+const sendSignupRequest = async (
+  form_data: FormData
+): Promise<SignupResult> => {
+  console.log(
+    `Sending POST request: ${JSON.stringify(extractSignupData(form_data))}`
+  );
+
+  // Send POST request to server
+  const response = await fetch("http://localhost:8000/index.php/signup", {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(extractSignupData(form_data)), // Extract signup data from form
+  });
+
+  // Check for bad response status
+  if (!response.ok) throw new Error(`Response failed`);
+
+  let response_json = await response.json();
+
+  return response_json["result"];
 };
 
 const LoginForm: React.FC<LoginFormProps> = ({ type }) => {
@@ -51,6 +122,10 @@ const LoginForm: React.FC<LoginFormProps> = ({ type }) => {
     psw2: "",
   });
 
+  const navigate = useNavigate();
+  const [error, setError] = useState<string | null>(null); // Error message state
+  const [success, setSuccess] = useState<string | null>(null);
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     // Keep current form data the same, update the value that changed
 
@@ -59,48 +134,54 @@ const LoginForm: React.FC<LoginFormProps> = ({ type }) => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setError(null); // Reset error message
+    setSuccess(null); // Reset success message
 
     if (type == "login") {
       // Send login request to server
-      const loginData = extractLoginData(formData)
+      const loginData = extractLoginData(formData);
       const result = await sendLoginRequest(loginData);
 
       // TODO: Handle result
       switch (result) {
         case "success":
           console.log("Successfully logged in");
+          localStorage.setItem("token", "user_token_here"); // Store token
+          navigate("/profile"); // Redirect to profile page
           break;
-        
+
         case "password incorrect":
           console.log("Password incorrect");
+          setError("Password incorrect");
           break;
-        
+
         case "user does not exist":
           console.log("Email not associated with user");
+          setError("No account found");
           break;
       }
-
     } else if (type == "signup") {
       // Check passwords match
       if (formData.psw != formData.psw2) {
-        // TODO: tell user to make passwords match
-      };
+        setError("Passwords do not match");
+        return;
+      }
 
       // Send signup request to server
-      const signupData = extractSignupData(formData)
+      const signupData = extractSignupData(formData);
       const result = await sendSignupRequest(signupData);
 
       // TODO: Handle result
       switch (result) {
         case "success":
           console.log("Successfully signed up");
+          setTimeout(() => navigate("/login"), 2000);
           break;
         case "duplicate email":
-          console.log("User with that email already exists");
+          setError("User with that email already exists");
+          break;
       }
-
     }
-
   };
 
   return (
@@ -167,7 +248,11 @@ const LoginForm: React.FC<LoginFormProps> = ({ type }) => {
           </button>
 
           <div className="form-footer">
-            <button type="button" className="cancel-btn">
+            <button
+              type="button"
+              className="cancel-btn"
+              onClick={() => navigate("/")}
+            >
               Cancel
             </button>
             {type === "login" && (

@@ -161,4 +161,15 @@ input:focus {
   .right {
     display: none;
   }
+  .error {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 5px;
+  }
+
+  .success {
+    color: green;
+    font-size: 0.9rem;
+    margin-top: 5px;
+  }
 }
