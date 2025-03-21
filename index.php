@@ -100,8 +100,7 @@ if (strtoupper($req_method) == 'POST') {
                             // login user
                             // send request to server with email and password
 
-                            $return_data_json = $user_controller->login($request_data["email"], $request_data["password"]);
-                            echo $return_data_json;
+                            $user_controller->login($request_data["email"], $request_data["password"]);
 
                             break;
 
