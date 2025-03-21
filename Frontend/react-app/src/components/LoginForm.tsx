@@ -22,28 +22,6 @@ type FormData = {
   psw2?: string; // Only for signup
 };
 
-// Includes the data needed for a login request
-type LoginData = {
-  action_type: "login";
-  email: string;
-  password: string;
-};
-
-// Includes the data needed for signup request
-type SignupData = {
-  action_type: "signup";
-  email: string;
-  password: string;
-  first_name: string;
-  last_name: string;
-};
-
-// The result recieved after a login request
-type LoginResult = "success" | "user does not exist" | "password incorrect";
-
-// The result recieved after a signup request
-type SignupResult = "success" | "duplicate email";
-
 const extractLoginData = (data: FormData): LoginData => {
   // Convert FormData to LoginData
 
@@ -64,50 +42,6 @@ const extractSignupData = (data: FormData): SignupData => {
     first_name: data.fname,
     last_name: data.lname,
   };
-};
-
-const sendLoginRequest = async (form_data: FormData): Promise<LoginResult> => {
-  // Send POST request to server
-  const response = await fetch("http://localhost:8000/index.php/login", {
-    method: "POST",
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(extractLoginData(form_data)), // Extract login data from form
-  });
-
-  // Check for bad response status
-  if (!response.ok) throw new Error(`Response failed`);
-
-  let response_json = await response.json();
-
-  return response_json["result"];
-};
-
-const sendSignupRequest = async (
-  form_data: FormData
-): Promise<SignupResult> => {
-  console.log(
-    `Sending POST request: ${JSON.stringify(extractSignupData(form_data))}`
-  );
-
-  // Send POST request to server
-  const response = await fetch("http://localhost:8000/index.php/signup", {
-    method: "POST",
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(extractSignupData(form_data)), // Extract signup data from form
-  });
-
-  // Check for bad response status
-  if (!response.ok) throw new Error(`Response failed`);
-
-  let response_json = await response.json();
-
-  return response_json["result"];
 };
 
 const LoginForm: React.FC<LoginFormProps> = ({ type }) => {

@@ -32,16 +32,6 @@ const App: React.FC = () => {
     <Router>
       <Routes>
         <Route path="/" element={<HomePage />} />
-<<<<<<< HEAD
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        {/* <Route element={<ProtectedRoute />}> */}
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/recipes" element={<RecipePage />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/pantry" element={<Pantry />} />
-        {/* </Route> */}
-=======
         <Route path="/login" element={isLoggedIn ? <HomePage /> : <Login />} />
         <Route path="/recipes" element={<RecipeSearch />} /> \\
         <Route
@@ -53,7 +43,6 @@ const App: React.FC = () => {
           <Route path="/profile" element={<Profile />} />
           <Route path="/pantry" element={<Pantry />} />
         </Route>
->>>>>>> Redirecting
       </Routes>
     </Router>
   );
