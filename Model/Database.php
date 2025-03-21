@@ -11,7 +11,7 @@ class Database
     {
 
         try {
-
+            
             $this->connection = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_DATABASE_NAME);
 
     	
@@ -71,10 +71,31 @@ class Database
     public function insertInto($query = "", $params = [])
 
     {
+
         try {
+
             $this->executeStatement($query, $params);
+
         } catch (Exception $e) {
+
             throw new Exception($e->getMessage());
+
+        }
+
+    }
+
+    public function deleteFrom($query = "", $params = [])
+
+    {
+
+        try {
+
+            $this->executeStatement($query, $params);
+
+        } catch (Exception $e) {
+
+            throw new Exception($e->getMessage());
+
         }
 
     }

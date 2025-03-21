@@ -182,4 +182,32 @@ class DashboardController extends BaseController
             return $error_str;
         }
     }
+
+    public function getCalendarRecipes() 
+    
+    {
+        $error_str = '';
+
+        try {
+
+            $dashboardModel = new DashboardModel();
+
+            $user_recipes = $dashboardModel->getUserRecipes();
+
+            return json_encode($user_recipes);
+
+        } catch (Exception $e) {
+
+            $error_str = $e->getMessage();
+            $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
+
+        }
+
+        if (!empty($error_str)) {
+            header($strErrorHeader);
+            return $error_str;
+        }
+
+    }
+
 }

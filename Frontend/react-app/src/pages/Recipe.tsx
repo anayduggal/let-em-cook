@@ -9,21 +9,29 @@ const RecipeSearch: React.FC = () => {
     { recipe_name: string; servings: number }[]
   >([]);
 
-  // Hardcoded test data
+  // Fetch recipes on initial render or when the ingredients change
   useEffect(() => {
-    setRecipes([
-      { recipe_name: "Chicken Curry", servings: 4 },
-      { recipe_name: "Pasta Carbonara", servings: 2 },
-      { recipe_name: "Mango Sticky Rice", servings: 3 },
-    ]);
-  }, []);
+    const fetchRecipes = async () => {
+      try {
+        const response = await fetch("http://localhost:8000/index.php/recipe");
+        const data = await response.json();
+        setRecipes(data); // Set recipes fetched from the server
+      } catch (error) {
+        console.error("Error fetching recipes:", error);
+      }
+    };
+
+    fetchRecipes();
+  }, []); // You can pass ingredients as a dependency if you want to refetch when ingredients change
+
+  const [ingredients, setIngredients] = useState<string>("");
 
   return (
     <div className="recipe-dashboard">
       <TopBar />
       <main>
-        <SideBar setRecipes={setRecipes} />
-        <RecipesList recipes={recipes} />
+        <SideBar recipes={recipes} setRecipes={setRecipes} ingredients={ingredients} setIngredients={setIngredients} />
+        <RecipesList recipes={recipes} setRecipes={setRecipes} ingredients={ingredients} />
       </main>
     </div>
   );

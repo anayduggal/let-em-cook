@@ -16,14 +16,54 @@ class RecipeModel extends Database
 
     }
 
-    public function getRecipeFromID($recipe_id)
+    public function getRandomRecipes($limit)
 
     {
 
         return $this->select(
+            "SELECT * FROM recipes ORDER BY RAND() LIMIT ?", ["i", $limit]
+        );
+
+    }
+
+    public function getRecipeFromID($recipe_id)
+
+    {
+
+        $recipes = $this->select(
             "SELECT * FROM recipes WHERE recipe_id = ?", ["i", $recipe_id]
         );
 
+        if (empty($recipes)) {
+
+            throw new Exception("Recipe ID does not exist: ".$recipe_id);
+
+        }
+
+        return $recipes[0];
+
+    }
+
+    public function getIngredientNamesFromRecipeID($recipe_id)
+    {
+
+        // takes in recipe id
+        // returns an array of ingredient names for that recipe
+
+        $result = $this->select(
+            "SELECT i.ingredient_name 
+            FROM recipe_ingredients ri
+            JOIN ingredients i ON ri.ingredient_id = i.ingredient_id
+            WHERE ri.recipe_id = ?", 
+            ["i", $recipe_id]
+        );
+
+        $ingredients = [];
+        foreach ($result as $row) {
+            $ingredients[] = $row['ingredient_name'];
+        }
+
+        return $ingredients;
     }
 
     public function getRecipeIngredientCounts()
@@ -36,12 +76,35 @@ class RecipeModel extends Database
         );
     
         // Convert to associative array with recipe_id as keys
-        $recipe_ingredient_counts = [];
+        $recipeIngredientCounts = [];
         foreach ($result as $row) {
             $recipeIngredientCounts[$row['recipe_id']] = $row['ingredient_count'];
         }
     
         return $recipeIngredientCounts;
+    }
+
+    public function getRecipesWithIngredients($ingredient_names) 
+    {
+        $ingredient_ids = $this->getIngredientIDs($ingredient_names);
+    
+        if (empty($ingredient_ids)) {
+            return [];
+        }
+    
+        $placeholders = implode(',', array_fill(0, count($ingredient_ids), '?'));
+        $types = str_repeat('i', count($ingredient_ids));
+        $params = array_merge([$types], $ingredient_ids);
+    
+        $query = "
+            SELECT DISTINCT recipe_id
+            FROM recipe_ingredients
+            WHERE ingredient_id IN ($placeholders)
+        ";
+    
+        $recipes = $this->select($query, $params);
+    
+        return array_column($recipes, 'recipe_id');
     }
 
     public function getIngredientIDs($ingredient_names)

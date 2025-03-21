@@ -45,9 +45,7 @@ class BaseController
 
     }
 
-    protected function sendOutput($data, $httpHeaders=array())
-
-    {
+    protected function setHeaders($httpHeaders) {
 
         header_remove('Set-Cookie');
 
@@ -61,9 +59,28 @@ class BaseController
 
         }
 
+    }
+
+    protected function sendOutput($data, $httpHeaders=array())
+
+    {
+
+        $this->setHeaders($httpHeaders);
+
         echo $data;
 
         exit;
+
+    }
+
+    protected function sendErrorOutput($error)
+
+    {
+
+        $this->sendOutput(
+            json_encode(array('error' => $error->getMessage())), 
+            array('Content-Type: application/json', 'HTTP/1.1 500 Internal Server Error')
+        );
 
     }
 
