@@ -1,7 +1,6 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import "./LoginForm.css";
 import { Link } from "react-router-dom";
-import imageSrc from "../assets/image.png";
 
 type LoginFormProps = {
   type: "login" | "signup";
@@ -34,11 +33,10 @@ const LoginForm: React.FC<LoginFormProps> = ({ type }) => {
   };
 
   return (
-    <div className="container">
-      <div className="left">
-        <form onSubmit={handleSubmit} className="form-box">
-          <h1>{type === "signup" ? "Get Cooking Now" : "Welcome back!"}</h1>
-
+    <div className="form-wrapper">
+      <form onSubmit={handleSubmit} className="login-form">
+        <h1>{type === "signup" ? "Sign Up" : "Login"}</h1>
+        <div className="input-group">
           {type === "signup" && (
             <>
               <input
@@ -85,31 +83,33 @@ const LoginForm: React.FC<LoginFormProps> = ({ type }) => {
               required
             />
           )}
-
-          <button type="submit" className="submit-btn">
-            {type === "signup" ? "Sign Up" : "Login"}
-          </button>
-
-          <div className="form-footer">
-            {type === "login" && (
-              <a href="#" className="forgot">
-                Forgot password?
-              </a>
-            )}
-          </div>
-
-          <p className="switch-form">
-            {type === "signup"
-              ? "Already have an account? "
-              : "Don't have an account? "}
-            <Link to={type === "signup" ? "/login" : "/signup"}>
-              {type === "signup" ? "Login" : "Sign Up"}
-            </Link>
-          </p>
-        </form>
-      </div>
+        </div>
+        <button type="submit" className="submit-btn">
+          {type === "signup" ? "Sign Up" : "Login"}
+        </button>
+        {type === "login" && (
+          <label className="remember-me">
+            <input type="checkbox" name="remember" /> Remember me
+          </label>
+        )}
+        <div className="form-footer">
+          {type === "login" && (
+            <a href="#" className="forgot">
+              Forgot password?
+            </a>
+          )}
+        </div>
+        <p className="switch-form">
+          {type === "signup"
+            ? "Already have an account? "
+            : "Don't have an account? "}
+          <Link to={type === "signup" ? "/login" : "/signup"}>
+            {type === "signup" ? "Login" : "Sign Up"}
+          </Link>
+        </p>
+      </form>
       <div className="right-section">
-        <img src={imageSrc} alt="Chef preparing food" />
+        <img src="login_food.jpg" alt="food" />
       </div>
     </div>
   );
