@@ -31,26 +31,35 @@ const SideBar: React.FC<SidebarProps> = ({ setRecipes, ingredients, setIngredien
       
     })
 
-    try {
-      const response = await fetch("http://localhost:8000/index.php/recipe", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(requestData),
-      });
+    console.log("ingredients: ", ingredientList);
+
+    let recipes:any[] = [];
 
     if (ingredientList.length == 0) {
+      console.log("random");
       recipes = await getRandomRecipes(3);  // Get random recipes
     } else {
-      recipes = await getRecipes(3, ingredientList);  // Get recipes with ingredients
+      console.log("not");
+
+      try {
+        recipes = await getRecipes(3, ingredientList);  // Get recipes with ingredients
+      } catch (Error) {
+        console.log("Recipe search with ingredients failed, getting random recipes");
+
+        recipes = await getRandomRecipes(3);  // Get random recipes
+      }
+      
     }
     
+    console.log("recipes: ", recipes);
+
     setRecipes([]);  // Reset recipes list
 
     recipes.forEach((recipe:any, i:number)=>{
       setRecipes((recipes) => [...recipes, recipe])  // Add recipe
     });
 
-    console.log(recipes);
+    
   
   }
 

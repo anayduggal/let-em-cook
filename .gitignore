@@ -1,3 +1,4 @@
 .DS_Store
 inc/config.php
-other/credentials.configinc/config.php
+other/credentials.config
+inc/config.php
