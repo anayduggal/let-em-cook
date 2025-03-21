@@ -1,22 +1,35 @@
-import React, { useState } from "react";
+import React, { FormEvent, useState } from "react";
 import "./SideBar.css";
+import { getRecipes, getRandomRecipes } from "../api/recipeService";
 
 interface SidebarProps {
+  recipes: { recipe_name: string; servings: number }[],
   setRecipes: React.Dispatch<
     React.SetStateAction<{ recipe_name: string; servings: number }[]>
   >;
+  ingredients: string,
+  setIngredients: React.Dispatch<
+    React.SetStateAction<string>
+  >;
 }
 
-const SideBar: React.FC<SidebarProps> = ({ setRecipes }) => {
-  const [ingredients, setIngredients] = useState<string>("");
+const SideBar: React.FC<SidebarProps> = ({ setRecipes, ingredients, setIngredients }) => {
+  const generateRecipes = async (event: FormEvent) => {
+    event.preventDefault();
 
-  const submitForm = async (e: React.FormEvent) => {
-    e.preventDefault();
+    ingredients = ingredients.trim();
 
-    const requestData = {
-      action_type: "searchRecipes",
-      ingredients: ingredients.split(","),
-    };
+    let unprocessedIngredientList = ingredients.split(",")
+    let ingredientList:string[] = []
+
+    unprocessedIngredientList.forEach((ingredient:string, i:number)=>{
+      let trimmed = ingredient.trim();
+
+      if (trimmed.length > 0) {
+        ingredientList.push(trimmed);
+      }
+      
+    })
 
     try {
       const response = await fetch("http://localhost:8000/index.php/recipe", {
@@ -25,16 +38,25 @@ const SideBar: React.FC<SidebarProps> = ({ setRecipes }) => {
         body: JSON.stringify(requestData),
       });
 
-      const data = await response.json();
-      setRecipes(data);
-    } catch (error) {
-      console.error("Error fetching recipes:", error);
+    if (ingredientList.length == 0) {
+      recipes = await getRandomRecipes(3);  // Get random recipes
+    } else {
+      recipes = await getRecipes(3, ingredientList);  // Get recipes with ingredients
     }
-  };
+    
+    setRecipes([]);  // Reset recipes list
+
+    recipes.forEach((recipe:any, i:number)=>{
+      setRecipes((recipes) => [...recipes, recipe])  // Add recipe
+    });
+
+    console.log(recipes);
+  
+  }
 
   return (
     <aside className="sidebar">
-      <form onSubmit={submitForm}>
+      <form onSubmit={generateRecipes}>
         <h3>Dietary Requirements</h3>
         <button type="button" className="expand-btn">
           +
@@ -52,7 +74,6 @@ const SideBar: React.FC<SidebarProps> = ({ setRecipes }) => {
           name="ingredients"
           value={ingredients}
           onChange={(e) => setIngredients(e.target.value)}
-          required
         />
 
         <label htmlFor="cuisine">Filter by Cuisine</label>

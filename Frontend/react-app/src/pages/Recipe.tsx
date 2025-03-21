@@ -24,12 +24,14 @@ const RecipeSearch: React.FC = () => {
     fetchRecipes();
   }, []); // You can pass ingredients as a dependency if you want to refetch when ingredients change
 
+  const [ingredients, setIngredients] = useState<string>("");
+
   return (
     <div className="recipe-dashboard">
       <TopBar />
       <main>
-        <SideBar setRecipes={setRecipes} />
-        <RecipesList recipes={recipes} />
+        <SideBar recipes={recipes} setRecipes={setRecipes} ingredients={ingredients} setIngredients={setIngredients} />
+        <RecipesList recipes={recipes} setRecipes={setRecipes} ingredients={ingredients} />
       </main>
     </div>
   );

@@ -78,7 +78,13 @@ if (strtoupper($req_method) == 'POST') {
                                 $request_data["allergens"],
                             );
 
-                            header('Content-Type: application/json');
+                            echo $return_data_json;
+                            break;
+                        
+                        case "randomrecipes":
+
+                            $return_data_json = $recipe_controller->randomRecipes($request_data["amount"]);
+
                             echo $return_data_json;
                             break;
                     }

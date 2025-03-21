@@ -337,4 +337,26 @@ class RecipeController extends BaseController
 
     }
 
+    public function randomRecipes($amount)
+
+    {
+
+        try {
+
+            $recipeModel = new RecipeModel();
+
+            $recipes = $recipeModel->getRandomRecipes($amount);
+
+            $this->sendOutput(
+                json_encode($recipes)
+            );
+
+        } catch (Exception $e) {
+
+            $this->sendErrorOutput($e);
+
+        }
+
+    }
+
 }

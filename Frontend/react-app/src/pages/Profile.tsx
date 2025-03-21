@@ -21,6 +21,29 @@ const ProfileCard = () => {
   const dietPref = ["Vegan", "Gluten-free"];
   const allergens = ["Gluten", "Peanuts"];
 
+  const request_data = {
+    action_type: "searchrecipes",
+    ingredients: ["butter", "egg", "table salt", "unsalted butter"]
+  }
+
+  const sendRequest = async () => {
+
+    // Send POST request to server
+    const response = await fetch("http://localhost:8000/index.php/recipe", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+          "Content-Type": "application/json"
+      },
+      body: JSON.stringify(request_data)  // Extract signup data from form
+    });
+
+    let response_json = await response.json();
+
+    console.log(response_json);
+
+  }
+
 
   return (
     <>
@@ -51,7 +74,7 @@ const ProfileCard = () => {
           ))}
           {<br />}
 
-          <button className="action-button" onClick = {handleButtonClick}> ADD / REMOVE </button>
+          <button className="action-button" onClick = {sendRequest}> ADD / REMOVE </button>
         </div>
 
         <div className="actions">
