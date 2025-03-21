@@ -153,6 +153,8 @@ class RecipeController extends BaseController
                 } else {
                     $valid_recipe_ids = $recipeModel->getRecipesWithIngredients($ingredient_names);
                 }
+
+                shuffle($valid_recipe_ids);
                 
                 foreach ($valid_recipe_ids as $id) {
 
