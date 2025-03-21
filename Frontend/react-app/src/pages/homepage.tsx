@@ -1,6 +1,5 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import TopBar from "../components/TopBar";
 import "./homepage.css";
 
 const HomePage: React.FC = () => {
@@ -8,7 +7,6 @@ const HomePage: React.FC = () => {
 
   return (
     <div className="homepage">
-      <TopBar onLoginClick={() => navigate("/login")} />
       <main className="main-content">
         {/* Hero Section */}
         <section className="hero-section">
