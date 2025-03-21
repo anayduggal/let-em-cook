@@ -76,7 +76,7 @@ class RecipeModel extends Database
         );
     
         // Convert to associative array with recipe_id as keys
-        $recipe_ingredient_counts = [];
+        $recipeIngredientCounts = [];
         foreach ($result as $row) {
             $recipeIngredientCounts[$row['recipe_id']] = $row['ingredient_count'];
         }
