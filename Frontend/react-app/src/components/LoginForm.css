@@ -1,126 +1,125 @@
-/* Apply Montserrat font globally */
-body {
-  background-color: #f8ea84;
-  background-image: url('https://dashboard.codeparrot.ai/api/image/Z6tEChhIf_jdPR3w/y-10-pres.png');
-  background-size: cover;
-  background-position: center;
-  font-family: 'Montserrat', sans-serif;
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
 }
 
-/* Center the form */
-form {
-  background: #5a924f; /* Richer green */
-  padding: 35px;
-  border-radius: 15px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-  max-width: 420px;
-  margin: auto;
+/* Wrapper */
+.form-wrapper {
+  display: flex;
+  height: 100vh;
+  width: 45%;
+  background-color: #90894f;
+  padding: 3rem 4rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  justify-content: center;
 }
 
-/* Title Styling */
-h1 {
-  color: #fff;
-  font-size: 28px;
-  margin-bottom: 15px;
+.form-wrapper h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 50px;
+  color: whitesmoke;
+  margin-left: 200px;
 }
 
-/* Avatar */
-.imgcontainer {
-  text-align: center;
+.form-wrapper p {
+  font-size: 16px;
+  margin-bottom: 2rem;
+  color: whitesmoke;
+}
+
+.input-group label {
+  font-size: 14px;
+  margin-bottom: 5px;
+  color: #333;
+  display: block;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #c2bfbf;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  background-color: transparent;
+}
+
+.form-footer {
+  text-align: right;
+  margin-top: -18px;
   margin-bottom: 20px;
 }
 
-img.avatar {
-  width: 85px;
-  height: 85px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 3px solid white;
-}
-
-/* Form Inputs */
-input[type="text"],
-input[type="email"],
-input[type="password"] {
-  width: 100%;
-  padding: 12px;
-  margin: 10px 0;
-  border: 2px solid transparent;
-  border-radius: 25px;
-  background-color: #e6e6e6;
-  font-size: 16px;
-  transition: 0.3s;
-}
-
-input:focus {
-  border-color: #ff8c42;
-  outline: none;
-}
-
-/* Buttons */
-button {
-  background: #be1515;
-  color: white;
-  padding: 14px;
-  border: none;
-  border-radius: 25px;
-  cursor: pointer;
-  width: 100%;
-  font-size: 18px;
-  transition: all 0.3s ease;
-}
-
-button:hover {
-  background: #a41212;
-  transform: scale(1.05);
-}
-
-/* Cancel Button */
-.cancelbtn {
-  background: #e63946;
-  padding: 12px;
-  border-radius: 25px;
-  width: 100%;
-}
-
-/* Container */
-.container {
-  padding: 20px;
-  width: 100%;
-}
-
-/* Forgot Password */
-span.psw {
-  display: block;
-  text-align: right;
-  padding-top: 10px;
-  color: #ff8c42;
-  font-size: 14px;
-}
-
-/* Register/Login switch */
-.register-link {
-  margin-top: 10px;
-  font-size: 16px;
-  text-align: center;
-}
-
-.register-link a {
-  color: #be1515;
-  font-weight: bold;
+.form-footer a {
+  font-size: 12px;
+  color: #2434b4;
   text-decoration: none;
 }
 
-.register-link a:hover {
-  text-decoration: underline;
+.submit-btn {
+  background-color: #3c5225;
+  color: #fff;
+  padding: 14px 0;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 100%;
+  margin-bottom: 20px;
 }
 
-/* Responsive */
-@media screen and (max-width: 500px) {
-  form {
-    width: 90%;
-  }
+.submit-btn:hover {
+  background-color: #2f401c;
 }
+
+.divider {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.divider hr {
+  flex: 1;
+  border: none;
+  border-top: 1px solid #ccc;
+}
+
+.divider span {
+  margin: 0 10px;
+  font-size: 14px;
+  color: #555;
+}
+
+.switch-form {
+  margin-top: 30px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.switch-form a {
+  color: #2434b4;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+
+
+.right-section {
+  background-color: #90894f;
+  width: 55%;
+  position: absolute;
+  right: 0%;
+}
+
+.right-section img {
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
+  border-top-left-radius: 40px;
+  border-bottom-left-radius: 40px;
+}
+

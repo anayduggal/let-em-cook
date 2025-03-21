@@ -87,15 +87,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ type }) => {
         <button type="submit" className="submit-btn">
           {type === "signup" ? "Sign Up" : "Login"}
         </button>
-        {type === "login" && (
-          <label className="remember-me">
-            <input type="checkbox" name="remember" /> Remember me
-          </label>
-        )}
         <div className="form-footer">
-          <button type="button" className="cancel-btn">
-            Cancel
-          </button>
           {type === "login" && (
             <a href="#" className="forgot">
               Forgot password?
@@ -111,6 +103,10 @@ const LoginForm: React.FC<LoginFormProps> = ({ type }) => {
           </Link>
         </p>
       </form>
+      <div className="right-section">
+        <img src="login_food.jpg" alt="Chef preparing food" />
+      </div>
+
     </div>
   );
 };
