@@ -47,7 +47,7 @@ class RecipeController extends BaseController
                 foreach ($valid_recipe_ids as $id) {
 
                     $recipe = $recipeModel->getRecipeFromID($id);
-                    $recipes[] = $recipe[0];
+                    $recipes[] = $recipe;
 
                 }
 
@@ -159,7 +159,7 @@ class RecipeController extends BaseController
                 foreach ($valid_recipe_ids as $id) {
 
                     $recipe = $recipeModel->getRecipeFromID($id);
-                    $recipes[] = $recipe[0];
+                    $recipes[] = $recipe;
 
                 }
 

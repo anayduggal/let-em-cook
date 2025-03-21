@@ -31,17 +31,7 @@ const SideBar: React.FC<SidebarProps> = ({ setRecipes, ingredients, setIngredien
       
     })
 
-    console.log(ingredientList);
-
-    let requestData = {
-      action_type: "randomrecipes"
-    }
-
-    const response = await fetch("http://localhost:8000/index.php/recipe", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(requestData),
-    });
+    console.log("ingredients: ", ingredientList);
 
     let recipes:any[] = [];
 
@@ -50,16 +40,26 @@ const SideBar: React.FC<SidebarProps> = ({ setRecipes, ingredients, setIngredien
       recipes = await getRandomRecipes(3);  // Get random recipes
     } else {
       console.log("not");
-      recipes = await getRecipes(3, ingredientList);  // Get recipes with ingredients
+
+      try {
+        recipes = await getRecipes(3, ingredientList);  // Get recipes with ingredients
+      } catch (Error) {
+        console.log("Recipe search with ingredients failed, getting random recipes");
+
+        recipes = await getRandomRecipes(3);  // Get random recipes
+      }
+      
     }
     
+    console.log("recipes: ", recipes);
+
     setRecipes([]);  // Reset recipes list
 
     recipes.forEach((recipe:any, i:number)=>{
       setRecipes((recipes) => [...recipes, recipe])  // Add recipe
     });
 
-    console.log(recipes);
+    
   
   }
 

@@ -61,6 +61,8 @@ def add_entry_to_db(recipe_dict):
 
     recipe_dict = clean_data_dict(recipe_dict)
 
+    recipe_dict["pricePerServing"] = str(float(recipe_dict["pricePerServing"]) * 0.77) # Update exchange rate when using
+
     db = get_db()
     db_cursor = db.cursor()
 
@@ -111,3 +113,6 @@ def add_recipes_to_db(number_of_recipes):
         add_entry_to_db(recipe)
 
 #endregion
+
+for i in range(100):
+    add_recipes_to_db(10)
