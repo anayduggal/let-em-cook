@@ -20,9 +20,17 @@ class RecipeModel extends Database
 
     {
 
-        return $this->select(
+        $recipes = $this->select(
             "SELECT * FROM recipes WHERE recipe_id = ?", ["i", $recipe_id]
         );
+
+        if (empty($recipes)) {
+
+            throw new Exception("Recipe ID does not exist: ".$recipe_id);
+
+        }
+
+        return $recipes[0];
 
     }
 
