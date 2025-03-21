@@ -33,19 +33,50 @@ if (strtoupper($req_method) == 'POST') {
 
                     switch ($request_data["action_type"]) {
 
-                        case "searchrecipes":
+                        case "searchrecipesnoaccount":
 
-                            /*
-                            search recipes:
-                            get array of ingredient ids
-                            then get an array of recipe ids for every recipe that contains each ingredient 
-                            return all these arrays in a bigger array 
-                            make an associative array of every recipe where the key is the recipe id and the value is the number of ingredients it has
-                            for each recipe in the bigger array, decrement the count of the corresponding recipe in the associative array 
-                            return the recipes where the value is 0
-                            */
+                            // search recipes without an account
+                            // send request to server with 
+                            //      a list of ingredients
+                            //      a list of dietary preferences
+                            //      a list of allergens
+                            //      budget (either "high", "medium", or "low")
+                            // server returns an array of recipes that can be made with the ingredients
+                            // and fit the dietary preferences and do not contain the allergens
 
-                            $return_data_json = $recipe_controller->searchRecipes($request_data["ingredients"]);
+                            $return_data_json = $recipe_controller->searchRecipesNoAccount(
+                                $request_data["ingredients"],
+                                $request_data["allergens"],
+                                $request_data["budget"],
+                                $request_data["dietary_preferences"]
+                            );
+
+                            header('Content-Type: application/json');
+                            echo $return_data_json;
+                            break;
+
+                        case "searchrecipeswithaccount":
+
+                            // search recipes with an account
+                            // send request to server with 
+                            //      ids of seen recipes
+                            //      a list of ingredients
+                            //      budget (either "high", "medium", or "low")
+                            // server returns an array of 4 recipes that contain those ingredients
+                            // that fit the dietary preferences and do not contain the allergens
+
+                            // Check if user is logged in
+                            if (!isset($_SESSION['user_id'])) {
+                                header('Content-Type: application/json');
+                                echo json_encode(array('error' => 'User not logged in'));
+                                exit();
+                            }
+
+                            $return_data_json = $recipe_controller->searchRecipesWithAccount(
+                                $request_data["seen_recipe_ids"],
+                                $request_data["ingredients"],
+                                $request_data["allergens"],
+                            );
 
                             header('Content-Type: application/json');
                             echo $return_data_json;
