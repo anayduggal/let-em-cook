@@ -38,11 +38,9 @@ const App: React.FC = () => {
           path="/signup"
           element={isLoggedIn ? <HomePage /> : <Signup />}
         />
-        <Route element={<ProtectedRoute isLoggedIn={isLoggedIn} />}>
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/pantry" element={<Pantry />} />
-        </Route>
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/pantry" element={<Pantry />} />
       </Routes>
     </Router>
   );

@@ -1,19 +1,11 @@
 export const getRecipes = async (amount: number, ingredients: string[]):Promise<any> => {
 
-    // Get profile info
-    // const profile_response = await fetch("http://localhost:8000/index.php/profile", {
-    //     method: "POST",
-    //     credentials: "include",
-    //     headers: {
-    //         "Content-Type": "application/json"
-    //     },
-    //     body: JSON.stringify({ action_type: "getprofileinfo" })
-    // });
-
-
     let recipe_request_data = {
-        action_type: "randomrecipes",
-        ingredients: ingredients
+        action_type: "searchrecipesnoaccount",
+        ingredients: ingredients,
+        allergens: [],
+        dietary_preferences: [],
+        budget: "medium"
     }
 
 

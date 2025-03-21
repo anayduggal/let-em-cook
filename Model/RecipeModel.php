@@ -44,6 +44,28 @@ class RecipeModel extends Database
 
     }
 
+    public function getIngredientNamesFromRecipeID($recipe_id)
+    {
+
+        // takes in recipe id
+        // returns an array of ingredient names for that recipe
+
+        $result = $this->select(
+            "SELECT i.ingredient_name 
+            FROM recipe_ingredients ri
+            JOIN ingredients i ON ri.ingredient_id = i.ingredient_id
+            WHERE ri.recipe_id = ?", 
+            ["i", $recipe_id]
+        );
+
+        $ingredients = [];
+        foreach ($result as $row) {
+            $ingredients[] = $row['ingredient_name'];
+        }
+
+        return $ingredients;
+    }
+
     public function getRecipeIngredientCounts()
 
     {
