@@ -85,30 +85,32 @@ const LoginForm: React.FC<LoginFormProps> = ({ type }) => {
               required
             />
           )}
-        </div>
-        <button type="submit" className="submit-btn">
-          {type === "signup" ? "Sign Up" : "Login"}
-        </button>
-        <div className="form-footer">
-          {type === "login" && (
-            <a href="#" className="forgot">
-              Forgot password?
-            </a>
-          )}
-        </div>
-        <p className="switch-form">
-          {type === "signup"
-            ? "Already have an account? "
-            : "Don't have an account? "}
-          <Link to={type === "signup" ? "/login" : "/signup"}>
-            {type === "signup" ? "Login" : "Sign Up"}
-          </Link>
-        </p>
-      </form>
-      <div className="right-section">
-        <img src="login_food.jpg" alt="Chef preparing food" />
-      </div>
 
+          <button type="submit" className="submit-btn">
+            {type === "signup" ? "Sign Up" : "Login"}
+          </button>
+
+          <div className="form-footer">
+            {type === "login" && (
+              <a href="#" className="forgot">
+                Forgot password?
+              </a>
+            )}
+          </div>
+
+          <p className="switch-form">
+            {type === "signup"
+              ? "Already have an account? "
+              : "Don't have an account? "}
+            <Link to={type === "signup" ? "/login" : "/signup"}>
+              {type === "signup" ? "Login" : "Sign Up"}
+            </Link>
+          </p>
+        </form>
+      </div>
+      <div className="right-section">
+        <img src={imageSrc} alt="Chef preparing food" />
+      </div>
     </div>
   );
 };
