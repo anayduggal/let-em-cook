@@ -81,6 +81,47 @@ class UserController extends BaseController
 
     }
 
+    public function changeUserPassword($old_password, $new_password)
+    {
+        
+        try {
+
+            if (!isset($_SESSION['user_id'])) {
+
+                throw new Exception("User not logged in");
+            
+            }
+
+            $user_model = new UserModel();
+
+            // Get user info with logged in users id
+            $user = $user_model->getUserFromUserID($_SESSION['user_id']);
+
+            // Check if old password is correct
+            if (!password_verify($old_password, $user['password_hash'])) {
+                $this->sendOutput(
+                    json_encode(array('result' => 'old password incorrect'))
+                );
+
+                return;
+            }
+
+            $pw_hash = password_hash($new_password, PASSWORD_DEFAULT);
+
+            // Update password
+            $user_model->changePassword($_SESSION['user_id'], $pw_hash);
+
+            $this->sendOutput(
+                json_encode(array('result' => 'success'))
+            );
+
+        } catch (Exception $e) {
+
+            $this->sendErrorOutput($e);
+
+        };
+    }
+
     public function createUser($email, $first_name, $last_name, $password) 
     {
 

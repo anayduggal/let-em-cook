@@ -196,6 +196,16 @@ if (strtoupper($req_method) == 'POST') {
                             $user_controller->deleteAllergens($request_data["allergens"]);
                             break;
 
+                        case "changepassword":
+                            
+                            // Changes the password of the logged in user
+
+                            $user_controller->changeUserPassword(
+                                $request_data["old_password"],
+                                $request_data["new_password"]
+                            );
+                            break;
+
                     };
 
                 };
@@ -233,7 +243,11 @@ if (strtoupper($req_method) == 'POST') {
                             // add to pantry
                             // send request to server with ingredient name, quantity, and use by date
 
-                            $dashboard_controller->addPantryIngredient($request_data["ingredient_string"], $request_data["quantity_string"], $request_data["useby_string"]);
+                            $dashboard_controller->addPantryIngredient(
+                                $request_data["ingredient_string"],
+                                $request_data["quantity_string"],
+                                $request_data["useby_string"]
+                            );
                             break;
 
                         case "addshoppinglistingredient":
@@ -249,7 +263,11 @@ if (strtoupper($req_method) == 'POST') {
                             // move to pantry
                             // send request to server with ingredient name, quantity, and use by date
 
-                            $dashboard_controller->moveIngredientShoppingListPantry($request_data["ingredient_string"], $request_data["quantity_string"], $request_data["useby_string"]);
+                            $dashboard_controller->moveIngredientShoppingListPantry(
+                                $request_data["ingredient_string"],
+                                $request_data["quantity_string"],
+                                $request_data["useby_string"]
+                            );
                             break;
 
                         case "getpantry":
@@ -267,6 +285,16 @@ if (strtoupper($req_method) == 'POST') {
                             // send request to server and server returns an array of all the ingredients the user has added to their shopping list
 
                             $return_data_json = $dashboard_controller->getShoppingList();
+                            echo $return_data_json;
+                            break;
+
+                        case "getcalendarinfo":
+                            
+                            // get calendar info
+                            // send request to server and server returns an array of all the recipes the user has added to their calendar
+                            // array contains cook_date
+
+                            $return_data_json = $dashboard_controller->getCalendarRecipes();
                             echo $return_data_json;
                             break;
                     }
