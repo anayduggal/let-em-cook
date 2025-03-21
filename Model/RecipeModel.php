@@ -16,6 +16,16 @@ class RecipeModel extends Database
 
     }
 
+    public function getRandomRecipes($limit)
+
+    {
+
+        return $this->select(
+            "SELECT * FROM recipes ORDER BY RAND() LIMIT ?", ["i", $limit]
+        );
+
+    }
+
     public function getRecipeFromID($recipe_id)
 
     {

@@ -47,7 +47,13 @@ if (strtoupper($req_method) == 'POST') {
 
                             $return_data_json = $recipe_controller->searchRecipes($request_data["ingredients"]);
 
-                            header('Content-Type: application/json');
+                            echo $return_data_json;
+                            break;
+                        
+                        case "randomrecipes":
+
+                            $return_data_json = $recipe_controller->randomRecipes($request_data["amount"]);
+
                             echo $return_data_json;
                             break;
                     }

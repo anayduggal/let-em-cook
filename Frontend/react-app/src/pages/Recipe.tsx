@@ -18,12 +18,14 @@ const RecipeSearch: React.FC = () => {
     ]);
   }, []);
 
+  const [ingredients, setIngredients] = useState<string>("");
+
   return (
     <div className="recipe-dashboard">
       <TopBar />
       <main>
-        <SideBar setRecipes={setRecipes} />
-        <RecipesList recipes={recipes} />
+        <SideBar recipes={recipes} setRecipes={setRecipes} ingredients={ingredients} setIngredients={setIngredients} />
+        <RecipesList recipes={recipes} setRecipes={setRecipes} ingredients={ingredients} />
       </main>
     </div>
   );
