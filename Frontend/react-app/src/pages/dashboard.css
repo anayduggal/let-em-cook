@@ -1,26 +1,39 @@
 .dashboard-container {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 100vh;
-    background-color: #f8ea84;
-    padding: 20px;
-    box-sizing: border-box;
-  }
-  
-  .top-bar {
-    flex-grow: 0;
-    width: 100%;
-    height: auto;
-    margin-bottom: 20px;
-  }
-  
-  .dashboard-content {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    height: auto;
-    gap: 20px;
-    margin-bottom: 20px;
-  }
-  
+  background-color: #5d653e; /* Olive green background */
+  min-height: 100vh;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.dashboard-content {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.calendar-section {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.mealplan-section {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.mealplan-section button {
+  margin: 0 10px;
+}
+
+.pantry-shopping-container {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex: 1 1 350px;
+  max-width: 1500px;
+  background-color: #5d653e;
+  overflow: hidden;
+  position: relative;
+}

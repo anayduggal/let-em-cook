@@ -33,8 +33,23 @@ const Pantry: React.FC = () => {
         <h1>PANTRY</h1>
       </div>
 
-      <div className="pantry-form">
-        <input
+      <div className="pantry-list">
+        <div className="pantry-table-header">
+          <div className="column-ingredient">INGREDIENT</div>
+          <div className="column-quantity">QTY</div>
+          <div className="column-date">USE BY</div>
+        </div>
+
+        {pantryItems.map((item, index) => (
+          <div key={index} className="pantry-item">
+            <div className="column-ingredient">{item.ingredient}</div>
+            <div className="column-quantity">{item.quantity}</div>
+            <div className="column-date">{item.useByDate}</div>
+          </div>
+        ))}
+
+        <div className="pantry-form">
+         <input
           type="text"
           name="ingredient"
           placeholder="Ingredient"
@@ -55,22 +70,7 @@ const Pantry: React.FC = () => {
           onChange={handleInputChange}
         />
         <button onClick={addPantryItem}>ADD</button>
-      </div>
-
-      <div className="pantry-list">
-        <div className="pantry-table-header">
-          <div className="column-ingredient">INGREDIENT</div>
-          <div className="column-quantity">QTY</div>
-          <div className="column-date">USE BY</div>
-        </div>
-
-        {pantryItems.map((item, index) => (
-          <div key={index} className="pantry-item">
-            <div className="column-ingredient">{item.ingredient}</div>
-            <div className="column-quantity">{item.quantity}</div>
-            <div className="column-date">{item.useByDate}</div>
-          </div>
-        ))}
+      </div>  
       </div>
     </div>
   );

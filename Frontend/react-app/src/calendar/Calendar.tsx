@@ -101,10 +101,12 @@ const Calendar: React.FC = () => {
   };
 
   return (
+    <div>
+     <h2 className='month-top'>{currentMonth.toLocaleString('default', { month: 'long', year: 'numeric' })}</h2>
+
     <div className="calendar-container">
       <header>
         <button id="prevnext" onClick={handlePrevMonth}>Previous</button>
-        <h2>{currentMonth.toLocaleString('default', { month: 'long', year: 'numeric' })}</h2>
         <button id="prevnext" onClick={handleNextMonth}>Next</button>
       </header>
 
@@ -162,6 +164,7 @@ const Calendar: React.FC = () => {
           </div>
         ))}
       </div>
+    </div>
     </div>
   );
 };

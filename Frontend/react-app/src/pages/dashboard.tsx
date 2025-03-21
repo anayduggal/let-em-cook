@@ -17,10 +17,13 @@ const Dashboard: React.FC = () => {
       <div className="dashboard-container">
         <div className="dashboard-content">
           <Calendar />
+          <MealPlan />
+          <div className="pantry-shopping-container">
           <Pantry />
           <ShoppingList />
+          </div>
         </div>
-        <MealPlan />
+        
       </div>
     </div>
   );

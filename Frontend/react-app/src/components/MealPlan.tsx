@@ -13,32 +13,26 @@ const MealPlan: React.FC<MealPlanProps> = ({ style = {} }) => {
   return (
     <div className="mealplan-container" style={style}>
       <div className="mealplan-main">
-        <div className="meal-section" onClick={() => setBreakfast(!breakfast)}>
-          <div className={`checkbox ${breakfast ? "checked" : ""}`} />
-          <span>Breakfast</span>
+        <div className={`checkbox ${breakfast ? "checked" : ""}`} onClick={() => setBreakfast(!breakfast)}>
+        BREAKFAST
         </div>
-
         <div className="divider" />
-
-        <div className="meal-section" onClick={() => setLunch(!lunch)}>
-          <div className={`checkbox ${lunch ? "checked" : ""}`} />
-          <span>Lunch</span>
+        <div className={`checkbox ${lunch ? "checked" : ""}`} onClick={() => setLunch(!lunch)}>
+        LUNCH
         </div>
-
         <div className="divider" />
-
-        <div className="meal-section" onClick={() => setDinner(!dinner)}>
-          <div className={`checkbox ${dinner ? "checked" : ""}`} />
-          <span>Dinner</span>
+        <div className={`checkbox ${dinner ? "checked" : ""}`} onClick={() => setDinner(!dinner)}>
+        DINNER
         </div>
-      </div>
-
-      <button
+        <button
         className="plan-button"
         onClick={() => console.log("Plan clicked")}
       >
         PLAN
       </button>
+      </div>
+
+      
     </div>
   );
 };

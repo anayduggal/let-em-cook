@@ -7,21 +7,17 @@
   width: 100%; /* Use full width of the container */
   max-width: 1200px; /* Set max-width for larger screens */
   height: 60px;
-  background-color: #f8ea84;
   box-sizing: border-box; /* Include padding in the total width/height calculation */
   margin: 0 auto; /* Center the container */
 }
 
 .mealplan-main {
-  background-color: #f7e1e1;
-  border-radius: 20px;
-  border: 1px solid #000000;
+  width: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   flex: 1;
-  margin-right: 20px;
   padding: 0 15px; /* Add some padding for inner space */
 }
 
@@ -34,21 +30,28 @@
 }
 
 .checkbox {
-  width: 21px;
-  height: 19px;
-  background-color: #d9d9d9;
-  border: 1px solid #000000;
+  width: auto; /* Adjust width to fit text */
+  padding: 10px 20px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 14px;
+  background-color: transparent;
+  border: 2px solid #c2c2a3;
+  border-radius: 25px;
   cursor: pointer;
-  border-radius: 3px; /* Slightly round the corners */
+  transition: all 0.3s ease;
+  color: #ffffff;
 }
 
 .checkbox.checked {
-  background-color: #be1515;
+  background-color: #b0b097;
+  color: #8D844D;
 }
 
+
 .meal-section span {
-  font-family: "Montserrat", sans-serif; /* Fallback font */
-  font-size: 16px; /* Adjust the font size for better legibility */
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
   font-weight: 400;
   color: #000000;
 }
@@ -62,43 +65,23 @@
 .plan-button {
   width: 111px;
   height: 41px;
-  background-color: #be1515;
+  background-color: #e2cb7b;
   border-radius: 20px;
   border: none;
-  color: #ffffff;
+  color: #4a4a1b;
   font-family: "Montserrat", sans-serif;
-  font-size: 16px; /* Slightly smaller font size for better balance */
+  font-size: 16px;
   font-weight: 600;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: background-color 0.2s;
-  padding: 0 20px; /* Adjust padding for better button size */
+  padding: 0 20px;
 }
 
 .plan-button:hover {
-  background-color: #d41717;
+  background-color: #90782c;
 }
 
-@media (max-width: 768px) {
-  .mealplan-container {
-    flex-direction: column; /* Stack elements vertically on smaller screens */
-    align-items: flex-start;
-  }
 
-  .mealplan-main {
-    margin-right: 0;
-    margin-bottom: 20px;
-    padding: 0 10px;
-  }
-
-  .plan-button {
-    width: 100%; /* Full width on smaller screens */
-    margin-top: 10px; /* Add space between button and other elements */
-  }
-
-  .meal-section span {
-    font-size: 14px; /* Smaller font size on mobile */
-  }
-}

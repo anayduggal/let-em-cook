@@ -28,17 +28,6 @@ const TopBar: React.FC<TopBarProps> = ({ style }) => {
         </nav>
       </div>
       <div className="topbar-right">
-        <button
-          className="topbar-user-button"
-          onClick={() => navigate("/profile")}
-        >
-          <img
-            src="https://dashboard.codeparrot.ai/api/image/Z7cpv_3atcswnoug/profile.png"
-            alt="User"
-            className="topbar-user-icon"
-          />
-          USER
-        </button>
         <button className="login-button" onClick={() => navigate("/login")}>
           LOGIN
         </button>
