@@ -1,6 +1,6 @@
 import React from "react";
 import TopBar from "../components/TopBar";
-import Calendar from "../components/Calendar";
+import Calendar from "../calendar/Calendar";
 import ShoppingList from "../components/ShoppingList";
 import MealPlan from "../components/MealPlan";
 import Pantry from "../components/Pantry"
@@ -17,10 +17,13 @@ const Dashboard: React.FC = () => {
       <div className="dashboard-container">
         <div className="dashboard-content">
           <Calendar />
+          <MealPlan />
+          <div className="pantry-shopping-container">
           <Pantry />
           <ShoppingList />
+          </div>
         </div>
-        <MealPlan />
+        
       </div>
     </div>
   );

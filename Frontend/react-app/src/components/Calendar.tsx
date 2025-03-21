@@ -1,4 +1,4 @@
-import React from "react";
+/*import React from "react";
 import "../components/Calendar.css"; // Import the CSS file
 
 interface CalendarProps {
@@ -46,3 +46,4 @@ Calendar.defaultProps = {
 };
 
 export default Calendar;
+*/

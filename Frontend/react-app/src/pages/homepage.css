@@ -1,152 +1,157 @@
-/* General Styles */
-@import url('https://fonts.googleapis.com/css2?family=Antonio&display=swap');
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  font-family: 'Poppins', sans-serif;
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
-}
-
 .homepage {
-  position: relative;
-  background: linear-gradient(135deg, #8E8750, #F2EADF); /* Gradient for a cute, pastel theme */
-  background-size: 400% 400%;
-  animation: gradientBG 10s ease infinite;
+  background: radial-gradient(circle, #576238 80%, #FFD95E);
+  min-height: 100vh;
+  overflow-y: auto;
+  padding-bottom: 60px;
 }
 
-/* Hero Section */
-.hero-section {
-  background: url('https://www.pngrepo.com/png/321356/180/fruits-background.png') no-repeat center center;
-  background-size: 60%;
-  color: #ffffff;
-  padding: 200px 20px;
-  text-align: center;
-  position: relative;
-  z-index: 2;
-  animation: fadeIn 2s ease-in-out;
-}
-
-
-/* Hero Section Title */
-/* Hero Section Title */
-.hero-title {
-  font-family: 'Outfit', sans-serif;
-  font-size: 5rem;
-  font-weight: bold;
-  letter-spacing: 5px;
-  color: #fff;
-  text-transform: uppercase;
+.main-content {
   display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.hero-title .left {
-  color: #fff; /* Keep first part solid white */
-  padding-right: 10px;
-}
-
-.hero-title .right {
-  background: linear-gradient(to right, #ff5733, #f39c12); /* Gradient color for "COOK" */
-  -webkit-background-clip: text;
-  color: transparent;
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* Add shadow for depth */
-}
-
-.hero-subtitle {
-  font-size: 1.5rem;
-  margin-top: 10px;
-  color: #fff;
-  animation: slideUp 2s ease-in-out;
-}
-
-.highlight {
-  color: #fff;
-}
-
-.not-highlight {
-  color: #e74c3c; /* Red color for the word NOT */
-}
-
-/* Who We Are Section */
-.who-we-are {
-  background-color: #ffffffd9;
-  padding: 60px 20px;
-  text-align: center;
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-  animation: fadeInUp 2s ease-in-out;
-}
-
-.who-we-are h2 {
-  font-size: 3rem;
-  margin-bottom: 20px;
-}
-
-.who-we-are p {
-  font-size: 1.2rem;
-  max-width: 800px;
+  flex-direction: column;
+  gap: 40px;
+  padding: 50px 20px;
+  max-width: 1500px;
   margin: 0 auto;
 }
 
-/* Features Section */
-.features {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 40px;
-  padding: 60px 20px;
+
+section {
+  height: 500px;
+  background: radial-gradient(circle, #FFD95E 70%, #8D844D );
+  padding: 50px 35px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+}
+
+
+.hero-section {
+  top: 50%;
+  height: 600px;
   text-align: center;
-  animation: slideUp 1.5s ease-in-out;
+  background: radial-gradient(circle, #8D844D, #FFD95E);
 }
 
-.feature-item {
-  background-color: #fff;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s, box-shadow 0.3s;
+.hero-title {
+  font-size: 56px;
+  font-weight: bold;
+  margin-bottom: 14px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
 }
 
-.feature-item:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+.hero-title .left {
+  color: #333;
 }
 
-.feature-item h3 {
-  font-size: 2rem;
-  margin-bottom: 10px;
+.hero-title .right {
+  color: #ff4c4c;
 }
 
-.feature-item p {
-  font-size: 1.1rem;
+.hero-subtitle {
+  font-size: 22px;
+  margin-bottom: 30px;
 }
 
-/* Call to Action Section */
-.cta-section {
-  background-color: #ffec8b;
-  color: #3e3d34;
-  text-align: center;
-  padding: 80px 20px;
+.hero-subtitle .not-highlight {
+  color: #ff4c4c;
+  font-weight: bold;
 }
 
-.cta-section h2 {
-  font-size: 3rem;
-  margin-bottom: 20px;
+.cta-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
 }
 
 .cta-button {
-  background-color: #8C854E;
-  font-size: 22px;
-  padding: 20px 5px;
-  margin-top: 20px;
-  transition: background-color 0.3s;
+  width: max-content;
+  padding: 14px 28px;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  font-size: 16px;
 }
 
-.cta-button:hover {
-  background-color: #FFD95C;
+.cta-button.meal-plan {
+  background-color: #d6be64;
+  color: whitesmoke;
+}
+
+.cta-button.meal-plan:hover {
+  background-color: #c6ac58;
+}
+
+.cta-button.quick-meal {
+  background-color: transparent;
+  border: 2px solid whitesmoke;
+  color: whitesmoke;
+}
+
+.cta-button.quick-meal:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Who We Are Section */
+.who-we-are h2 {
+  font-size: 36px;
+  margin-bottom: 14px;
+}
+
+.who-we-are p {
+  font-size: 18px;
+  color: #555;
+}
+
+/* Features section with gradient card feel */
+.features h2 {
+  font-size: 36px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.feature-item {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.feature-item h3 {
+  font-size: 28px;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.feature-item p {
+  font-size: 16px;
+  color: #666;
+}
+
+/* CTA section with nice gradient box */
+.cta-section {
+  text-align: center;
+  background: radial-gradient(circle, #8D844D, #FFD95E);
+}
+
+.cta-section h2 {
+  font-size: 38px;
+  margin-bottom: 20px;
+}
+
+.cta-section .cta-button {
+  background-color: #d6be64;
+  color: #333;
+  padding: 14px 30px;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.cta-section .cta-button:hover {
+  background-color: #c6ac58;
 }
 
 /* Animations */
