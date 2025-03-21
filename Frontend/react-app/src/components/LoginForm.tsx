@@ -240,7 +240,11 @@ const LoginForm: React.FC<LoginFormProps> = ({ type }) => {
           </button>
 
           <div className="form-footer">
-            <button type="button" className="cancel-btn">
+            <button
+              type="button"
+              className="cancel-btn"
+              onClick={() => navigate("/")}
+            >
               Cancel
             </button>
             {type === "login" && (

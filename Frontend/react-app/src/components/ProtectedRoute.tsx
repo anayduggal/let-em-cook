@@ -11,23 +11,35 @@ const ProtectedRoute = () => {
     if (!isAuthenticated) {
       setShowPopup(true);
     }
-  }, [isAuthenticated]); // Run only when auth state changes
+  }, [isAuthenticated]); // Show popup only when not authenticated
 
   const handleRedirect = () => {
-    setShowPopup(false);
     navigate("/login");
+  };
+  const handleCancel = () => {
+    navigate("/");
   };
 
   if (isAuthenticated) {
-    return <Outlet />; // If logged in, show the protected page
+    return <Outlet />; // If logged in, show the protected content
   }
 
   return (
     <>
       {showPopup && (
-        <div className="popup">
-          <p>You need to log in first.</p>
-          <button onClick={handleRedirect}>Go to Login</button>
+        <div className="popup-overlay">
+          <div className="popup-content">
+            <h2>🔒 Access Restricted</h2>
+            <p>You need to log in to access this page.</p>
+            <div className="popup-buttons">
+              <button className="login-btn" onClick={handleRedirect}>
+                Go to Login
+              </button>
+              <button className="close-btn" onClick={handleCancel}>
+                Close
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </>
