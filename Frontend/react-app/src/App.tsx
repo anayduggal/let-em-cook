@@ -33,14 +33,13 @@ const App: React.FC = () => {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={isLoggedIn ? <HomePage /> : <Login />} />
+        <Route path="/recipes" element={<RecipeSearch />} /> \\
         <Route
           path="/signup"
           element={isLoggedIn ? <HomePage /> : <Signup />}
         />
-
         <Route element={<ProtectedRoute isLoggedIn={isLoggedIn} />}>
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/recipes" element={<RecipeSearch />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/pantry" element={<Pantry />} />
         </Route>
