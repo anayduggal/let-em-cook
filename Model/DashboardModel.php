@@ -91,4 +91,26 @@ class DashboardModel extends Database
         );
     }
 
+    public function getUserRecipes() 
+    
+    {
+
+        $link_rows = $this->select(
+            "SELECT recipe_id, cook_date FROM user_recipes WHERE user_id = ?", ["i", $_SESSION['user_id']]
+        );
+
+        $return_rows = [];
+
+        foreach ($link_rows as $link_row) {
+            $recipe = $this->select(
+                "SELECT * FROM recipes WHERE recipe_id = ?", ["i", $link_row['recipe_id']]
+            );
+
+            $return_rows[] = [$link_row['cook_date']] . $recipe;
+        }
+
+        return $return_rows;
+
+    }
+
 }

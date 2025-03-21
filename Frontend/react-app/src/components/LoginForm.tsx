@@ -1,12 +1,17 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import "./LoginForm.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import imageSrc from "../assets/image.png";
-import { sendLoginRequest, sendSignupRequest, LoginData, SignupData } from "../api/userService";
+import {
+  sendLoginRequest,
+  sendSignupRequest,
+  LoginData,
+  SignupData,
+} from "../api/userService";
 
 interface LoginFormProps {
   type: "login" | "signup";
-};
+}
 
 // Holds the data currently in the login/signup form
 type FormData = {
@@ -23,7 +28,7 @@ const extractLoginData = (data: FormData): LoginData => {
   return {
     action_type: "login",
     email: data.email,
-    password: data.psw
+    password: data.psw,
   };
 };
 
@@ -35,7 +40,7 @@ const extractSignupData = (data: FormData): SignupData => {
     email: data.email,
     password: data.psw,
     first_name: data.fname,
-    last_name: data.lname
+    last_name: data.lname,
   };
 };
 
@@ -51,6 +56,10 @@ const LoginForm: React.FC<LoginFormProps> = ({ type }) => {
     psw2: "",
   });
 
+  const navigate = useNavigate();
+  const [error, setError] = useState<string | null>(null); // Error message state
+  const [success, setSuccess] = useState<string | null>(null);
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     // Keep current form data the same, update the value that changed
 
@@ -59,48 +68,54 @@ const LoginForm: React.FC<LoginFormProps> = ({ type }) => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setError(null); // Reset error message
+    setSuccess(null); // Reset success message
 
     if (type == "login") {
       // Send login request to server
-      const loginData = extractLoginData(formData)
+      const loginData = extractLoginData(formData);
       const result = await sendLoginRequest(loginData);
 
       // TODO: Handle result
       switch (result) {
         case "success":
           console.log("Successfully logged in");
+          localStorage.setItem("token", "user_token_here"); // Store token
+          navigate("/profile"); // Redirect to profile page
           break;
-        
+
         case "password incorrect":
           console.log("Password incorrect");
+          setError("Password incorrect");
           break;
-        
+
         case "user does not exist":
           console.log("Email not associated with user");
+          setError("No account found");
           break;
       }
-
     } else if (type == "signup") {
       // Check passwords match
       if (formData.psw != formData.psw2) {
-        // TODO: tell user to make passwords match
-      };
+        setError("Passwords do not match");
+        return;
+      }
 
       // Send signup request to server
-      const signupData = extractSignupData(formData)
+      const signupData = extractSignupData(formData);
       const result = await sendSignupRequest(signupData);
 
       // TODO: Handle result
       switch (result) {
         case "success":
           console.log("Successfully signed up");
+          setTimeout(() => navigate("/login"), 2000);
           break;
         case "duplicate email":
-          console.log("User with that email already exists");
+          setError("User with that email already exists");
+          break;
       }
-
     }
-
   };
 
   return (
@@ -167,7 +182,11 @@ const LoginForm: React.FC<LoginFormProps> = ({ type }) => {
           </button>
 
           <div className="form-footer">
-            <button type="button" className="cancel-btn">
+            <button
+              type="button"
+              className="cancel-btn"
+              onClick={() => navigate("/")}
+            >
               Cancel
             </button>
             {type === "login" && (

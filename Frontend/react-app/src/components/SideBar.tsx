@@ -31,7 +31,12 @@ const SideBar: React.FC<SidebarProps> = ({ setRecipes, ingredients, setIngredien
       
     })
 
-    let recipes:any[] = [];
+    try {
+      const response = await fetch("http://localhost:8000/index.php/recipe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(requestData),
+      });
 
     if (ingredientList.length == 0) {
       recipes = await getRandomRecipes(3);  // Get random recipes

@@ -33,19 +33,50 @@ if (strtoupper($req_method) == 'POST') {
 
                     switch ($request_data["action_type"]) {
 
-                        case "searchrecipes":
+                        case "searchrecipesnoaccount":
 
-                            /*
-                            search recipes:
-                            get array of ingredient ids
-                            then get an array of recipe ids for every recipe that contains each ingredient 
-                            return all these arrays in a bigger array 
-                            make an associative array of every recipe where the key is the recipe id and the value is the number of ingredients it has
-                            for each recipe in the bigger array, decrement the count of the corresponding recipe in the associative array 
-                            return the recipes where the value is 0
-                            */
+                            // search recipes without an account
+                            // send request to server with 
+                            //      a list of ingredients
+                            //      a list of dietary preferences
+                            //      a list of allergens
+                            //      budget (either "high", "medium", or "low")
+                            // server returns an array of recipes that can be made with the ingredients
+                            // and fit the dietary preferences and do not contain the allergens
 
-                            $return_data_json = $recipe_controller->searchRecipes($request_data["ingredients"]);
+                            $return_data_json = $recipe_controller->searchRecipesNoAccount(
+                                $request_data["ingredients"],
+                                $request_data["allergens"],
+                                $request_data["budget"],
+                                $request_data["dietary_preferences"]
+                            );
+
+                            header('Content-Type: application/json');
+                            echo $return_data_json;
+                            break;
+
+                        case "searchrecipeswithaccount":
+
+                            // search recipes with an account
+                            // send request to server with 
+                            //      ids of seen recipes
+                            //      a list of ingredients
+                            //      budget (either "high", "medium", or "low")
+                            // server returns an array of 4 recipes that contain those ingredients
+                            // that fit the dietary preferences and do not contain the allergens
+
+                            // Check if user is logged in
+                            if (!isset($_SESSION['user_id'])) {
+                                header('Content-Type: application/json');
+                                echo json_encode(array('error' => 'User not logged in'));
+                                exit();
+                            }
+
+                            $return_data_json = $recipe_controller->searchRecipesWithAccount(
+                                $request_data["seen_recipe_ids"],
+                                $request_data["ingredients"],
+                                $request_data["allergens"],
+                            );
 
                             echo $return_data_json;
                             break;
@@ -75,8 +106,7 @@ if (strtoupper($req_method) == 'POST') {
                             // login user
                             // send request to server with email and password
 
-                            $return_data_json = $user_controller->login($request_data["email"], $request_data["password"]);
-                            echo $return_data_json;
+                            $user_controller->login($request_data["email"], $request_data["password"]);
 
                             break;
 
@@ -171,6 +201,16 @@ if (strtoupper($req_method) == 'POST') {
                             $user_controller->deleteAllergens($request_data["allergens"]);
                             break;
 
+                        case "changepassword":
+                            
+                            // Changes the password of the logged in user
+
+                            $user_controller->changeUserPassword(
+                                $request_data["old_password"],
+                                $request_data["new_password"]
+                            );
+                            break;
+
                     };
 
                 };
@@ -208,7 +248,11 @@ if (strtoupper($req_method) == 'POST') {
                             // add to pantry
                             // send request to server with ingredient name, quantity, and use by date
 
-                            $dashboard_controller->addPantryIngredient($request_data["ingredient_string"], $request_data["quantity_string"], $request_data["useby_string"]);
+                            $dashboard_controller->addPantryIngredient(
+                                $request_data["ingredient_string"],
+                                $request_data["quantity_string"],
+                                $request_data["useby_string"]
+                            );
                             break;
 
                         case "addshoppinglistingredient":
@@ -224,7 +268,11 @@ if (strtoupper($req_method) == 'POST') {
                             // move to pantry
                             // send request to server with ingredient name, quantity, and use by date
 
-                            $dashboard_controller->moveIngredientShoppingListPantry($request_data["ingredient_string"], $request_data["quantity_string"], $request_data["useby_string"]);
+                            $dashboard_controller->moveIngredientShoppingListPantry(
+                                $request_data["ingredient_string"],
+                                $request_data["quantity_string"],
+                                $request_data["useby_string"]
+                            );
                             break;
 
                         case "getpantry":
@@ -242,6 +290,16 @@ if (strtoupper($req_method) == 'POST') {
                             // send request to server and server returns an array of all the ingredients the user has added to their shopping list
 
                             $return_data_json = $dashboard_controller->getShoppingList();
+                            echo $return_data_json;
+                            break;
+
+                        case "getcalendarinfo":
+                            
+                            // get calendar info
+                            // send request to server and server returns an array of all the recipes the user has added to their calendar
+                            // array contains cook_date
+
+                            $return_data_json = $dashboard_controller->getCalendarRecipes();
                             echo $return_data_json;
                             break;
                     }
