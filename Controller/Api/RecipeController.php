@@ -141,39 +141,20 @@ class RecipeController extends BaseController
             $recipeModel = new RecipeModel();
             $userModel = new UserModel();
 
-            if (!empty($ingredient_names)) {
+            if ($budget) {
 
                 $user_id = $_SESSION['user_id'];
 
                 $allergens = $userModel->getAllergensFromUserID($user_id);
                 $dietary_preferences = $userModel->getPreferencesFromUserID($user_id);
 
-                // takes in an array of ingredient names (str)
-                // returns an array of corresponding ingredient ids (int)
-                $ingredient_ids = $recipeModel->getIngredientIDs($ingredient_names);
-
-                // takes in an array of ingredient ids 
-                // then get an array of recipe ids for every recipe that contains that ingredient 
-                // return all these arrays in a bigger array 
-                $all_recipe_ids = $recipeModel->parseRecipes($ingredient_ids);
-
-                $recipe_ingredient_counts = $recipeModel->getRecipeIngredientCounts();
-
-                $valid_recipe_ids = [];
-
-                foreach ($all_recipe_ids as $ids) {
-                    foreach ($ids as $id) {
-                        $recipe_ingredient_counts[$id]--;
-                    }
+                if (empty($ingredient_names)) {
+                    $valid_recipe_ids = array_column($recipeModel->getRandomRecipes(100), 'recipe_id');
+                } else {
+                    $valid_recipe_ids = $recipeModel->getRecipesWithIngredients($ingredient_names);
                 }
 
-                foreach ($recipe_ingredient_counts as $id => $count) {
-                    if ($count === 0) {
-                        $valid_recipe_ids[] = $id;
-                    }
-                }
-
-                $recipes = [];
+                shuffle($valid_recipe_ids);
                 
                 foreach ($valid_recipe_ids as $id) {
 
