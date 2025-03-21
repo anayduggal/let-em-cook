@@ -87,27 +87,23 @@ class RecipeModel extends Database
     public function getRecipesWithIngredients($ingredient_names) 
     {
         $ingredient_ids = $this->getIngredientIDs($ingredient_names);
-
+    
         if (empty($ingredient_ids)) {
             return [];
         }
-
+    
         $placeholders = implode(',', array_fill(0, count($ingredient_ids), '?'));
         $types = str_repeat('i', count($ingredient_ids));
         $params = array_merge([$types], $ingredient_ids);
-
+    
         $query = "
-            SELECT recipe_id
+            SELECT DISTINCT recipe_id
             FROM recipe_ingredients
             WHERE ingredient_id IN ($placeholders)
-            GROUP BY recipe_id
-            HAVING COUNT(DISTINCT ingredient_id) = ?
         ";
-
-        $params[] = count($ingredient_ids);
-
+    
         $recipes = $this->select($query, $params);
-
+    
         return array_column($recipes, 'recipe_id');
     }
 
