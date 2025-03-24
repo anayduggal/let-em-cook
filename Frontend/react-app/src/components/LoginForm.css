@@ -6,12 +6,11 @@
   font-family: "Inter", sans-serif;
 }
 
-/* Wrapper */
 .form-wrapper {
   display: flex;
   height: 100vh;
   width: 45%;
-  background-color: #90894f;
+  background: linear-gradient(150deg, #7e8f4e, #FFD95E);
   padding: 3rem 4rem;
   display: flex;
   flex-direction: column;

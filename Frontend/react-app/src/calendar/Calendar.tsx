@@ -19,7 +19,7 @@ const Calendar: React.FC = () => {
   const [daysInMonth, setDaysInMonth] = useState<Day[]>([]);
   const meals: Event[] = [
     { id: 1, date: "2025-03-05T10:00:00", title: "Sandwich"},
-    // add more mock events here
+    //  mock events
   ];
 
   useEffect(() => {
