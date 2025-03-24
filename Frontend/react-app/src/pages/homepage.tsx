@@ -12,6 +12,7 @@ const HomePage: React.FC = () => {
       <main className="main-content">
         {/* Hero Section */}
         <section className="hero-section">
+          <div className="hero-section-contents">
           <h1 className="hero-title">
             <span className="left">LET 'EM</span>
             <span className="right">COOK</span>
@@ -33,37 +34,53 @@ const HomePage: React.FC = () => {
               Find a quick meal
             </button>
           </div>
+          </div>
+          <img className = "main-img" src="theguy.png" alt="a very cool guy" />
         </section>
 
-        {/* Who We Are Section */}
-        <section className="who-we-are">
-          <h2>Who We Are</h2>
+        <section className="hungry-now">
+          <img className = "otherguy-img" src="otherguy.png" alt="a not so cool guy" />
+          <div className="hungry-now-content">
+          <h2>HUNGRY NOW?</h2>
           <p>
-            We’re all about making your meal prep fun and easy! Join us on this
-            culinary adventure to create delicious, healthy meals. Let’s cook up
-            some magic together!
+          Search through recipes according to
+          the ingredients you have
           </p>
-        </section>
-
-        {/* Features Section */}
-        <section className="features">
-          <h2>Our Features</h2>
-          <div className="feature-item">
-            <h3>Healthy Meals</h3>
-            <p>Fuel your body with delicious, wholesome meals.</p>
-          </div>
-          <div className="feature-item">
-            <h3>Quick & Easy</h3>
-            <p>Meals that are fast and fun to make!</p>
+          <button
+              className="cta-button quick-meal"
+              onClick={() => navigate("/recipes")}
+            >
+              Find a recipe
+            </button>
           </div>
         </section>
 
-        {/* Call to Action Section */}
+        
+        <section className="get-organised">
+          <div className="get-organised-content">
+          <h2>GET ORGANISED</h2>
+            <p>Easily organise your weekly culinary 
+            experience with us</p>
+
+            <button
+              className="cta-button meal-plan"
+              onClick={() => navigate("/dashboard")}
+            >
+              Meal Plan
+            </button>
+          </div>
+          <img className = "calendar-img" src="calendar-img.png" alt="calendar" />
+        </section>
+
+    
         <section className="cta-section">
-          <h2>Ready to Cook?</h2>
-          <button onClick={() => navigate("/recipes")} className="cta-button">
+          <div className="cta-section-content">
+          <h2>READY TO COOK?</h2>
+          <p>Join us and revolutionise your eating habits</p>
+          <button onClick={() => navigate("/signup")} className="cta-button">
             Get Started
           </button>
+          </div>
         </section>
       </main>
     </div>

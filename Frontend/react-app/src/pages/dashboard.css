@@ -1,5 +1,5 @@
 .dashboard-container {
-  background-color: #5d653e; /* Olive green background */
+  background: linear-gradient(150deg, #7e8f4e, #FFD95E);
   min-height: 100vh;
   padding: 20px;
   overflow-y: auto;
@@ -17,6 +17,7 @@
 }
 
 .mealplan-section {
+  
   width: 100%;
   display: flex;
   justify-content: center;
@@ -33,7 +34,6 @@
   justify-content: center;
   flex: 1 1 350px;
   max-width: 1500px;
-  background-color: #5d653e;
   overflow: hidden;
   position: relative;
 }
