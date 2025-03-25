@@ -30,7 +30,7 @@ const TopBar: React.FC<TopBarProps> = ({ style }) => {
       <div className="topbar-left">
         <div className="topbar-logo">
           <img
-            src="https://dashboard.codeparrot.ai/api/image/Z7cpv_3atcswnoug/heading.png"
+            src="public/logo.png"
             alt="Logo"
           />
         </div>
