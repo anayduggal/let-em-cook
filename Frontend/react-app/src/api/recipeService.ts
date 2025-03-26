@@ -8,7 +8,6 @@ export const getRecipes = async (amount: number, ingredients: string[], allergen
         budget: budget
     }
 
-
     // Get recipes w/ ingredients
     const recipe_response = await fetch("http://localhost:8000/index.php/recipe", {
         method: "POST",
@@ -48,5 +47,27 @@ export const getRandomRecipes = async (amount: number):Promise<any> => {
     let recipes = recipe_response.json()
 
     return recipes
+
+}
+
+export const getAutocomplete = async (typed: string):Promise<string[]> => {
+
+    let autocomplete_request_data = {
+        action_type: "autocomplete",
+        typed_string: typed
+    }
+
+    const autocomplete_response = await fetch("http://localhost:8000/index.php/dashboard", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(autocomplete_request_data)
+    });
+
+    let predictions = autocomplete_response.json()
+
+    return predictions
 
 }

@@ -43,3 +43,7 @@
     font-size: 0.9rem;
     color: #555;
   }
+
+  .autocomplete-dropdown {
+    cursor: pointer;
+  }

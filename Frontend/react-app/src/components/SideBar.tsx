@@ -1,6 +1,6 @@
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useState, useEffect } from "react";
 import "./SideBar.css";
-import { getRecipes, getRandomRecipes } from "../api/recipeService";
+import { getRecipes, getRandomRecipes, getAutocomplete } from "../api/recipeService";
 
 interface SidebarProps {
   recipes: { recipe_name: string; servings: number }[],
@@ -20,6 +20,7 @@ interface SidebarProps {
 const SideBar: React.FC<SidebarProps> = ({ setRecipes, ingredients, setIngredients, budget, setBudget }) => {
   const [dietaryPreferences, setDietaryPreferences] = useState<string[]>([]);
   const [allergens, setAllergens] = useState<string[]>([]);
+  const [autocompleteOptions, setAutocompleteOptions] = useState<string[]>([]);
 
   const dietaryOptions = ["gluten_free", "dairy_free", "vegan", "vegetarian"];
   const allergenOptions = [
@@ -45,6 +46,37 @@ const SideBar: React.FC<SidebarProps> = ({ setRecipes, ingredients, setIngredien
 
   const handleBudgetChange = (value: string) => {
     setBudget(value);
+  };
+
+  const handleIngredientsChange = async (value: string) => {
+    setIngredients(value);
+
+    // find the last typed ingredient
+    const lastIngredient = value.split(",").pop()?.trim() || "";
+
+    // if something typed, add autocomplete options
+    if (lastIngredient.length > 0) {
+      try {
+        const predictions = await getAutocomplete(lastIngredient);
+        setAutocompleteOptions(predictions);
+      } catch (error) {
+        console.error("Error fetching autocomplete options:", error);
+        setAutocompleteOptions([]);
+      }
+    } else {
+      setAutocompleteOptions([]);
+    }
+  };
+
+  const handleAutocompleteSelect = (option: string) => {
+    // appends autocompleted ingredient to the ingredients list
+    const lastCommaIndex = ingredients.lastIndexOf(",");
+    const updatedIngredients =
+      lastCommaIndex === -1
+        ? `${option}, `
+        : ingredients.slice(0, lastCommaIndex + 1) + ` ${option}, `;
+    setIngredients(updatedIngredients.trim());
+    setAutocompleteOptions([]);
   };
 
   const generateRecipes = async (event: FormEvent) => {
@@ -111,8 +143,17 @@ const SideBar: React.FC<SidebarProps> = ({ setRecipes, ingredients, setIngredien
           id="ingredients"
           name="ingredients"
           value={ingredients}
-          onChange={(e) => setIngredients(e.target.value)}
+          onChange={(e) => handleIngredientsChange(e.target.value)}
         />
+        {autocompleteOptions.length > 0 && (
+          <ul className="autocomplete-dropdown">
+            {autocompleteOptions.map((option, index) => (
+              <li key={index} onClick={() => handleAutocompleteSelect(option)}>
+                {option}
+              </li>
+            ))}
+          </ul>
+        )}
 
         <label htmlFor="budget">Budget</label>
         <input
