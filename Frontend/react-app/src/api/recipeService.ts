@@ -5,7 +5,7 @@ export const getRecipes = async (amount: number, ingredients: string[]):Promise<
         ingredients: ingredients,
         allergens: [],
         dietary_preferences: [],
-        budget: "medium"
+        budget: "high"
     }
 
 
