@@ -11,9 +11,13 @@ interface SidebarProps {
   setIngredients: React.Dispatch<
     React.SetStateAction<string>
   >;
+  budget: string,
+  setBudget: React.Dispatch<
+    React.SetStateAction<string>
+  >;
 }
 
-const SideBar: React.FC<SidebarProps> = ({ setRecipes, ingredients, setIngredients }) => {
+const SideBar: React.FC<SidebarProps> = ({ setRecipes, ingredients, setIngredients, budget, setBudget }) => {
   const generateRecipes = async (event: FormEvent) => {
     event.preventDefault();
 
@@ -85,11 +89,13 @@ const SideBar: React.FC<SidebarProps> = ({ setRecipes, ingredients, setIngredien
           onChange={(e) => setIngredients(e.target.value)}
         />
 
-        <label htmlFor="cuisine">Filter by Cuisine</label>
-        <input type="text" id="cuisine" name="cuisine" />
-
-        <label htmlFor="budget">Budget (£)</label>
-        <input type="text" id="budget" name="budget" />
+        <label htmlFor="budget">Budget (high, medium or low)</label>
+        <input
+          type="text"
+          id="budget"
+          name="budget"
+          value={budget}
+          onChange={(e) => setBudget(e.target.value)} />
 
         <button type="submit" className="generate-btn">
           Generate
