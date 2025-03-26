@@ -1,11 +1,11 @@
-export const getRecipes = async (amount: number, ingredients: string[]):Promise<any> => {
+export const getRecipes = async (amount: number, ingredients: string[], allergens: string[], dietary_preferences: string[], budget: string):Promise<any> => {
 
     let recipe_request_data = {
         action_type: "searchrecipesnoaccount",
         ingredients: ingredients,
-        allergens: [],
-        dietary_preferences: [],
-        budget: "high"
+        allergens: allergens,
+        dietary_preferences: dietary_preferences,
+        budget: budget
     }
 
 

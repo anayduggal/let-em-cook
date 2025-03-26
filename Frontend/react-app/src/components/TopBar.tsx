@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../components/TopBar.css";
+import { sendCheckLoginRequest } from "../api/userService";
 
 interface TopBarProps {
   style?: React.CSSProperties;
@@ -11,12 +12,12 @@ const TopBar: React.FC<TopBarProps> = ({ style }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    // Fetch login status from backend
     const checkLoginStatus = async () => {
+      console.log("checkLoginStatus called"); // Log when the function is called
       try {
-        const response = await fetch("/checklogin"); // Adjust API URL if needed
-        const data = await response.json(); // API should return { isAuthenticated: true/false }
-        setIsAuthenticated(data.isAuthenticated);
+        const loggedIn = await sendCheckLoginRequest();
+        console.log("sendCheckLoginRequest result:", loggedIn); // Log the result
+        setIsAuthenticated(loggedIn);
       } catch (error) {
         console.error("Error checking login status:", error);
       }

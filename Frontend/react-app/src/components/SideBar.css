@@ -36,3 +36,10 @@
     font-size: 16px;
   }
   
+  .budget-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: -10px;
+    font-size: 0.9rem;
+    color: #555;
+  }

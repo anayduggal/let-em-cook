@@ -28,6 +28,8 @@ class RecipeController extends BaseController
 
                 $recipe_ingredient_counts = $recipeModel->getRecipeIngredientCounts();
 
+                error_log("hello");
+
                 $valid_recipe_ids = [];
 
                 foreach ($all_recipe_ids as $ids) {

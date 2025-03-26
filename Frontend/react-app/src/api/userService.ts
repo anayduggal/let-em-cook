@@ -63,3 +63,23 @@ export const sendSignupRequest = async (signup_data: SignupData): Promise<Signup
 
   return response_json["result"];
 };
+
+export const sendCheckLoginRequest = async (): Promise<boolean> => {
+  // Send POST request to server
+  const response = await fetch("http://localhost:8000/index.php/login", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+          "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ action_type: "checklogin" })
+    }
+  );
+
+  // Check for bad response status
+  if (!response.ok) throw new Error(`Response failed`);
+
+  let response_json = await response.json();
+
+  return response_json["loggedIn"];
+};

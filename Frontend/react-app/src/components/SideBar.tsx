@@ -18,69 +18,94 @@ interface SidebarProps {
 }
 
 const SideBar: React.FC<SidebarProps> = ({ setRecipes, ingredients, setIngredients, budget, setBudget }) => {
+  const [dietaryPreferences, setDietaryPreferences] = useState<string[]>([]);
+  const [allergens, setAllergens] = useState<string[]>([]);
+
+  const dietaryOptions = ["gluten_free", "dairy_free", "vegan", "vegetarian"];
+  const allergenOptions = [
+    "peanuts", "tree nuts", "milk", "eggs", "fish", "shellfish", 
+    "wheat", "soy", "sesame", "mustard", "celery", "sulphites"
+  ];
+
+  const handleDietaryChange = (option: string) => {
+    setDietaryPreferences((prev) =>
+      prev.includes(option)
+        ? prev.filter((item) => item !== option)
+        : [...prev, option]
+    );
+  };
+
+  const handleAllergenChange = (option: string) => {
+    setAllergens((prev) =>
+      prev.includes(option)
+        ? prev.filter((item) => item !== option)
+        : [...prev, option]
+    );
+  };
+
+  const handleBudgetChange = (value: string) => {
+    setBudget(value);
+  };
+
   const generateRecipes = async (event: FormEvent) => {
+
+    console.log("generateRecipes function called");
+
     event.preventDefault();
-
+  
     ingredients = ingredients.trim();
-
-    let unprocessedIngredientList = ingredients.split(",")
-    let ingredientList:string[] = []
-
-    unprocessedIngredientList.forEach((ingredient:string, i:number)=>{
+  
+    let unprocessedIngredientList = ingredients.split(",");
+    let ingredientList: string[] = [];
+  
+    unprocessedIngredientList.forEach((ingredient: string) => {
       let trimmed = ingredient.trim();
-
       if (trimmed.length > 0) {
         ingredientList.push(trimmed);
       }
-      
-    })
-
+    });
+  
     console.log("ingredients: ", ingredientList);
+    console.log("dietaryPreferences: ", dietaryPreferences);
+    console.log("allergens: ", allergens);
 
-    let recipes:any[] = [];
+    // Map slider value to budget string
+    const budgetValue =
+      budget === "1" ? "low" : budget === "2" ? "medium" : "high";
 
-    if (ingredientList.length == 0) {
+    console.log("budget: ", budgetValue);
+  
+    let recipes: any[] = [];
+  
+    if (ingredientList.length === 0) {
       console.log("random");
-      recipes = await getRandomRecipes(3);  // Get random recipes
+      recipes = await getRandomRecipes(4); // Get random recipes
     } else {
       console.log("not");
-
+  
       try {
-        recipes = await getRecipes(3, ingredientList);  // Get recipes with ingredients
+        // Pass the correct data to getRecipes
+        recipes = await getRecipes(4, ingredientList, allergens, dietaryPreferences, budgetValue);
       } catch (Error) {
         console.log("Recipe search with ingredients failed, getting random recipes");
-
-        recipes = await getRandomRecipes(3);  // Get random recipes
-      }
-      
-    }
-    
-    console.log("recipes: ", recipes);
-
-    setRecipes([]);  // Reset recipes list
-
-    recipes.forEach((recipe:any, i:number)=>{
-      setRecipes((recipes) => [...recipes, recipe])  // Add recipe
-    });
-
-    
   
-  }
+        recipes = await getRandomRecipes(3); // Get random recipes
+      }
+    }
+  
+    console.log("recipes: ", recipes);
+  
+    setRecipes([]); // Reset recipes list
+  
+    recipes.forEach((recipe: any) => {
+      setRecipes((recipes) => [...recipes, recipe]); // Add recipe
+    });
+  };
 
   return (
     <aside className="sidebar">
       <form onSubmit={generateRecipes}>
-        <h3>Dietary Requirements</h3>
-        <button type="button" className="expand-btn">
-          +
-        </button>
-
-        <h3>Allergens</h3>
-        <button type="button" className="expand-btn">
-          +
-        </button>
-
-        <label htmlFor="ingredients">Ingredients</label>
+        <label htmlFor="ingredients">Ingredients (leave empty for random recipes)</label>
         <input
           type="text"
           id="ingredients"
@@ -89,13 +114,60 @@ const SideBar: React.FC<SidebarProps> = ({ setRecipes, ingredients, setIngredien
           onChange={(e) => setIngredients(e.target.value)}
         />
 
-        <label htmlFor="budget">Budget (high, medium or low)</label>
+        <label htmlFor="budget">Budget</label>
         <input
-          type="text"
+          type="range"
           id="budget"
           name="budget"
-          value={budget}
-          onChange={(e) => setBudget(e.target.value)} />
+          min="1"
+          max="3"
+          step="1"
+          value={budget === "low" ? 1 : budget === "medium" ? 2 : 3}
+          onChange={(e) =>
+            handleBudgetChange(
+              e.target.value === "1"
+                ? "low"
+                : e.target.value === "2"
+                ? "medium"
+                : "high"
+            )
+          }
+        />
+        <div className="budget-labels">
+          <span>Low</span>
+          <span>Medium</span>
+          <span>High</span>
+        </div>
+
+        <h3>Allergens</h3>
+        {allergenOptions.map((option) => (
+          <div key={option}>
+            <label>
+              <input
+                type="checkbox"
+                value={option}
+                checked={allergens.includes(option)}
+                onChange={() => handleAllergenChange(option)}
+              />
+              {option}
+            </label>
+          </div>
+        ))}
+
+        <h3>Dietary Requirements</h3>
+        {dietaryOptions.map((option) => (
+          <div key={option}>
+            <label>
+              <input
+                type="checkbox"
+                value={option}
+                checked={dietaryPreferences.includes(option)}
+                onChange={() => handleDietaryChange(option)}
+              />
+              {option}
+            </label>
+          </div>
+        ))}
 
         <button type="submit" className="generate-btn">
           Generate
