@@ -1,9 +1,17 @@
 import "./Profile.css";
 import TopBar from "../components/TopBar";
+import {
+  sendProfileInfoRequest
+} from "../api/userService";
+import { useEffect, useState } from "react";
 
-
-
-
+interface ProfileInfo {
+  user_id: number;
+  email: string;
+  password_hash: string;
+  first_name: string;
+  last_name: string;
+}
 
 const ProfileCard = () => {
 
@@ -15,35 +23,30 @@ const ProfileCard = () => {
     console.log ("Different page for adding/removing? Unsure")
   }
 
-  const userName = "Firstname Lastname";
-  const userEmail = "**********@gmail.com";
-  const startDate = "Aug 2024";
+  const [userName, setUserName] = useState<string | null>(null);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
+
+  useEffect(() => {
+    const getProfileInfo = async () => {
+      try {
+        const profileInfo: ProfileInfo = await sendProfileInfoRequest();
+
+        const name = `${profileInfo["first_name"]} ${profileInfo["last_name"]}`;
+        setUserName(name);
+
+        const email = `${profileInfo["email"]}`;
+        setUserEmail(email);
+
+      } catch (error) {
+        console.error("Error getting profile info:", error);
+      }
+    };
+
+    getProfileInfo();
+  }, []);
+
   const dietPref = ["Vegan", "Gluten-free"];
   const allergens = ["Gluten", "Peanuts"];
-
-  const request_data = {
-    action_type: "searchrecipes",
-    ingredients: ["butter", "egg", "table salt", "unsalted butter"]
-  }
-
-  const sendRequest = async () => {
-
-    // Send POST request to server
-    const response = await fetch("http://localhost:8000/index.php/recipe", {
-      method: "POST",
-      credentials: "include",
-      headers: {
-          "Content-Type": "application/json"
-      },
-      body: JSON.stringify(request_data)  // Extract signup data from form
-    });
-
-    let response_json = await response.json();
-
-    console.log(response_json);
-
-  }
-
 
   return (
     <>
@@ -53,7 +56,6 @@ const ProfileCard = () => {
 
         <img className="profile-image" src="/profile.png" alt="Blank Profile Picture" />
         <h2>{userName}</h2>
-        <p>User since {startDate}</p>
         <p>Email: {userEmail}</p>
 
         <div className="section">
@@ -74,7 +76,7 @@ const ProfileCard = () => {
           ))}
           {<br />}
 
-          <button className="action-button" onClick = {sendRequest}> ADD / REMOVE </button>
+          <button className="action-button"> ADD / REMOVE </button>
         </div>
 
         <div className="actions">

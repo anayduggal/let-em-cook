@@ -28,8 +28,6 @@ class RecipeController extends BaseController
 
                 $recipe_ingredient_counts = $recipeModel->getRecipeIngredientCounts();
 
-                error_log("hello");
-
                 $valid_recipe_ids = [];
 
                 foreach ($all_recipe_ids as $ids) {
@@ -59,10 +57,10 @@ class RecipeController extends BaseController
                         $max_price = 100.00;
                         break;
                     case "medium":
-                        $max_price = 300.00;
+                        $max_price = 200.00;
                         break;
                     case "high":
-                        $max_price = 1000.00;
+                        $max_price = INF;
                         break;
                 }
 

@@ -13,8 +13,13 @@ const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
 
   useEffect(() => {
-    fetch("http://localhost:8000/index.php/checklogin", {
+    fetch("http://localhost:8000/index.php/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       credentials: "include", // Ensures cookies/session are included
+      body: JSON.stringify({ action_type: "checklogin" }),
     })
       .then((res) => res.json())
       .then((data) => setIsLoggedIn(data.loggedIn))
@@ -39,7 +44,10 @@ const App: React.FC = () => {
           element={isLoggedIn ? <HomePage /> : <Signup />}
         />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route 
+          path="/profile" 
+          element={isLoggedIn ? <Profile /> : <Login />}
+        />
         <Route path="/pantry" element={<Pantry />} />
       </Routes>
     </Router>

@@ -14,6 +14,15 @@ export type SignupData = {
     last_name: string
 };
 
+// Data for profile info
+export type ProfileInfo = {
+  user_id: number;
+  email: string;
+  password_hash: string;
+  first_name: string;
+  last_name: string;
+}
+
 // The result recieved after a login request
 export type LoginResult = "success" | "user does not exist" | "password incorrect";
 
@@ -40,7 +49,6 @@ export const sendLoginRequest = async (login_data: LoginData): Promise<LoginResu
 
   return response_json["result"];
 };
-
 
 export const sendSignupRequest = async (signup_data: SignupData): Promise<SignupResult> => {
   console.log(`Sending POST request: ${JSON.stringify(signup_data)}`);
@@ -81,5 +89,28 @@ export const sendCheckLoginRequest = async (): Promise<boolean> => {
 
   let response_json = await response.json();
 
+  console.log()
+
   return response_json["loggedIn"];
+};
+
+export const sendProfileInfoRequest = async (): Promise<ProfileInfo> => {
+  const response = await fetch("http://localhost:8000/index.php/profile", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+          "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ action_type: "getprofileinfo" })
+    }
+  );
+
+  // Check for bad response status
+  if (!response.ok) throw new Error(`Response failed`);
+
+  const response_json: ProfileInfo = await response.json();
+
+  console.log(response_json);
+
+  return response_json;
 };
