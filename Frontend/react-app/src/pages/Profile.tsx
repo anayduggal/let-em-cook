@@ -1,17 +1,10 @@
 import "./Profile.css";
 import TopBar from "../components/TopBar";
 import {
-  sendProfileInfoRequest
+  sendProfileInfoRequest,
+  ProfileInfo
 } from "../api/userService";
 import { useEffect, useState } from "react";
-
-interface ProfileInfo {
-  user_id: number;
-  email: string;
-  password_hash: string;
-  first_name: string;
-  last_name: string;
-}
 
 const ProfileCard = () => {
 

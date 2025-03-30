@@ -15,7 +15,7 @@ export type SignupData = {
 };
 
 // Data for profile info
-export type ProfileInfo = {
+export interface ProfileInfo {
   user_id: number;
   email: string;
   password_hash: string;
@@ -51,6 +51,7 @@ export const sendLoginRequest = async (login_data: LoginData): Promise<LoginResu
 };
 
 export const sendSignupRequest = async (signup_data: SignupData): Promise<SignupResult> => {
+
   console.log(`Sending POST request: ${JSON.stringify(signup_data)}`);
 
   // Send POST request to server

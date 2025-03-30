@@ -6,6 +6,7 @@ import Signup from "./pages/Signup";
 import Dashboard from "./pages/dashboard";
 import Pantry from "./components/Pantry";
 import RecipeSearch from "./pages/Recipe";
+import RecipePlan from "./pages/RecipePlan";
 import Profile from "./pages/Profile";
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -49,6 +50,10 @@ const App: React.FC = () => {
           element={isLoggedIn ? <Profile /> : <Login />}
         />
         <Route path="/pantry" element={<Pantry />} />
+        <Route 
+          path="/recipeplan"
+          element={isLoggedIn ? <RecipePlan /> : <RecipeSearch />}
+        />
       </Routes>
     </Router>
   );
