@@ -1,5 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../components/ShoppingList.css";
+
+import {
+  getShoppingList,
+  IngredientData
+} from "../api/recipeService";
 
 interface ShoppingListProps {
   style?: React.CSSProperties;
@@ -9,23 +14,36 @@ interface Item {
   ingredient: string;
   quantity: string;
   unit: string;
-  price: string;
 }
 
 const ShoppingList: React.FC<ShoppingListProps> = ({ style }) => {
+
+  const [shoppingItems, setShoppingItems] = useState<IngredientData[]>([]);
+
   const defaultItems: Item[] = [
     {
       ingredient: "Lorem ipsum",
       quantity: "1",
       unit: "pack",
-      price: "£ 2.00",
     },
-    { ingredient: "Dolor", quantity: "2", unit: "bunches", price: "£ 1.20" },
-    { ingredient: "Sit amet", quantity: "500", unit: "grams", price: "£ 0.90" },
-    { ingredient: "Etcetera", quantity: "2", unit: "pieces", price: "£ 0.80" },
+    { ingredient: "Dolor", quantity: "2", unit: "bunches" },
+    { ingredient: "Sit amet", quantity: "500", unit: "grams" },
+    { ingredient: "Etcetera", quantity: "2", unit: "pieces" },
   ];
 
-  const totalCost = "£ 4.90";
+    useEffect(() => {
+      const getUsersShopping = async () => {
+        try {
+          const shoppingData = await getShoppingList();
+          console.log(shoppingData)
+          setShoppingItems(shoppingData);
+        } catch (error) {
+          console.error("Error getting shopping:", error);
+        }
+      };
+
+      getUsersShopping();
+    }, []);
 
   return (
     <div className="shopping-list-container" style={style}>
@@ -36,24 +54,17 @@ const ShoppingList: React.FC<ShoppingListProps> = ({ style }) => {
       <div className="shopping-list-table-header">
         <div className="column-ingredient">INGREDIENT</div>
         <div className="column-quantity">QTY + UNIT</div>
-        <div className="column-price">PRICE</div>
       </div>
 
       <div className="shopping-list-content">
-        {defaultItems.map((item, index) => (
+        {shoppingItems.map((item, index) => (
           <div key={index} className="shopping-list-item">
-            <div className="column-ingredient">{item.ingredient}</div>
+            <div className="column-ingredient">{item.ingredient_name}</div>
             <div className="column-quantity">
-              {item.quantity} {item.unit}
+              {item.quantity}
             </div>
-            <div className="column-price">{item.price}</div>
           </div>
         ))}
-      </div>
-
-      <div className="shopping-list-footer">
-        <span>Total cost:</span>
-        <span>{totalCost}</span>
       </div>
     </div>
   );

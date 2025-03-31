@@ -1,3 +1,10 @@
+
+export interface IngredientData {
+    ingredient_name: string,
+    use_by: string,
+    quantity: string
+};
+
 export const getRecipes = async (amount: number, ingredients: string[], allergens: string[], dietary_preferences: string[], budget: string):Promise<any> => {
 
     let recipe_request_data = {
@@ -69,5 +76,40 @@ export const getAutocomplete = async (typed: string):Promise<string[]> => {
     let predictions = autocomplete_response.json()
 
     return predictions
+
+};
+
+export const getPantry = async ():Promise<IngredientData[]> => {
+
+    const pantry_response = await fetch("http://localhost:8000/index.php/dashboard", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ action_type: "getpantry" })
+    });
+
+    console.log(pantry_response)
+
+    let pantry = pantry_response.json()
+
+    return pantry
+
+};
+
+export const getShoppingList = async ():Promise<IngredientData[]> => {
+    const shopping_response = await fetch("http://localhost:8000/index.php/dashboard", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ action_type: "getshoppinglist" })
+    });
+
+    let shopping_list = shopping_response.json()
+
+    return shopping_list
 
 }

@@ -1,18 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../components/Pantry.css";
 
-interface PantryItem {
-  ingredient: string;
-  quantity: string;
-  useByDate: string;
-}
+import {
+  getPantry,
+  IngredientData
+} from "../api/recipeService";
 
 const Pantry: React.FC = () => {
-  const [pantryItems, setPantryItems] = useState<PantryItem[]>([]);
-  const [newItem, setNewItem] = useState<PantryItem>({
-    ingredient: "",
+  const [pantryItems, setPantryItems] = useState<IngredientData[]>([]);
+
+  const [newItem, setNewItem] = useState<IngredientData>({
+    ingredient_name: "",
     quantity: "",
-    useByDate: "",
+    use_by: "",
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -21,11 +21,25 @@ const Pantry: React.FC = () => {
   };
 
   const addPantryItem = () => {
-    if (newItem.ingredient && newItem.quantity && newItem.useByDate) {
+    if (newItem.ingredient_name && newItem.quantity && newItem.use_by) {
       setPantryItems([...pantryItems, newItem]);
-      setNewItem({ ingredient: "", quantity: "", useByDate: "" });
+      setNewItem({ ingredient_name: "", quantity: "", use_by: "" });
     }
   };
+
+    useEffect(() => {
+      const getUsersPantry = async () => {
+        try {
+          const pantryData = await getPantry();
+          console.log(pantryData)
+          setPantryItems(pantryData);
+        } catch (error) {
+          console.error("Error getting pantry:", error);
+        }
+      };
+
+      getUsersPantry();
+    }, []);
 
   return (
     <div className="pantry-container">
@@ -42,18 +56,18 @@ const Pantry: React.FC = () => {
 
         {pantryItems.map((item, index) => (
           <div key={index} className="pantry-item">
-            <div className="column-ingredient">{item.ingredient}</div>
+            <div className="column-ingredient">{item.ingredient_name}</div>
             <div className="column-quantity">{item.quantity}</div>
-            <div className="column-date">{item.useByDate}</div>
+            <div className="column-date">{item.use_by}</div>
           </div>
         ))}
 
         <div className="pantry-form">
          <input
           type="text"
-          name="ingredient"
+          name="ingredient_name"
           placeholder="Ingredient"
-          value={newItem.ingredient}
+          value={newItem.ingredient_name}
           onChange={handleInputChange}
         />
         <input
@@ -65,8 +79,8 @@ const Pantry: React.FC = () => {
         />
         <input
           type="date"
-          name="useByDate"
-          value={newItem.useByDate}
+          name="use_by"
+          value={newItem.use_by}
           onChange={handleInputChange}
         />
         <button onClick={addPantryItem}>ADD</button>

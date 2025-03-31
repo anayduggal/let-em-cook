@@ -48,6 +48,7 @@
   flex: 2;
   font-size: 12px;
   text-align: left;
+  text-transform: capitalize;
 }
 
 .column-quantity {

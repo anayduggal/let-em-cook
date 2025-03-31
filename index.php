@@ -37,9 +37,9 @@ if (strtoupper($req_method) == 'POST') {
 
                             // search recipes without an account
                             // send request to server with 
-                            //      a list of ingredients
-                            //      a list of dietary preferences
-                            //      a list of allergens
+                            //      array of ingredients
+                            //      array of dietary preferences
+                            //      array of allergens
                             //      budget (either "high", "medium", or "low")
                             // server returns an array of recipes that can be made with the ingredients
                             // and fit the dietary preferences and do not contain the allergens
@@ -301,6 +301,17 @@ if (strtoupper($req_method) == 'POST') {
 
                             $return_data_json = $dashboard_controller->getCalendarRecipes();
                             echo $return_data_json;
+                            break;
+
+                        case "addrecipe":
+                            
+                            // add recipe to calendar
+                            // send request to server with recipe id and cook date
+
+                            $dashboard_controller->addUserRecipe(
+                                $request_data["recipe_name"],
+                                $request_data["cook_date"]
+                            );
                             break;
                     }
                 }

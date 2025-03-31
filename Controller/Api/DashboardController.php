@@ -210,4 +210,36 @@ class DashboardController extends BaseController
 
     }
 
+    public function addRecipe($recipe_name, $cook_date) 
+    
+    {
+        $error_str = '';
+
+        try {
+
+            $dashboardModel = new DashboardModel();
+
+            if (!empty($recipe_name) && !empty($cook_date)) {
+
+                $dashboardModel->addUserRecipe($recipe_name, $cook_date);
+
+            } else {
+
+                $error_str = 'Empty query';
+                $strErrorHeader = 'HTTP/1.1 400 Bad Request';
+
+            }
+        } catch (Exception $e) {
+
+            $error_str = $e->getMessage();
+            $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
+
+        }
+
+        if (!empty($error_str)) {
+            header($strErrorHeader);
+            return $error_str;
+        }
+    }
+
 }

@@ -46,16 +46,19 @@ class DashboardModel extends Database
     public function getUserPantry() 
     
     {
-        $ingredient_ids = $this->select(
-            "SELECT * FROM user_ingredients WHERE user_id = ? AND bought = 1", ["i", $_SESSION['user_id']]
+        $ingredient_rows = $this->select(
+            "SELECT ingredient_id, use_by, quantity FROM user_ingredients WHERE user_id = ? AND bought = 1", ["i", $_SESSION['user_id']]
         );
 
         $pantry = [];
 
-        foreach ($ingredient_ids as $ingredient_id) {
+        foreach ($ingredient_rows as $row) {
             $ingredient = $this->select(
-                "SELECT * FROM ingredients WHERE ingredient_id = ?", ["i", $ingredient_id]
-            );
+                "SELECT ingredient_name FROM ingredients WHERE ingredient_id = ?", ["i", $row['ingredient_id']]
+            )[0];
+
+            $ingredient['use_by'] = $row['use_by'];
+            $ingredient['quantity'] = $row['quantity'];
 
             $pantry[] = $ingredient;
         }
@@ -66,18 +69,28 @@ class DashboardModel extends Database
     public function getUserShoppingList() 
     
     {
-        $ingredient_ids = $this->select(
-            "SELECT * FROM user_ingredients WHERE user_id = ? AND bought = 0", ["i", $_SESSION['user_id']]
+        $recipe_ids = $this->select(
+            "SELECT recipe_id FROM user_recipes WHERE user_id = ?", ["i", $_SESSION['user_id']]
         );
 
         $shopping_list = [];
 
-        foreach ($ingredient_ids as $ingredient_id) {
-            $ingredient = $this->select(
-                "SELECT * FROM ingredients WHERE ingredient_id = ?", ["i", $ingredient_id]
+        // loop through each recipe_id and get the ingredients
+        foreach ($recipe_ids as $recipe) {
+            $ingredients = $this->select(
+                "SELECT ri.ingredient_id, ri.quantity, ri.unit, i.ingredient_name 
+                 FROM recipe_ingredients ri 
+                 JOIN ingredients i ON ri.ingredient_id = i.ingredient_id 
+                 WHERE ri.recipe_id = ?", ["i", $recipe['recipe_id']]
             );
 
-            $shopping_list[] = $ingredient;
+            // loop through each ingredient and add it to the shopping list
+            foreach ($ingredients as $ingredient) {
+                $shopping_list[] = [
+                    'ingredient_name' => $ingredient['ingredient_name'],
+                    'quantity' => $ingredient['quantity'] . " " . $ingredient['unit']
+                ];
+            }
         }
 
         return $shopping_list;
@@ -111,6 +124,21 @@ class DashboardModel extends Database
 
         return $return_rows;
 
+    }
+
+    public function addUserRecipe($recipe_name, $cook_date) 
+    
+    {
+        // get recipe_id from recipe_name
+        $recipe_id = $this->select(
+            "SELECT recipe_id FROM recipes WHERE recipe_name = ?", ["s", $recipe_name]
+        )[0]['recipe_id'];
+
+        // insert the recipe into the user_recipes table
+        $this->insertInto(
+            "INSERT INTO user_recipes (user_id, recipe_id, cook_date) VALUES (?, ?, ?)", 
+            ["iis", $_SESSION['user_id'], $recipe_id, $cook_date]
+        );
     }
 
 }
