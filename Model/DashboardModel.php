@@ -105,25 +105,28 @@ class DashboardModel extends Database
     }
 
     public function getUserRecipes() 
-    
     {
-
-        $link_rows = $this->select(
+        // get array of recipe_ids and cook_dates for the user
+        $recipe_rows = $this->select(
             "SELECT recipe_id, cook_date FROM user_recipes WHERE user_id = ?", ["i", $_SESSION['user_id']]
         );
 
-        $return_rows = [];
+        $recipes = [];
 
-        foreach ($link_rows as $link_row) {
+        // get all recipes with those ids and include cook_date
+        foreach ($recipe_rows as $row) {
             $recipe = $this->select(
-                "SELECT * FROM recipes WHERE recipe_id = ?", ["i", $link_row['recipe_id']]
+                "SELECT recipe_name, source_link FROM recipes WHERE recipe_id = ?", ["i", $row['recipe_id']]
             );
-
-            $return_rows[] = [$link_row['cook_date']] . $recipe;
+            $recipes[] = [
+                'recipe_id' => $row['recipe_id'],
+                'recipe_name' => $recipe[0]['recipe_name'],
+                'source_link' => $recipe[0]['source_link'],
+                'cook_date' => $row['cook_date']
+            ];
         }
 
-        return $return_rows;
-
+        return $recipes;
     }
 
     public function addUserRecipe($recipe_name, $cook_date) 

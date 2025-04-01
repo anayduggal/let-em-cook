@@ -7,6 +7,7 @@
     border-radius: 4px;
     margin-bottom: 2px;
     overflow-y: auto;
+    text-transform: capitalize;
 }
 
 .month-top {

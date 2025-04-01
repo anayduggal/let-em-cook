@@ -39,7 +39,7 @@ const App: React.FC = () => {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={isLoggedIn ? <HomePage /> : <Login />} />
-        <Route path="/recipes" element={<RecipeSearch />} /> \\
+        <Route path="/recipes" element={<RecipeSearch />} />
         <Route
           path="/signup"
           element={isLoggedIn ? <HomePage /> : <Signup />}
@@ -47,7 +47,7 @@ const App: React.FC = () => {
         <Route 
           path="/dashboard" 
           element={isLoggedIn ? <Dashboard /> : <Login />} 
-          />
+        />
         <Route 
           path="/profile" 
           element={isLoggedIn ? <Profile /> : <Login />}

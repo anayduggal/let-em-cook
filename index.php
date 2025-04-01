@@ -313,6 +313,15 @@ if (strtoupper($req_method) == 'POST') {
                                 $request_data["cook_date"]
                             );
                             break;
+
+                        case "getuserrecipes":
+                            
+                            // get user recipes
+                            // send request to server and server returns an array of all the recipes the user has added to their calendar
+
+                            $return_data_json = $dashboard_controller->getCalendarRecipes();
+                            echo $return_data_json;
+                            break;
                     }
                 }
                 break;

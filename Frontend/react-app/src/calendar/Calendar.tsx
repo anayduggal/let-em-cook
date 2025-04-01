@@ -2,25 +2,44 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import './Calendar.css';
 
-interface Event {
-  id: number;
-  title: string;
-  date: Date;
-}
+import {
+  RecipeData,
+  getUserRecipes
+} from "../api/recipeService";
 
 interface Day {
   date: Date;
-  events: Event[];
+  events: RecipeData[];
 }
 
 const Calendar: React.FC = () => {
+
   const navigate = useNavigate();
   const [currentMonth, setCurrentMonth] = useState<Date>(new Date());
   const [daysInMonth, setDaysInMonth] = useState<Day[]>([]);
-  const meals: Event[] = [
-    { id: 1, date: "2025-03-05T10:00:00", title: "Sandwich"},
-    //  mock events
-  ];
+  const [meals, setMeals] = useState<RecipeData[]>([
+    { recipe_id: 1, cook_date: new Date("2025-03-05"), recipe_name: "Sandwich", source_link: "https://example.com/sandwich" },
+  ]);
+
+  useEffect(() => {
+    const getUsersRecipes = async () => {
+      try {
+        const recipesData = await getUserRecipes();
+        console.log(recipesData);
+
+        setMeals((prevMeals) => {
+          const newRecipes = recipesData.filter(
+            (recipe) => !prevMeals.some((meal) => meal.recipe_id === recipe.recipe_id)
+          );
+          return [...prevMeals, ...newRecipes]; // add only unique recipes
+        });
+      } catch (error) {
+        console.error("Error getting recipes:", error);
+      }
+    };
+
+    getUsersRecipes();
+  }, []); // only needs to be fetched once
 
   useEffect(() => {
     const updateCalendar = () => {
@@ -35,7 +54,7 @@ const Calendar: React.FC = () => {
         const currentDate = new Date(year, month, date)
         const eventsForThisDate = meals.filter(
           (event) =>
-            new Date(event.date).toDateString() === currentDate.toDateString()
+            new Date(event.cook_date).toDateString() === currentDate.toDateString()
         );
   
         days.push({
@@ -43,11 +62,11 @@ const Calendar: React.FC = () => {
           events: eventsForThisDate,
         });
       }
-  
+    
       setDaysInMonth(days);
     };
   
-    updateCalendar();
+    updateCalendar(); // update calendar whenever meals or currentMonth changes
   }, [currentMonth, meals]);
   
 
@@ -59,36 +78,37 @@ const Calendar: React.FC = () => {
     setCurrentMonth(new Date(currentMonth.setMonth(currentMonth.getMonth() + 1)));
   };
 
-  const handleaddmeal = (day: Date, existingEvent?: Event) => {
-    const eventTitle = prompt(`Add meal title:`, existingEvent?.title || '');
+  const handleaddmeal = (day: Date, existingEvent?: RecipeData) => {
+    const eventTitle = prompt(`Add meal title:`, existingEvent?.recipe_name || '');
   
     if (eventTitle) {
-        addOrUpdateEvent(day, eventTitle);
+        addOrUpdateEvent(day, eventTitle, existingEvent?.recipe_id, existingEvent?.source_link);
     }
   };
 
-  const handleviewmeal = (day: Date, existingEvent?: Event) => {
-    const eventTitle = prompt(`View meal title:`, existingEvent?.title || '');
+  const handleviewmeal = (day: Date, existingEvent?: RecipeData) => {
+    const eventTitle = prompt(`View meal title:`, existingEvent?.recipe_name || '');
   
     if (eventTitle) {
       if (existingEvent) {
-        addOrUpdateEvent(day, eventTitle, existingEvent.id);
+        addOrUpdateEvent(day, eventTitle, existingEvent.recipe_id, existingEvent.source_link);
       }
     }
   };
   
-  const addOrUpdateEvent = (day: Date, eventTitle: string, eventId?: number) => {
-    const newEvent: Event = {
-      id: eventId || Date.now(), 
-      title: eventTitle,
-      date: day
+  const addOrUpdateEvent = (day: Date, eventTitle: string, eventId?: number, source_link?: string) => {
+    const newEvent: RecipeData = {
+      recipe_id: eventId || Date.now(), 
+      recipe_name: eventTitle,
+      cook_date: day,
+      source_link: source_link || '',
     };
 
     setDaysInMonth((prevDays) =>
       prevDays.map((d) =>
         d.date.toDateString() === day.toDateString()
           ? { ...d, events: eventId ?
-              d.events.map(event => event.id === eventId ? newEvent : event)
+              d.events.map(event => event.recipe_id === eventId ? newEvent : event)
               : [...d.events, newEvent] }
           : d
       )
@@ -130,34 +150,20 @@ const Calendar: React.FC = () => {
               <span>{day.date.getDate()}</span>
             </div>
             <div className="meal-grid">
-              {/* Add meal button for each day */}
               {day.events.length === 0 ? (
-                <button
-                  id="meal-button"
-                  onClick={() => handleaddmeal(day.date)}
-                >
-                  Add Meal
-                </button>
+                <></>
               ) : (
                 <div className="meal-list">
                   {day.events.map((event) => (
                     <button 
                       id="meal-button"
-                      key={event.id}
+                      key={event.recipe_id}
                       className="meal-item"
-                      onClick={() => handleviewmeal(day.date, event)}
+                      onClick={() => window.open(event.source_link, '_blank')}
                     >
-                      {event.title}
+                      {event.recipe_name}
                     </button>
                   ))}
-
-                  <button
-                    id="meal-button"
-                    onClick={() => handleaddmeal(day.date)}
-                  >
-                    Add Meal
-                  </button>
-
                 </div>
               )}
             </div>

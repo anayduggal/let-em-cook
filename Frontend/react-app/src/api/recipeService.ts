@@ -5,6 +5,14 @@ export interface IngredientData {
     quantity: string
 };
 
+export interface RecipeData {
+    recipe_id: number,
+    recipe_name: string,
+    source_link: string,
+    cook_date: Date
+};
+
+
 export const getRecipes = async (amount: number, ingredients: string[], allergens: string[], dietary_preferences: string[], budget: string):Promise<any> => {
 
     let recipe_request_data = {
@@ -111,5 +119,21 @@ export const getShoppingList = async ():Promise<IngredientData[]> => {
     let shopping_list = shopping_response.json()
 
     return shopping_list
+
+}
+
+export const getUserRecipes = async ():Promise<RecipeData[]> => {
+    const user_recipes_response = await fetch("http://localhost:8000/index.php/dashboard", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ action_type: "getuserrecipes" })
+    });
+
+    let user_recipes = user_recipes_response.json()
+
+    return user_recipes
 
 }
