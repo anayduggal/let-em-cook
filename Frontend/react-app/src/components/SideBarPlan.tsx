@@ -78,7 +78,7 @@ const SideBarPlan: React.FC<SideBarPlanProps> = ({ setRecipes, ingredients, setI
 
     // Map slider value to budget string
     const budgetValue =
-      budget === "1" ? "low" : budget === "2" ? "medium" : "high";
+      budget === "low" ? "low" : budget === "medium" ? "medium" : "high"; // Ensure correct mapping
 
     console.log("budget: ", budgetValue);
   
@@ -106,7 +106,6 @@ const SideBarPlan: React.FC<SideBarPlanProps> = ({ setRecipes, ingredients, setI
     setRecipes([]); // Reset recipes list
   
     recipes.forEach((recipe: any) => {
-      console.log(recipe.recipe_id);
       setRecipes((recipes) => [...recipes, recipe]); // Add recipe
     });
 
@@ -150,7 +149,7 @@ const SideBarPlan: React.FC<SideBarPlanProps> = ({ setRecipes, ingredients, setI
           min="1"
           max="3"
           step="1"
-          value={budget === "low" ? 1 : budget === "medium" ? 2 : 3}
+          value={budget === "low" ? 1 : budget === "medium" ? 2 : 3} // Ensure slider reflects correct budget
           onChange={(e) =>
             handleBudgetChange(
               e.target.value === "1"

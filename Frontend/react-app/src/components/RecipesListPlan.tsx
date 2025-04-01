@@ -4,7 +4,7 @@ import "./RecipesList.css";
 import { getRecipes, getRandomRecipes } from "../api/recipeService";
 
 interface RecipesListPlanProps {
-  recipes: { recipe_name: string; servings: number; source_link:string}[],
+  recipes: { recipe_id: number, recipe_name: string; servings: number; source_link: string, price_per_serving: number}[],
   setRecipes: React.Dispatch<
     React.SetStateAction<{ recipe_name: string; servings: number }[]>
   >;

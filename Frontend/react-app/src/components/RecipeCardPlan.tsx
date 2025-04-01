@@ -3,7 +3,7 @@ import "./RecipeCard.css";
 import RecipePlanPopup from "./RecipePlanPopup"; // Assuming this component exists
 
 interface RecipeCardPlanProps {
-  recipe: { recipe_id: number; recipe_name: string; servings: number; source_link: string };
+  recipe: { recipe_id: number, recipe_name: string; servings: number, source_link: string, price_per_serving: number };
 }
 
 const RecipeCardPlan: React.FC<RecipeCardPlanProps> = ({ recipe }) => {

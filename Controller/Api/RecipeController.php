@@ -55,13 +55,13 @@ class RecipeController extends BaseController
 
                 switch ($budget) {
                     case "low":
-                        $max_price = 100.00;
+                        $max_price = 60.00;
                         break;
                     case "medium":
-                        $max_price = 200.00;
+                        $max_price = 150.00;
                         break;
                     case "high":
-                        $max_price = INF;
+                        $max_price = 10000.00;
                         break;
                 }
 
@@ -171,12 +171,14 @@ class RecipeController extends BaseController
 
                 }
 
+                error_log("budget" . json_encode($budget) . "\n\n");
+
                 switch ($budget) {
                     case "low":
-                        $max_price = 100.00;
+                        $max_price = 60.00;
                         break;
                     case "medium":
-                        $max_price = 300.00;
+                        $max_price = 150.00;
                         break;
                     case "high":
                         $max_price = 10000.00;

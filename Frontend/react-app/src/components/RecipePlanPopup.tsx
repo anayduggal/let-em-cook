@@ -29,7 +29,7 @@ const RecipePlanPopup: React.FC<RecipePlanPopupProps> = ({ recipe, show, onClose
   };
 
   return (
-    <div className="recipe-popup-backdrop" onClick={onClose}>
+    <div className="recipe-popup-dimmer" onClick={onClose}>
       <div className="popup-content" onClick={(e) => e.stopPropagation()}>
         <h1 className="popup-title">ADD RECIPE TO CALENDAR</h1>
         <h2>{recipe.recipe_name}</h2>

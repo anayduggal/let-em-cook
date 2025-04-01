@@ -2,7 +2,7 @@ import React from "react";
 import "./RecipeCard.css";
 
 interface RecipeCardProps {
-  recipe: { recipe_name: string; servings: number, source_link: string};
+  recipe: { recipe_id: number,  recipe_name: string; servings: number, source_link: string, price_per_serving: number };
 }
 
 const RecipeCard: React.FC<RecipeCardProps> = ({ recipe }) => {

@@ -164,8 +164,6 @@ export const getUserRecipes = async ():Promise<RecipeData[]> => {
 
 export const addCalendarRecipe = async (recipe_id: number, cook_date: string):Promise<any> => {
 
-    console.log(cook_date)
-
     const recipe_request_data = {
         action_type: "addrecipe",
         recipe_id: recipe_id,
