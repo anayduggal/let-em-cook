@@ -1,4 +1,3 @@
-
 export interface IngredientData {
     ingredient_name: string,
     use_by: string,
@@ -40,6 +39,31 @@ export const getRecipes = async (amount: number, ingredients: string[], allergen
     return recipes
 
 }
+
+export const getRecipesAccount = async (amount: number, seenRecipeIds: number[], ingredients: string[], budget: string): Promise<any> => {
+    let recipe_request_data = {
+        action_type: "searchrecipeswithaccount",
+        amount: amount,
+        seen_recipe_ids: seenRecipeIds,
+        ingredients: ingredients,
+        budget: budget
+    };
+
+    const recipe_response = await fetch("http://localhost:8000/index.php/recipe", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(recipe_request_data)
+    });
+
+    let recipes = recipe_response.json();
+
+    console.log(recipes)
+
+    return recipes;
+};
 
 
 export const getRandomRecipes = async (amount: number):Promise<any> => {
@@ -135,5 +159,30 @@ export const getUserRecipes = async ():Promise<RecipeData[]> => {
     let user_recipes = user_recipes_response.json()
 
     return user_recipes
+
+}
+
+export const addCalendarRecipe = async (recipe_id: number, cook_date: string):Promise<any> => {
+
+    console.log(cook_date)
+
+    const recipe_request_data = {
+        action_type: "addrecipe",
+        recipe_id: recipe_id,
+        cook_date: cook_date
+    }
+
+    const recipe_response = await fetch("http://localhost:8000/index.php/dashboard", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(recipe_request_data)
+    });
+
+    let response = recipe_response.json()
+
+    return response
 
 }

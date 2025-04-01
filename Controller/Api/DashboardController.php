@@ -210,7 +210,7 @@ class DashboardController extends BaseController
 
     }
 
-    public function addRecipe($recipe_name, $cook_date) 
+    public function addRecipe($recipe_id, $cook_date) 
     
     {
         $error_str = '';
@@ -219,9 +219,14 @@ class DashboardController extends BaseController
 
             $dashboardModel = new DashboardModel();
 
-            if (!empty($recipe_name) && !empty($cook_date)) {
+            if (!empty($recipe_id) && !empty($cook_date)) {
 
-                $dashboardModel->addUserRecipe($recipe_name, $cook_date);
+                $dashboardModel->addUserRecipe($recipe_id, $cook_date);
+
+                header('Content-Type: application/json');
+
+                $response = ["status" => "success"];
+                echo json_encode($response);
 
             } else {
 

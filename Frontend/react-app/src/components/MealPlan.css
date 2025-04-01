@@ -1,76 +1,34 @@
 .mealplan-container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column; /* Adjusted for single button layout */
   align-items: center;
-  justify-content: space-between;
-  padding: 10px 20px;
-  width: 100%; /* Use full width of the container */
-  max-width: 1200px; /* Set max-width for larger screens */
-  height: 60px;
-  box-sizing: border-box; /* Include padding in the total width/height calculation */
-  margin: 0 auto; /* Center the container */
+  justify-content: center;
+  padding: 20px;
+  width: 100%;
+  max-width: 1200px;
+  height: auto; /* Adjust height for new layout */
+  box-sizing: border-box;
+  margin: 0 auto;
 }
 
 .mealplan-main {
   width: 100%;
   display: flex;
-  flex-direction: row;
+  flex-direction: column; /* Center-align the button */
   align-items: center;
-  justify-content: space-between;
-  flex: 1;
-  padding: 0 15px; /* Add some padding for inner space */
-}
-
-.meal-section {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 14px;
-  cursor: pointer;
-}
-
-.checkbox {
-  width: auto; /* Adjust width to fit text */
-  padding: 10px 20px;
-  text-align: center;
-  font-weight: bold;
-  font-size: 14px;
-  background-color: transparent;
-  border: 2px solid #c2c2a3;
-  border-radius: 25px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  color: #ffffff;
-}
-
-.checkbox.checked {
-  background-color: #b0b097;
-  color: #8D844D;
-}
-
-
-.meal-section span {
-  font-family: "Montserrat", sans-serif;
-  font-size: 16px;
-  font-weight: 400;
-  color: #000000;
-}
-
-.divider {
-  width: 1px;
-  height: 40px;
-  background-color: #000000;
+  justify-content: center;
+  padding: 20px;
 }
 
 .plan-button {
-  width: 111px;
-  height: 41px;
+  width: 300px; /* Slightly larger button */
+  height: 100px;
   background-color: #e2cb7b;
-  border-radius: 20px;
+  border-radius: 50px;
   border: none;
   color: #4a4a1b;
   font-family: "Montserrat", sans-serif;
-  font-size: 16px;
+  font-size: 36px; /* Increased font size */
   font-weight: 600;
   cursor: pointer;
   display: flex;
