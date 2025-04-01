@@ -21,6 +21,8 @@ export interface ProfileInfo {
   password_hash: string;
   first_name: string;
   last_name: string;
+  preferences: string[];
+  allergens: string[]
 }
 
 // The result recieved after a login request
@@ -50,9 +52,26 @@ export const sendLoginRequest = async (login_data: LoginData): Promise<LoginResu
   return response_json["result"];
 };
 
-export const sendSignupRequest = async (signup_data: SignupData): Promise<SignupResult> => {
+export const logOut = async () => {
+  // Send POST request to server
+  const response = await fetch("http://localhost:8000/index.php/login", {
+    method: "POST",
+    credentials: "include",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ action_type: "logout" })  // Extract login data from form
+  });
 
-  console.log(`Sending POST request: ${JSON.stringify(signup_data)}`);
+  // Check for bad response status
+  if (!response.ok) throw new Error(`Response failed`);
+
+  let response_json = await response.json();
+
+  return response_json["result"];
+}
+
+export const sendSignupRequest = async (signup_data: SignupData): Promise<SignupResult> => {
 
   // Send POST request to server
   const response = await fetch("http://localhost:8000/index.php/signup", {
@@ -115,3 +134,43 @@ export const sendProfileInfoRequest = async (): Promise<ProfileInfo> => {
 
   return response_json;
 };
+
+export const updateDietaryPreferences = async (preferences:string[]) => {
+  const response = await fetch("http://localhost:8000/index.php/profile", {
+    method: "POST",
+    credentials: "include",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ action_type: "setpreferences", preferences: preferences })
+  });
+
+  // Check for bad response status
+  if (!response.ok) throw new Error(`Response failed`);
+
+  const response_json: ProfileInfo = await response.json();
+
+  console.log(response_json);
+
+  return response_json;
+}
+
+export const updateAllergens = async (allergens:string[]) => {
+  const response = await fetch("http://localhost:8000/index.php/profile", {
+    method: "POST",
+    credentials: "include",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ action_type: "setallergens", allergens: allergens })
+  });
+
+  // Check for bad response status
+  if (!response.ok) throw new Error(`Response failed`);
+
+  const response_json: ProfileInfo = await response.json();
+
+  console.log(response_json);
+
+  return response_json;
+}

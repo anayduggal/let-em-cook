@@ -47,6 +47,8 @@ const extractSignupData = (data: FormData): SignupData => {
 const LoginForm: React.FC<LoginFormProps> = ({ type }) => {
   // Used for login and signup forms
 
+  const navigate = useNavigate();
+
   // Initialize form data
   const [formData, setFormData] = useState<FormData>({
     fname: "",
@@ -56,7 +58,6 @@ const LoginForm: React.FC<LoginFormProps> = ({ type }) => {
     psw2: "",
   });
 
-  const navigate = useNavigate();
   const [error, setError] = useState<string | null>(null); // Error message state
   const [success, setSuccess] = useState<string | null>(null);
 
@@ -81,7 +82,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ type }) => {
         case "success":
           console.log("Successfully logged in");
           localStorage.setItem("token", "user_token_here"); // Store token
-          navigate("/profile"); // Redirect to profile page
+          navigate("/"); // Redirect to profile page
           break;
 
         case "password incorrect":
@@ -109,7 +110,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ type }) => {
       switch (result) {
         case "success":
           console.log("Successfully signed up");
-          setTimeout(() => navigate("/login"), 2000);
+          navigate("/");
           break;
         case "duplicate email":
           setError("User with that email already exists");
@@ -173,6 +174,9 @@ const LoginForm: React.FC<LoginFormProps> = ({ type }) => {
         <button type="submit" className="submit-btn">
           {type === "signup" ? "Sign Up" : "Login"}
         </button>
+
+        <p>{error}</p>
+
         {type === "login" && (
           <label className="remember-me">
             <input type="checkbox" name="remember" /> Remember me

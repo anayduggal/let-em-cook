@@ -77,6 +77,8 @@ class BaseController
 
     {
 
+        error_log($error);
+
         $this->sendOutput(
             json_encode(array('error' => $error->getMessage())), 
             array('Content-Type: application/json', 'HTTP/1.1 500 Internal Server Error')

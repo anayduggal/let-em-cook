@@ -67,23 +67,30 @@
   
   .change-password {
     color: #336cdf;
-    font-size: 10px;
+    font-size: 12px;
     cursor: pointer;
   }
 
   .change-password:hover {
     color: #00008b;
   }
+
+  .log-out {
+    color: #336cdf;
+    font-size: 12px;
+    cursor: pointer;
+  }
+
+  .log-out:hover {
+    color: #00008b;
+  }
   
   .delete-account {
     color: red;
-    font-size: 10px;
+    font-size: 12px;
     cursor: pointer;
   }
 
   .delete-account:hover{
     color: #8b0000;
   }
-
-
-  

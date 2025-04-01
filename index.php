@@ -112,10 +112,16 @@ if (strtoupper($req_method) == 'POST') {
 
                         case "checklogin":
 
-                            // check if user is logged ini
+                            // check if user is logged in
                             // send request to server and server returns true if user is logged in, false otherwise
 
                             $return_data_json = $user_controller->checkLogin();
+                            echo $return_data_json;
+                            break;
+                        
+                        case "logout":
+
+                            $return_data_json = $user_controller->logOut();
                             echo $return_data_json;
                             break;
                     }
@@ -172,6 +178,13 @@ if (strtoupper($req_method) == 'POST') {
 
                             $user_controller->getProfileInfo();
                             break;
+
+                        case "setpreferences":
+
+                            // Replaces the logged in user's list of dietary preferences
+
+                            $user_controller->setDietaryPreferences($request_data["preferences"]);
+                            break;
                         
                         case "addpreferences":
 
@@ -187,16 +200,23 @@ if (strtoupper($req_method) == 'POST') {
                             $user_controller->deleteDietaryPreferences($request_data["preferences"]);
                             break;
                         
+                        case "setallergens":
+
+                            // Replaces the logged in user's list of allergens
+
+                            $user_controller->setAllergens($request_data["allergens"]);
+                            break;
+                        
                         case "addallergens":
 
-                            // TODO: Adds a list of allergens to the logged in user's account
+                            // Adds a list of allergens to the logged in user's account
 
                             $user_controller->addAllergens($request_data["allergens"]);
                             break;
                         
                         case "deleteallergens":
 
-                            // TODO: Deletes a list of allergens from the logged in user's account
+                            // Deletes a list of allergens from the logged in user's account
 
                             $user_controller->deleteAllergens($request_data["allergens"]);
                             break;

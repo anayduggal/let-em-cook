@@ -46,6 +46,14 @@ class UserModel extends Database
 
     }
 
+    public function changePassword($user_id, $new_pw_hash) {
+
+        $this->update(
+            "UPDATE users SET password_hash = ? WHERE user_id = ?", ["si", $new_pw_hash, $user_id]
+        );
+
+    }
+
     #region Dietary Preferences
 
     public function getPreferenceIDFromName($preference_name) {
@@ -126,6 +134,14 @@ class UserModel extends Database
 
         $this->deleteFrom(
             "DELETE FROM user_preferences WHERE user_id = ? AND preference_id = ?", ["ss", $user_id, $preference_id]
+        );
+
+    }
+
+    public function clearPreferences($user_id) {
+
+        $this->deleteFrom(
+            "DELETE FROM user_preferences WHERE user_id = ?", ["s", $user_id]
         );
 
     }
@@ -216,14 +232,14 @@ class UserModel extends Database
 
     }
 
-    #endregion
+    public function clearAllergens($user_id) {
 
-    public function changePassword($user_id, $new_pw_hash) {
-
-        $this->update(
-            "UPDATE users SET password_hash = ? WHERE user_id = ?", ["si", $new_pw_hash, $user_id]
+        $this->deleteFrom(
+            "DELETE FROM user_allergens WHERE user_id = ?", ["s", $user_id]
         );
 
     }
+
+    #endregion
 
 }

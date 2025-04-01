@@ -81,6 +81,59 @@ class UserController extends BaseController
 
     }
 
+    public function logOut()
+    {
+
+        try {
+
+            // clear existing session if there is one
+            session_unset();
+
+            $this->sendOutput(
+                json_encode(array('result' => 'success'))
+            );
+
+        } catch (Exception $e) {
+
+            $this->sendErrorOutput($e);
+
+        };
+
+    }
+
+    public function createUser($email, $first_name, $last_name, $password) 
+    {
+
+        try {
+
+            $user_model = new UserModel();
+            $pw_hash = password_hash($password, PASSWORD_DEFAULT);
+
+            $user_model->addUser($email, $pw_hash, $first_name, $last_name);
+
+            $this->sendOutput(
+                json_encode(array('result' => 'success'))
+            );
+
+        } catch (Exception $e) {
+            // Duplicate entry
+            // should really do this with mysqli_errno()
+            if (str_contains($e->getMessage(), "Duplicate entry")) {
+                $this->sendOutput(
+                    json_encode(array('result' => 'duplicate email'))
+                );
+
+                return;
+            }
+
+            $this->sendErrorOutput($e);
+
+        };
+
+    }
+
+    #region Profile
+
     public function changeUserPassword($old_password, $new_password)
     {
         
@@ -122,37 +175,6 @@ class UserController extends BaseController
         };
     }
 
-    public function createUser($email, $first_name, $last_name, $password) 
-    {
-
-        try {
-
-            $user_model = new UserModel();
-            $pw_hash = password_hash($password, PASSWORD_DEFAULT);
-
-            $user_model->addUser($email, $pw_hash, $first_name, $last_name);
-
-            $this->sendOutput(
-                json_encode(array('result' => 'success'))
-            );
-
-        } catch (Exception $e) {
-            // Duplicate entry
-            // should really do this with mysqli_errno()
-            if (str_contains($e->getMessage(), "Duplicate entry")) {
-                $this->sendOutput(
-                    json_encode(array('result' => 'duplicate email'))
-                );
-
-                return;
-            }
-
-            $this->sendErrorOutput($e);
-
-        };
-
-    }
-
     public function getProfileInfo()
     {
 
@@ -187,7 +209,32 @@ class UserController extends BaseController
 
     }
 
+    #endregion
+
     #region Dietary Preferences
+
+    public function setDietaryPreferences($preferences) {
+
+        try {
+
+            if (!isset($_SESSION['user_id'])) {
+
+                throw new Exception("User not logged in");
+            
+            };
+
+            $user_model = new UserModel();
+
+            $user_model->clearPreferences($_SESSION['user_id']);
+            $this->addDietaryPreferences($preferences);
+
+        } catch (Exception $e) {
+
+            $this->sendErrorOutput($e);
+
+        };
+        
+    }
 
     public function addDietaryPreferences($preferences) {
 
@@ -204,6 +251,8 @@ class UserController extends BaseController
             foreach ($preferences as $preference_name) {
 
                 $preference_id = $user_model->getPreferenceIDFromName($preference_name);
+
+                error_log($preference_name);
 
                 // Add preference to link table
                 $user_model->addPreference($_SESSION['user_id'], $preference_id);
@@ -258,6 +307,29 @@ class UserController extends BaseController
     #endregion
 
     #region Allergens
+
+    public function setAllergens($allergens) {
+
+        try {
+
+            if (!isset($_SESSION['user_id'])) {
+
+                throw new Exception("User not logged in");
+            
+            };
+
+            $user_model = new UserModel();
+
+            $user_model->clearAllergens($_SESSION['user_id']);
+            $this->addAllergens($allergens);
+
+        } catch (Exception $e) {
+
+            $this->sendErrorOutput($e);
+
+        };
+        
+    }
 
     public function addAllergens($allergens) {
 
