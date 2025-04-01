@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import TopBar from "../components/TopBar";
-import SideBar from "../components/SideBar";
-import RecipesList from "../components/RecipesList";
+import SideBarPlan from "../components/SideBarPlan";
+import RecipesListPlan from "../components/RecipesListPlan";
 import "./Recipe.css";
 
 const RecipePlan: React.FC = () => {
@@ -16,8 +16,8 @@ const RecipePlan: React.FC = () => {
     <div className="recipe-dashboard">
       <TopBar />
       <main>
-        <SideBar recipes={recipes} setRecipes={setRecipes} ingredients={ingredients} setIngredients={setIngredients} budget={budget} setBudget={setBudget} />
-        <RecipesList recipes={recipes} setRecipes={setRecipes} ingredients={ingredients} />
+        <SideBarPlan recipes={recipes} setRecipes={setRecipes} ingredients={ingredients} setIngredients={setIngredients} budget={budget} setBudget={setBudget} />
+        <RecipesListPlan recipes={recipes} setRecipes={setRecipes} ingredients={ingredients} />
       </main>
     </div>
   );

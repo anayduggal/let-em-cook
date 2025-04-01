@@ -100,31 +100,28 @@ class Database
 
     }
 
-    private function executeStatement($query = "" , $params = [])
-
+    private function executeStatement($query = "", $params = [])
     {
-
         try {
-
-            $stmt = $this->connection->prepare( $query );
-
-            if($stmt === false) {
-                throw New Exception("Unable to do prepared statement: " . $query);
+            $stmt = $this->connection->prepare($query);
+    
+            if ($stmt === false) {
+                throw new Exception("Unable to prepare statement: " . $this->connection->error);
             }
-
-            if($params) {
+    
+            if ($params) {
                 $types = $params[0];
                 $vars = array_slice($params, 1);
                 $stmt->bind_param($types, ...$vars);
             }
 
             $stmt->execute();
+    
             return $stmt;
-
-        } catch(Exception $e) {
-            throw New Exception( $e->getMessage() );
-        }	
-
+    
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
     }
 
 }

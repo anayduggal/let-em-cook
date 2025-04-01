@@ -10,6 +10,7 @@ class RecipeController extends BaseController
     {
  
         $error_str = '';
+        $recipes = [];
 
         try {
 
@@ -131,11 +132,12 @@ class RecipeController extends BaseController
 
     }
 
-    public function searchRecipesWithAccount($seen_recipe_ids, $ingredient_names, $budget)
+    public function searchRecipesWithAccount($amount, $seen_recipe_ids, $ingredient_names, $budget)
 
     {
     
         $error_str = '';
+        $recipes = [];
 
         try {
 
@@ -149,6 +151,9 @@ class RecipeController extends BaseController
                 $allergens = $userModel->getAllergensFromUserID($user_id);
                 $dietary_preferences = $userModel->getPreferencesFromUserID($user_id);
 
+                // error_log("allergens " . json_encode($allergens) . "\n\n");
+                // error_log("dietary_preferences " . json_encode($dietary_preferences) . "\n\n");
+
                 if (empty($ingredient_names)) {
                     $valid_recipe_ids = array_column($recipeModel->getRandomRecipes(100), 'recipe_id');
                 } else {
@@ -156,6 +161,8 @@ class RecipeController extends BaseController
                 }
 
                 shuffle($valid_recipe_ids);
+
+                // error_log("valid_recipe_ids " . json_encode($valid_recipe_ids) . "\n\n");
                 
                 foreach ($valid_recipe_ids as $id) {
 
@@ -172,7 +179,7 @@ class RecipeController extends BaseController
                         $max_price = 300.00;
                         break;
                     case "high":
-                        $max_price = 1000.00;
+                        $max_price = 10000.00;
                         break;
                 }
 
@@ -180,7 +187,10 @@ class RecipeController extends BaseController
                 
                 foreach ($recipes as $recipe) {
 
-                    if (count($filtered_recipes) >= 4) {
+                    // error_log("recipe_id: " . json_encode($recipe["recipe_id"]));
+                    // error_log("price: " . json_encode($recipe["price_per_serving"]));
+
+                    if (count($filtered_recipes) >= $amount) {
                         break;
                     }
 
@@ -196,16 +206,21 @@ class RecipeController extends BaseController
                     $fits_preference = true;
                     $contains_allergen = false;
                 
-                    foreach ($ingredients as $ingredient) {
-                        if (in_array($ingredient, $allergens)) {
-                            $contains_allergen = true;
-                            break;
+                    if (!empty($allergens)) {
+                        foreach ($ingredients as $ingredient) {
+                            if (in_array($ingredient, $allergens)) {
+                                // error_log("allergen spotted: " . json_encode($ingredient));
+                                $contains_allergen = true;
+                                break;
+                            }
                         }
                     }
 
                     if (!empty($dietary_preferences)) {
                         foreach ($dietary_preferences as $preference) {
-                            if (!isset($recipe[$preference]) || $recipe[$preference] == 0) {
+                            if (isset($recipe[$preference]) && $recipe[$preference] == 0) {
+                                // error_log("recipe fits " . json_encode($preference) . ": " . json_encode($recipe[$preference]));
+                                // error_log("not fit preference: " . json_encode($recipe["recipe_name"]));
                                 $fits_preference = false;
                                 break;
                             }
@@ -219,6 +234,13 @@ class RecipeController extends BaseController
                 }
                 
                 $recipes = $filtered_recipes;
+
+                $recipe_names = [];
+                foreach ($recipes as $recipe) {
+                    $recipe_names[] = $recipe['recipe_name'];
+                }
+
+                // error_log("recipes " . json_encode($recipe_names) . "\n\n");
                 
             } else {
 

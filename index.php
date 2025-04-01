@@ -73,9 +73,10 @@ if (strtoupper($req_method) == 'POST') {
                             }
 
                             $return_data_json = $recipe_controller->searchRecipesWithAccount(
+                                $request_data["amount"],
                                 $request_data["seen_recipe_ids"],
                                 $request_data["ingredients"],
-                                $request_data["allergens"],
+                                $request_data["budget"],
                             );
 
                             echo $return_data_json;
@@ -308,8 +309,8 @@ if (strtoupper($req_method) == 'POST') {
                             // add recipe to calendar
                             // send request to server with recipe id and cook date
 
-                            $dashboard_controller->addUserRecipe(
-                                $request_data["recipe_name"],
+                            $dashboard_controller->addRecipe(
+                                $request_data["recipe_id"],
                                 $request_data["cook_date"]
                             );
                             break;

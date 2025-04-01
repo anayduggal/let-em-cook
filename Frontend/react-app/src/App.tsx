@@ -55,7 +55,7 @@ const App: React.FC = () => {
         <Route path="/pantry" element={<Pantry />} />
         <Route 
           path="/recipeplan"
-          element={isLoggedIn ? <RecipePlan /> : <RecipeSearch />}
+          element={isLoggedIn ? <RecipePlan /> : <Login />}
         />
       </Routes>
     </Router>

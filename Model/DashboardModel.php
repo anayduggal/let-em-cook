@@ -129,19 +129,24 @@ class DashboardModel extends Database
         return $recipes;
     }
 
-    public function addUserRecipe($recipe_name, $cook_date) 
+    public function addUserRecipe($recipe_id, $cook_date) 
     
     {
-        // get recipe_id from recipe_name
-        $recipe_id = $this->select(
-            "SELECT recipe_id FROM recipes WHERE recipe_name = ?", ["s", $recipe_name]
-        )[0]['recipe_id'];
+        // check if the recipe already exists in the user_recipes table at the same date
+        $existing_recipe = $this->select(
+            "SELECT * FROM user_recipes WHERE user_id = ? AND recipe_id = ? AND cook_date = ?", 
+            ["iis", $_SESSION['user_id'], $recipe_id, $cook_date]
+        );
+        if (count($existing_recipe) > 0) {
+            throw new Exception("Recipe already exists for this date");
+        }
 
         // insert the recipe into the user_recipes table
         $this->insertInto(
             "INSERT INTO user_recipes (user_id, recipe_id, cook_date) VALUES (?, ?, ?)", 
             ["iis", $_SESSION['user_id'], $recipe_id, $cook_date]
         );
+
     }
 
 }

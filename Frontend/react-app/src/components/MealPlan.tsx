@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 import "../components/MealPlan.css";
 
 interface MealPlanProps {
@@ -6,33 +7,18 @@ interface MealPlanProps {
 }
 
 const MealPlan: React.FC<MealPlanProps> = ({ style = {} }) => {
-  const [breakfast, setBreakfast] = useState(false);
-  const [lunch, setLunch] = useState(false);
-  const [dinner, setDinner] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <div className="mealplan-container" style={style}>
       <div className="mealplan-main">
-        <div className={`checkbox ${breakfast ? "checked" : ""}`} onClick={() => setBreakfast(!breakfast)}>
-        BREAKFAST
-        </div>
-        <div className="divider" />
-        <div className={`checkbox ${lunch ? "checked" : ""}`} onClick={() => setLunch(!lunch)}>
-        LUNCH
-        </div>
-        <div className="divider" />
-        <div className={`checkbox ${dinner ? "checked" : ""}`} onClick={() => setDinner(!dinner)}>
-        DINNER
-        </div>
         <button
-        className="plan-button"
-        onClick={() => console.log("Plan clicked")}
-      >
-        PLAN
-      </button>
+          className="plan-button"
+          onClick={() => navigate("/recipeplan")}
+        >
+          PLAN
+        </button>
       </div>
-
-      
     </div>
   );
 };
