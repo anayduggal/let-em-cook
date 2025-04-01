@@ -213,6 +213,15 @@ const SideBar: React.FC<SidebarProps> = ({ setRecipes, ingredients, setIngredien
         <button type="submit" className="generate-btn">
           Generate
         </button>
+
+        <br/>
+
+        <details>
+          <summary>Disclaimer</summary>
+          <p>
+            We cannot 100% guarantee that the recipes will be free of the selected allergies, please check the ingredients before cooking
+          </p>
+        </details>
       </form>
     </aside>
   );
