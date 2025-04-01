@@ -1,7 +1,7 @@
 import React, { FormEvent } from "react";
 import RecipeCard from "./RecipeCard";
 import "./RecipesList.css";
-import { getRecipes } from "../api/recipeService";
+import { getRecipes, getRandomRecipes } from "../api/recipeService";
 
 interface RecipesListProps {
   recipes: { recipe_name: string; servings: number }[],
@@ -13,18 +13,51 @@ interface RecipesListProps {
 
 
 const RecipesList: React.FC<RecipesListProps> = ({ recipes, setRecipes, ingredients }) => {
-  const generateRecipes = async () => {
+  const generateRecipes = async (event: FormEvent) => {
+    event.preventDefault();
 
-    let recipes = await getRecipes(3, ingredients.split(", "));
+    ingredients = ingredients.trim();
+
+    let unprocessedIngredientList = ingredients.split(",")
+    let ingredientList:string[] = []
+
+    unprocessedIngredientList.forEach((ingredient:string, i:number)=>{
+      let trimmed = ingredient.trim();
+
+      if (trimmed.length > 0) {
+        ingredientList.push(trimmed);
+      }
+      
+    })
+
+    console.log("ingredients: ", ingredientList);
+
+    let recipes:any[] = [];
+
+    if (ingredientList.length == 0) {
+      console.log("random");
+      recipes = await getRandomRecipes(3);  // Get random recipes
+    } else {
+      console.log("not");
+
+      try {
+        recipes = await getRecipes(3, ingredientList);  // Get recipes with ingredients
+      } catch (Error) {
+        console.log("Recipe search with ingredients failed, getting random recipes");
+
+        recipes = await getRandomRecipes(3);  // Get random recipes
+      }
+      
+    }
+
+    console.log("recipes: ", recipes);
 
     setRecipes([]);  // Reset recipes list
 
     recipes.forEach((recipe:any, i:number)=>{
       setRecipes((recipes) => [...recipes, recipe])  // Add recipe
     });
-
-    console.log(recipes);
-  
+    
   }
 
   return (
@@ -39,7 +72,7 @@ const RecipesList: React.FC<RecipesListProps> = ({ recipes, setRecipes, ingredie
           <p>No recipes found. Try searching for ingredients.</p>
         )}
       </div>
-      <button className="regenerate-btn" onClick={() => generateRecipes()}>Regenerate</button>
+      <button className="regenerate-btn" onClick={(e) => generateRecipes(e)}>Regenerate</button>
     </section>
   );
 };
