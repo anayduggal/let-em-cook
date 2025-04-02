@@ -231,6 +231,22 @@ if (strtoupper($req_method) == 'POST') {
                                 $request_data["new_password"]
                             );
                             break;
+                        
+                        case "verifypassword":
+
+                            // Check if the provided password is the same as the user's
+
+                            $user_controller->verifyPassword(
+                                $request_data["password"]
+                            );
+                            break;
+                        
+                        case "deleteaccount":
+
+                            // Deletes the logged in user's account
+
+                            $user_controller->deleteAccount();
+                            break;
 
                     };
 

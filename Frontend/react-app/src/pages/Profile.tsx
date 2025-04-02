@@ -5,10 +5,14 @@ import {
   ProfileInfo,
   updateDietaryPreferences,
   updateAllergens,
-  logOut
+  logOut,
+  verifyPassword,
+  changePassword,
+  deleteAccount
 } from "../api/userService";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 
 const ProfileCard = () => {
   const navigate = useNavigate();
@@ -58,7 +62,55 @@ const ProfileCard = () => {
   };
 
   const handleChangePassword = async () => {
-    // TODO
+    Swal.fire({
+      title: "Change Password",
+      html: `
+        <input type="password" id="current-password" class="swal2-input" placeholder="Current Password">
+        <input type="password" id="new-password" class="swal2-input" placeholder="New Password">
+        <input type="password" id="confirm-password" class="swal2-input" placeholder="Confirm New Password">
+      `,
+      focusConfirm: false,
+      showCancelButton: true,
+      confirmButtonText: "Change Password",
+      preConfirm: async () => {
+        const currentPassword = document.getElementById("current-password").value;
+        const newPassword = document.getElementById("new-password").value;
+        const confirmPassword = document.getElementById("confirm-password").value;
+  
+        if (!currentPassword || !newPassword || !confirmPassword) {
+          Swal.showValidationMessage("Please fill in all fields.");
+          return false;
+        }
+  
+        if (newPassword !== confirmPassword) {
+          Swal.showValidationMessage("New passwords do not match.");
+          return false;
+        }
+
+        const isVerified = await verifyPassword(currentPassword);
+        if (!isVerified) {
+          Swal.showValidationMessage("Current password incorrect.");
+          return false;
+        }
+  
+        return { currentPassword, newPassword };
+      },
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        let response = await changePassword(result.value.currentPassword, result.value.newPassword);
+
+        if (response["result"] != "success") {
+          Swal.fire({
+            title: "Oops!",
+            text: "Something went wrong. Please try again later.",
+            icon: "error",
+            confirmButtonText: "OK"
+          });
+        } else {
+          Swal.fire("Success!", "Your password has been changed.", "success");
+        }
+      }
+    });
   };
 
   const handleLogOut = async () => {
@@ -67,7 +119,22 @@ const ProfileCard = () => {
   };
 
   const handleDeleteAccount = async () => {
-    // TODO
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Deleting your account is permanent and cannot be undone.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteAccount();
+        Swal.fire("Deleted!", "Your account has been deleted.", "success").then(() => {
+          navigate("/");
+        });
+      }
+    })
   };
 
   const [userName, setUserName] = useState<string | null>(null);

@@ -9,7 +9,7 @@ interface TopBarProps {
 
 const TopBar: React.FC<TopBarProps> = ({ style }) => {
   const navigate = useNavigate();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(Boolean);
 
   useEffect(() => {
     const checkLoginStatus = async () => {
@@ -30,10 +30,12 @@ const TopBar: React.FC<TopBarProps> = ({ style }) => {
     <div className="topbar-container" style={style}>
       <div className="topbar-left">
         <div className="topbar-logo">
-          <img
-            src="public/logo.png"
-            alt="Logo"
-          />
+          <Link to="/">
+            <img
+              src="public/logo.png"
+              alt="Logo"
+            />
+          </Link>
         </div>
         <nav className="topbar-nav">
           <Link to="/recipes" className="topbar-button">

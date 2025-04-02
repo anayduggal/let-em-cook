@@ -71,6 +71,76 @@ export const logOut = async () => {
   return response_json["result"];
 }
 
+export const deleteAccount = async () => {
+
+  // Send POST request to server
+  const response = await fetch("http://localhost:8000/index.php/profile", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+          "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ action_type: "deleteaccount" })
+    }
+  );
+
+  // Check for bad response status
+  if (!response.ok) throw new Error(`Response failed`);
+
+  let response_json = await response.json();
+
+  return response_json["result"];
+
+}
+
+export const verifyPassword = async (password:string) => {
+
+  // Send POST request to server
+  const response = await fetch("http://localhost:8000/index.php/profile", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+          "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ action_type: "verifypassword", password: password })
+    }
+  );
+
+  // Check for bad response status
+  if (!response.ok) throw new Error(`Response failed`);
+
+  let response_json = await response.json();
+
+  if (response_json["result"] == "correct") {
+    return true;
+  } else {
+    return false;
+  }
+
+}
+
+export const changePassword = async (current_password:string, new_password:string) => {
+
+  // Send POST request to server
+  const response = await fetch("http://localhost:8000/index.php/profile", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+          "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ action_type: "changepassword", old_password: current_password, new_password: new_password })
+    }
+  );
+
+  // Check for bad response status
+  if (!response.ok) throw new Error(`Response failed`);
+
+  let response_json = await response.json();
+
+  return response_json["result"];
+
+}
+
 export const sendSignupRequest = async (signup_data: SignupData): Promise<SignupResult> => {
 
   // Send POST request to server

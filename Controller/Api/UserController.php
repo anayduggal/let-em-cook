@@ -81,6 +81,32 @@ class UserController extends BaseController
 
     }
 
+    public function verifyPassword($password)
+    {
+
+        try {
+
+            $user_model = new UserModel();
+            $user = $user_model->getUserFromUserID($_SESSION['user_id']);
+
+            if (password_verify($password, $user['password_hash'])) {
+                $this->sendOutput(
+                    json_encode(array('result' => 'correct'))
+                );
+            } else {
+                $this->sendOutput(
+                    json_encode(array('result' => 'incorrect'))
+                );
+            };
+
+        } catch (Exception $e) {
+
+            $this->sendErrorOutput($e);
+    
+        };
+
+    } 
+
     public function logOut()
     {
 
@@ -173,6 +199,36 @@ class UserController extends BaseController
             $this->sendErrorOutput($e);
 
         };
+    }
+
+    public function deleteAccount()
+    {
+
+        try {
+
+            if (!isset($_SESSION['user_id'])) {
+
+                throw new Exception("User not logged in");
+            
+            }
+
+            $user_model = new UserModel();
+
+            $user_model->deleteUserFromUserID($_SESSION['user_id']);
+
+            // Log out user
+            $this->logOut();
+
+            $this->sendOutput(
+                json_encode(array('result' => 'success'))
+            );
+
+        } catch (Exception $e) {
+
+            $this->sendErrorOutput($e);
+
+        };
+
     }
 
     public function getProfileInfo()

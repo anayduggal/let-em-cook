@@ -54,6 +54,27 @@ class UserModel extends Database
 
     }
 
+    public function deleteUserFromUserID($user_id) {
+
+
+        $this->deleteFrom(
+            "DELETE FROM user_recipes WHERE user_id = ?", ["s", $user_id]
+        );
+
+        $this->deleteFrom(
+            "DELETE FROM user_preferences WHERE user_id = ?", ["s", $user_id]
+        );
+
+        $this->deleteFrom(
+            "DELETE FROM user_allergens WHERE user_id = ?", ["s", $user_id]
+        );
+
+        $this->deleteFrom(
+            "DELETE FROM users WHERE user_id = ?", ["s", $user_id]
+        );
+
+    }
+
     #region Dietary Preferences
 
     public function getPreferenceIDFromName($preference_name) {
